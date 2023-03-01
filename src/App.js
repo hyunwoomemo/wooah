@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { Routes, Route } from 'react-router-dom'
 import GlobalStyle from './component/common/GlobalStyle';
 import Header from './component/Header';
 import Navigation from './component/Navigation';
