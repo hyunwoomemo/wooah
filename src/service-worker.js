@@ -21,6 +21,14 @@ clientsClaim();
 // even if you decide not to use precaching. See https://cra.link/PWA
 precacheAndRoute(self.__WB_MANIFEST);
 
+self.addEventListener('install', function (event) {
+  // skipWaiting()가 반환하는 promise는 안전하게 무시될 수 있다.
+  self.skipWaiting();
+
+  // 잠재적으로 event.waitUntil(); 내부에서
+  // 서비스 워커 설치를 위해 필요한 다른 action 들을 수행하라.
+});
+
 // Set up App Shell-style routing, so that all navigation requests
 // are fulfilled with your index.html shell. Learn more at
 // https://developers.google.com/web/fundamentals/architecture/app-shell
