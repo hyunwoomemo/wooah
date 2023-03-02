@@ -1,19 +1,20 @@
 {
   "short_name": "우아",
   "name": "우리아가",
+  "description": "A web app that records childcare such as baby's milk powder, sleep record, etc.",
   "icons": [
     {
       "src": "./icons/favicon.ico",
-      "sizes": "64x64 32x32 24x24 16x16",
+      "sizes": "64x64",
       "type": "image/x-icon"
     },
     {
-      "src": "./icons/favicon196x196.png",
+      "src": "./icons/favicon-196x196.png",
       "type": "image/png",
       "sizes": "196x196"
     }
   ],
-  "start_url": ".",
+  "start_url": "public/index.html",
   "display": "standalone",
   "theme_color": "#000000",
   "background_color": "#fff"
