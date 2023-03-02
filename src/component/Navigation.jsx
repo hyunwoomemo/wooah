@@ -38,7 +38,7 @@ const Base = styled.div`
 
   @media (max-width: 768px) {
     bottom: 0;
-    padding: 1rem 0 1rem;
+    padding: 1rem 0 3rem;
   }
 
   > a {

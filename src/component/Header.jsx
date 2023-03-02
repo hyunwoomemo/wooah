@@ -2,9 +2,10 @@ import React, { useEffect, useState } from "react";
 import styled from "@emotion/styled";
 
 const Header = () => {
-  const birthDay = "2023-01-16";
+  const birthDay = "2023-01-16T00:00:00";
   const getDateDiff = (birthDay) => {
     const diffDate = new Date() - new Date(birthDay);
+    console.log(new Date(birthDay));
     return Math.floor(diffDate / (1000 * 60 * 60 * 24));
   };
 
