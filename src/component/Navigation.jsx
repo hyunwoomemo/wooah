@@ -2,12 +2,17 @@ import styled from "@emotion/styled";
 import React from "react";
 import { AiOutlineHome, AiOutlinePieChart, AiOutlineUser } from "react-icons/ai";
 import { CiMemoPad } from "react-icons/ci";
+import { Link } from "react-router-dom";
 
 const NavigationBar = () => {
   return (
     <Base>
-      <AiOutlineHome />
-      <CiMemoPad />
+      <Link to="/">
+        <AiOutlineHome />
+      </Link>
+      <Link to="/memo">
+        <CiMemoPad />
+      </Link>
       <AiOutlinePieChart />
       <AiOutlineUser />
     </Base>

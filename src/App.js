@@ -5,6 +5,7 @@ import GlobalStyle from './component/common/GlobalStyle';
 import Header from './component/Header';
 import Navigation from './component/Navigation';
 import Main from './pages/Main';
+import Memo from './pages/Memo';
 
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
       <Header />
       <Routes>
         <Route exact path='/' element={<Main />}></Route>
+        <Route path='/memo' element={<Memo />}></Route>
       </Routes>
       <Navigation />
     </Base>
