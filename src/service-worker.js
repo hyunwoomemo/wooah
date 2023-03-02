@@ -21,6 +21,10 @@ clientsClaim();
 // even if you decide not to use precaching. See https://cra.link/PWA
 precacheAndRoute(self.__WB_MANIFEST);
 
+//이 메소드를 Clients.claim() 과 함께 사용 하여 
+// 기본 서비스 워커에 대한 업데이트가 현재 클라이언트와 
+// 다른 모든 활성 클라이언트 모두에 즉시 적용되도록하십시오.
+
 self.addEventListener('install', function (event) {
   // skipWaiting()가 반환하는 promise는 안전하게 무시될 수 있다.
   self.skipWaiting();

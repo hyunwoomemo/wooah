@@ -25,7 +25,7 @@ const Loading = () => {
 };
 
 const display1 = keyframes`
-  0% {
+/*   0% {
     opacity: 0;
   }
 
@@ -35,30 +35,23 @@ const display1 = keyframes`
 
   100% {
     opacity: 0;
+  } */
+  0% {
+    z-index: 3;
+  }
+
+  100% {
+    z-index: -1;
   }
 `;
 
 const display2 = keyframes`
   0% {
-    opacity: 0;
-  }
-
-  50% {
-    opacity: 1;
+    z-index: 2;
   }
 
   100% {
-    opacity: 0;
-  }
-`;
-
-const display3 = keyframes`
-  0% {
-    opacity: 0;
-  }
-
-  100% {
-    opacity: 1;
+    z-index: -1;
   }
 `;
 
@@ -94,7 +87,6 @@ const Image2 = styled.img`
 `;
 const Image3 = styled.img`
   width: 100%;
-  animation: ${display3} 0.6s ease both 0.9s;
   position: absolute;
   top: 50%;
   left: 50%;
