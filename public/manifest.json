@@ -12,6 +12,11 @@
       "src": "./icons/favicon-196x196.png",
       "type": "image/png",
       "sizes": "196x196"
+    },
+    {
+      "src": "./icons/icon-1024x1024.png",
+      "type": "image/png",
+      "sizes": "1024x1024"
     }
   ],
   "start_url": ".",
