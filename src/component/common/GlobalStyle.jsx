@@ -146,6 +146,10 @@ const defaultStyle = css`
     overflow: hidden;
     box-sizing: border-box;
   }
+
+  * {
+    font-family: "Dovemayo_wild";
+  }
 `;
 
 const GlobalStyle = () => {

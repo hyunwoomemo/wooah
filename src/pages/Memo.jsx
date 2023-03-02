@@ -1,6 +1,7 @@
 import styled from "@emotion/styled";
 import React, { useEffect, useState } from "react";
 import axois from "axios";
+import Layout from "../component/Layout";
 
 const Memo = () => {
   const [contents, setContents] = useState("");
@@ -33,7 +34,7 @@ const Memo = () => {
     });
   }, []);
   return (
-    <Base className="App">
+    <Layout>
       <h1>오늘의 할 일</h1>
       <form onSubmit={handleSubmit}>
         <input type="text" placeholder="할 일 추가" onChange={handleContents} />
@@ -44,7 +45,7 @@ const Memo = () => {
       {todolist.map((todo) => {
         return <li>{todo.contents}</li>;
       })}
-    </Base>
+    </Layout>
   );
 };
 

@@ -16,7 +16,7 @@ const NavigationBar = () => {
       <Link>
         <AiOutlinePieChart />
       </Link>
-      <Link>
+      <Link to="/user">
         <AiOutlineUser />
       </Link>
     </Base>

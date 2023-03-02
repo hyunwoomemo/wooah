@@ -4,7 +4,8 @@ import { BiChevronLeft, BiChevronRight } from "react-icons/bi";
 
 const DAYS = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"]; // 요일
 
-const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]; // 달
+/* const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]; // 달 */
+const MONTHS = ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"]; // 달
 
 export const isSameDay = (a, b) => {
   return a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate();
