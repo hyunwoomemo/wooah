@@ -57,8 +57,31 @@ const Calendar = () => {
     return [...Array(weeks).keys()].map((week) => <tr key={`week_${week}`}>{items.slice(week * 7, week * 7 + 7)}</tr>);
   };
 
+  const [touchPosition, setTouchPosition] = useState({});
+
+  const touchEnd = (e) => {
+    const distanceX = Math.abs(touchPosition.x - e.changedTouches[0].pageX);
+    const distanceY = Math.abs(touchPosition.y - e.changedTouches[0].pageY);
+
+    if (distanceY + distanceX > 30 && distanceX > distanceY) {
+      if (touchPosition.x - e.changedTouches[0].pageX < 0) {
+        selectDate(new Date(selectedDate.setMonth(selectedDate.getMonth() - 1)));
+      } else if (touchPosition.x - e.changedTouches[0].pageX > 0) {
+        selectDate(new Date(selectedDate.setMonth(selectedDate.getMonth() + 1)));
+      }
+    }
+  };
+
   return (
-    <Base>
+    <Base
+      onTouchStart={(e) =>
+        setTouchPosition({
+          x: e.changedTouches[0].pageX,
+          y: e.changedTouches[0].pageY,
+        })
+      }
+      onTouchEnd={touchEnd}
+    >
       <Header>
         <ButtonContainer>
           <ArrowButton pos="left" onClick={() => selectDate(new Date(selectedDate.setMonth(selectedDate.getMonth() - 1)))}>
@@ -116,6 +139,10 @@ const ArrowButton = styled.button`
   background-color: transparent;
   font-size: 18px;
   cursor: pointer;
+
+  @media (max-width: 768px) {
+    display: none;
+  }
 `;
 
 const Title = styled.h1`
