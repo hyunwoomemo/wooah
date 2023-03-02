@@ -17,6 +17,12 @@
       "src": "./icons/icon-1024x1024.png",
       "type": "image/png",
       "sizes": "1024x1024"
+    },
+    {
+      "src": "./icons/maskable_icon_x192.png",
+      "sizes": "196x196",
+      "type": "image/png",
+      "purpose": "any maskable"
     }
   ],
   "start_url": ".",
