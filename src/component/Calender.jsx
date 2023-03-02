@@ -180,7 +180,15 @@ const TableHeader = styled.thead`
   }
 `;
 
-const TableBody = styled.tbody``;
+const TableBody = styled.tbody`
+  > tr > td:nth-of-type(1) {
+    color: #e28d8d;
+  }
+
+  > tr > td:nth-of-type(7) {
+    color: #8d9de2;
+  }
+`;
 
 const TableData = styled.td`
   text-align: center;
