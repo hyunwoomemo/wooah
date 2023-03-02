@@ -14,11 +14,9 @@ const Loading = () => {
         <Image2 src={imgLogo2} />
         <Image3 src={imgLogo3} />
       </ImageWrapper>
-      <TypeIt
-        style={{ fontSize: "36px" }}
+      <Title
         getBeforeInit={(instance) => {
           instance.type("우리 아가").pause(150).delete(4).pause(100).type(" 아");
-
           return instance;
         }}
       />
@@ -88,7 +86,7 @@ const Image = styled.img`
 `;
 const Image2 = styled.img`
   width: 100%;
-  animation: ${display2} 0.6s ease both 0.9s;
+  animation: ${display2} 0.6s ease both 0.6s;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -96,13 +94,21 @@ const Image2 = styled.img`
 `;
 const Image3 = styled.img`
   width: 100%;
-  animation: ${display3} 0.6s ease both 1.5s;
+  animation: ${display3} 0.6s ease both 0.9s;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
 `;
 
-const Title = styled.h1``;
+const Title = styled(TypeIt)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 36px;
+  span.ti-cursor {
+    display: none;
+  }
+`;
 
 export default Loading;

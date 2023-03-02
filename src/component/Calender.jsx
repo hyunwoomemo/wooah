@@ -200,11 +200,17 @@ const TableData = styled.td`
   @media (max-width: 768px) {
     font-size: 14px;
   }
+  cursor: pointer;
+
+  &:hover {
+    background-color: #80808011;
+  }
 `;
 
 const DisplayDate = styled.div`
   color: ${({ isToday }) => isToday && "#F8F7FA"};
-  background-color: ${({ isToday, isSelected }) => (isSelected ? "#5e5b68" : isToday ? "#313133" : "")};
+  /* background-color: ${({ isToday, isSelected }) => (isSelected ? "#5e5b68" : isToday ? "#313133" : "")}; */
+  background-color: ${({ isToday }) => (isToday ? "#313133" : "")};
   display: flex;
   justify-content: center;
   align-items: center;
@@ -215,7 +221,6 @@ const DisplayDate = styled.div`
   right: 8px;
   width: 36px;
   height: 36px;
-  cursor: pointer;
 
   @media (max-width: 768px) {
     width: 16px;

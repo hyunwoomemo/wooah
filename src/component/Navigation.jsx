@@ -13,30 +13,35 @@ const NavigationBar = () => {
       <Link to="/memo">
         <CiMemoPad />
       </Link>
-      <AiOutlinePieChart />
-      <AiOutlineUser />
+      <Link>
+        <AiOutlinePieChart />
+      </Link>
+      <Link>
+        <AiOutlineUser />
+      </Link>
     </Base>
   );
 };
 
 const Base = styled.div`
-  padding: 1rem 0;
-  background-color: #ececec5c;
+  padding: 2rem 0 2rem;
   position: fixed;
   max-width: 1200px;
-  width: 100%;
+  width: 95%;
   margin: 0 auto;
-  bottom: 3rem;
+  bottom: 0;
+  background-color: #80808011;
   display: flex;
   justify-content: space-evenly;
   align-self: center;
-  border-radius: 10px;
+  border-radius: 30px 30px 0 0;
 
   @media (max-width: 768px) {
-    bottom: 1rem;
+    bottom: 0;
+    padding: 1rem 0 1rem;
   }
 
-  > svg {
+  > a {
     font-size: 36px;
     cursor: pointer;
     color: #3a3a3a;
