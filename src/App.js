@@ -16,14 +16,14 @@ function App() {
   useEffect(() => {
     setTimeout(() => {
       setLoading(false);
-    }, 2000)
+    }, 2500)
   })
 
   return (
     <Base>
+      <GlobalStyle />
       {loading ? <Loading /> :
         <>
-          <GlobalStyle />
           <Header />
           <Routes>
             <Route exact path='/' element={<Main />}></Route>

@@ -1,15 +1,108 @@
 import styled from "@emotion/styled";
 import React from "react";
+import imgLogo from "../img/logo1.png";
+import imgLogo2 from "../img/logo2.png";
+import imgLogo3 from "../img/logo3.png";
+import TypeIt from "typeit-react";
+import { css, keyframes } from "@emotion/react";
 
 const Loading = () => {
-  return <Base>Loading</Base>;
+  return (
+    <Base>
+      <ImageWrapper>
+        <Image src={imgLogo} />
+        <Image2 src={imgLogo2} />
+        <Image3 src={imgLogo3} />
+      </ImageWrapper>
+      <TypeIt
+        style={{ fontSize: "36px" }}
+        getBeforeInit={(instance) => {
+          instance.type("우리 아가").pause(150).delete(4).pause(100).type(" 아");
+
+          return instance;
+        }}
+      />
+    </Base>
+  );
 };
+
+const display1 = keyframes`
+  0% {
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+`;
+
+const display2 = keyframes`
+  0% {
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+`;
+
+const display3 = keyframes`
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+`;
 
 const Base = styled.div`
   height: 100vh;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 `;
+
+const ImageWrapper = styled.div`
+  width: 200px;
+  height: 200px;
+  position: relative;
+`;
+
+const Image = styled.img`
+  width: 100%;
+  animation: ${display1} 0.6s ease both 0.3s;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+`;
+const Image2 = styled.img`
+  width: 100%;
+  animation: ${display2} 0.6s ease both 0.9s;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+`;
+const Image3 = styled.img`
+  width: 100%;
+  animation: ${display3} 0.6s ease both 1.5s;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+`;
+
+const Title = styled.h1``;
 
 export default Loading;

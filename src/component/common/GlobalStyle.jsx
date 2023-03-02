@@ -144,6 +144,7 @@ const defaultStyle = css`
     padding: 1rem;
     height: 100vh;
     overflow: hidden;
+    box-sizing: border-box;
   }
 `;
 
