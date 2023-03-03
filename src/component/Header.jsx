@@ -48,7 +48,7 @@ const Header = () => {
           <ProfileImg src={`${process.env.PUBLIC_URL}/upload/profile.png`}></ProfileImg>
         </ProfileImgWrapper>
         <BabyInfoWrapper>
-          <BabyName>우리 지안이</BabyName>
+          <BabyName>우리 지안</BabyName>
           <BabyAge>{`${age}일`}</BabyAge>
         </BabyInfoWrapper>
         <DisplayTime>
