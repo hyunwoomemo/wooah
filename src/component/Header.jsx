@@ -32,22 +32,23 @@ const Header = () => {
     };
   });
 
-  let deferredPrompt;
-  window.addEventListener("beforeinstallprompt", (e) => {
-    deferredPrompt = e;
-  });
-
-  const installApp = document.getElementById("installApp");
-  installApp.addEventListener("click", async () => {
-    console.log("click");
-    if (deferredPrompt !== null) {
-      deferredPrompt.prompt();
-      const { outcome } = await deferredPrompt.userChoice;
-      if (outcome === "accepted") {
-        deferredPrompt = null;
+  window.onload = () => {
+    let deferredPrompt;
+    window.addEventListener("beforeinstallprompt", (e) => {
+      deferredPrompt = e;
+    });
+    const installApp = document.getElementById("installApp");
+    installApp.addEventListener("click", async () => {
+      console.log("click");
+      if (deferredPrompt !== null) {
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        if (outcome === "accepted") {
+          deferredPrompt = null;
+        }
       }
-    }
-  });
+    });
+  };
 
   return (
     <Base>
@@ -64,7 +65,6 @@ const Header = () => {
           <BabyAge>{`${age}일`}</BabyAge>
         </BabyInfoWrapper>
       </>
-      {/* )} */}
     </Base>
   );
 };
