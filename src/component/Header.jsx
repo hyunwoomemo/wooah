@@ -67,7 +67,7 @@ const Base = styled.div`
   display: flex;
   gap: 1rem;
   align-items: center;
-  padding: 1rem;
+  padding: 2rem;
 `;
 
 const ContentsWrapper = styled.div`

@@ -1,4 +1,3 @@
-import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import React, { useState } from "react";
 import Header from "./Header";
@@ -54,7 +53,6 @@ const Layout = ({ children }) => {
 
 const Base = styled.div`
   position: relative;
-  /*   padding: 1rem; */
 `;
 
 const Background = styled.div`

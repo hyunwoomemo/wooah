@@ -35,20 +35,24 @@ const Memo = () => {
   }, []);
   return (
     <Layout>
-      <h1>오늘의 할 일</h1>
-      <form onSubmit={handleSubmit}>
-        <input type="text" placeholder="할 일 추가" onChange={handleContents} />
-        <button>추가</button>
-      </form>
-      <hr />
-      <h2>할 일 리스트</h2>
-      {todolist.map((todo) => {
-        return <li>{todo.contents}</li>;
-      })}
+      <Base>
+        <h1>오늘의 할 일</h1>
+        <form onSubmit={handleSubmit}>
+          <input type="text" placeholder="할 일 추가" onChange={handleContents} />
+          <button>추가</button>
+        </form>
+        <hr />
+        <h2>할 일 리스트</h2>
+        {todolist.map((todo) => {
+          return <li>{todo.contents}</li>;
+        })}
+      </Base>
     </Layout>
   );
 };
 
-const Base = styled.div``;
+const Base = styled.div`
+  padding: 1rem;
+`;
 
 export default Memo;

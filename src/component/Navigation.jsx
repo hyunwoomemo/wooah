@@ -37,7 +37,7 @@ const Base = styled.div`
   display: flex;
   justify-content: space-evenly;
   align-self: center;
-  border-radius: 30px 30px 0 0;
+  /*   border-radius: 30px 30px 0 0; */
 
   @media (max-width: 768px) {
     bottom: 0;
