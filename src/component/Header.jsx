@@ -13,11 +13,13 @@ const Header = () => {
   const [isLogin, setIsLogin] = useState(false);
   const [age, setAge] = useState(getDateDiff(birthDay) + 1);
 
+  const [checkStart, setCheckStart] = useState("");
+
   const timer = () => {
     const hours = new Date().getHours();
     const minutes = new Date().getMinutes();
     const seconds = new Date().getSeconds();
-    const checkStart = `${hours}:${minutes}:${seconds}`;
+    setCheckStart(`${hours}:${minutes}:${seconds}`);
 
     if (checkStart === "0:0:0") {
       setAge(getDateDiff(birthDay) + 1);
@@ -45,6 +47,7 @@ const Header = () => {
           <BabyName>이지안</BabyName>
           <BabyAge>{`${age}일`}</BabyAge>
         </BabyInfoWrapper>
+        <div>{checkStart}</div>
       </>
     </Base>
   );
