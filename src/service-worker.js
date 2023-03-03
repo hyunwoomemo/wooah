@@ -93,6 +93,7 @@ window.addEventListener('beforeinstallprompt', (e) => {
 
 const installApp = document.getElementById('installApp');
 installApp.addEventListener('click', async () => {
+  console.log('click')
   if (deferredPrompt !== null) {
     deferredPrompt.prompt();
     const { outcome } = await deferredPrompt.userChoice;
