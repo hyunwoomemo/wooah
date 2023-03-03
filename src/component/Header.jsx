@@ -32,31 +32,12 @@ const Header = () => {
     };
   });
 
-  window.onload = () => {
-    let deferredPrompt;
-    window.addEventListener("beforeinstallprompt", (e) => {
-      deferredPrompt = e;
-    });
-    const installApp = document.getElementById("installApp");
-    installApp.addEventListener("click", async () => {
-      console.log("click");
-      if (deferredPrompt !== null) {
-        deferredPrompt.prompt();
-        const { outcome } = await deferredPrompt.userChoice;
-        if (outcome === "accepted") {
-          deferredPrompt = null;
-        }
-      }
-    });
-  };
-
   return (
     <Base>
       {/*       {!isLogin ? (
         <LoginNoti to="/login"> 로그인을 해야해요! 😅 </LoginNoti>
       ) : ( */}
       <>
-        <button id="installApp">Install</button>
         <ProfileImgWrapper>
           <ProfileImg src={`${process.env.PUBLIC_URL}/upload/profile.png`}></ProfileImg>
         </ProfileImgWrapper>
