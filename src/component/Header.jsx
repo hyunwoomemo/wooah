@@ -31,12 +31,14 @@ const Header = () => {
       clearInterval(timer);
     };
   });
+
   return (
     <Base>
       {/*       {!isLogin ? (
         <LoginNoti to="/login"> 로그인을 해야해요! 😅 </LoginNoti>
       ) : ( */}
       <>
+        <button id="installApp">Install</button>
         <ProfileImgWrapper>
           <ProfileImg src={`${process.env.PUBLIC_URL}/upload/profile.png`}></ProfileImg>
         </ProfileImgWrapper>
