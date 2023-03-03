@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import styled from "@emotion/styled";
 import { Link } from "react-router-dom";
-import { TbReload } from "react-icons/tb";
+import { AiOutlineReload } from "react-icons/ai";
+import { css } from "@emotion/react";
 
 const Header = () => {
   const birthDay = "2023-01-16T00:00:00";
   const getDateDiff = (birthDay) => {
     const diffDate = new Date() - new Date(birthDay);
-    console.log(new Date(birthDay));
     return Math.floor(diffDate / (1000 * 60 * 60 * 24));
   };
 
@@ -55,9 +55,9 @@ const Header = () => {
         <DisplayTime>
           {checkStart ? checkStart : `${String(new Date().getHours()).padStart(2, "0")} : ${String(new Date().getMinutes()).padStart(2, "0")} : ${String(new Date().getSeconds()).padStart(2, "0")}`}
         </DisplayTime>
-        <button onClick={handleReload}>
-          <TbReload />
-        </button>
+        <ReloadIcon>
+          <AiOutlineReload onClick={handleReload} />
+        </ReloadIcon>
       </ContentsWrapper>
     </Base>
   );
@@ -67,7 +67,7 @@ const Base = styled.div`
   display: flex;
   gap: 1rem;
   align-items: center;
-  padding: 1rem 0;
+  padding: 1rem;
 `;
 
 const ContentsWrapper = styled.div`
@@ -75,6 +75,10 @@ const ContentsWrapper = styled.div`
   align-items: center;
   gap: 1rem;
   width: 100%;
+
+  > svg {
+    cursor: pointer;
+  }
 `;
 
 const LoginNoti = styled(Link)`
@@ -123,4 +127,16 @@ const DisplayTime = styled.div`
   text-align: end;
   font-size: 24px;
 `;
+
+const ReloadIcon = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+
+  @media (max-width: 768px) {
+    display: none;
+  }
+`;
+
 export default Header;
