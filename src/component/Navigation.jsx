@@ -45,7 +45,7 @@ const Base = styled.div`
   }
 
   > a {
-    font-size: 36px;
+    font-size: 32px;
     font-weight: bold;
     cursor: pointer;
     color: #3a3a3a;
@@ -56,14 +56,15 @@ const Base = styled.div`
       left: 50%;
       top: 100%;
       transform: translateX(-50%);
-      font-size: 18px;
+      font-size: 16px;
+      font-weight: lighter;
 
       @media (max-width: 768px) {
-        font-size: 14px;
+        font-size: 12px;
       }
     }
     @media (max-width: 768px) {
-      font-size: 24px;
+      font-size: 20px;
     }
   }
 `;
