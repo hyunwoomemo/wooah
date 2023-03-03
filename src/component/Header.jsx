@@ -16,10 +16,10 @@ const Header = () => {
   const [checkStart, setCheckStart] = useState("");
 
   const timer = () => {
-    const hours = new Date().getHours();
-    const minutes = new Date().getMinutes();
-    const seconds = new Date().getSeconds();
-    setCheckStart(`${hours}:${minutes}:${seconds}`);
+    const hours = String(new Date().getHours()).padStart(2, "0");
+    const minutes = String(new Date().getMinutes()).padStart(2, "0");
+    const seconds = String(new Date().getSeconds()).padStart(2, "0");
+    setCheckStart(`${hours} : ${minutes} : ${seconds}`);
 
     if (checkStart === "0:0:0") {
       setAge(getDateDiff(birthDay) + 1);
@@ -34,21 +34,28 @@ const Header = () => {
     };
   });
 
+  const handleReload = () => {
+    window.location.reload(true);
+  };
+
   return (
     <Base>
       {/*       {!isLogin ? (
         <LoginNoti to="/login"> 로그인을 해야해요! 😅 </LoginNoti>
       ) : ( */}
-      <>
+      <ContentsWrapper>
         <ProfileImgWrapper>
           <ProfileImg src={`${process.env.PUBLIC_URL}/upload/profile.png`}></ProfileImg>
         </ProfileImgWrapper>
         <BabyInfoWrapper>
-          <BabyName>이지안</BabyName>
+          <BabyName>우리 지안이</BabyName>
           <BabyAge>{`${age}일`}</BabyAge>
         </BabyInfoWrapper>
-        <div>{checkStart}</div>
-      </>
+        <DisplayTime>
+          {checkStart ? checkStart : `${String(new Date().getHours()).padStart(2, "0")} : ${String(new Date().getMinutes()).padStart(2, "0")} : ${String(new Date().getSeconds()).padStart(2, "0")}`}
+        </DisplayTime>
+        <button onClick={handleReload}>새로고침</button>
+      </ContentsWrapper>
     </Base>
   );
 };
@@ -58,6 +65,13 @@ const Base = styled.div`
   gap: 1rem;
   align-items: center;
   padding: 1rem 0;
+`;
+
+const ContentsWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
 `;
 
 const LoginNoti = styled(Link)`
@@ -86,6 +100,7 @@ const BabyInfoWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  flex-wrap: wrap;
 `;
 
 const BabyName = styled.div`
@@ -98,5 +113,11 @@ const BabyName = styled.div`
 
 const BabyAge = styled.div`
   font-size: 14px;
+`;
+
+const DisplayTime = styled.div`
+  flex: 1 1 auto;
+  text-align: end;
+  font-size: 24px;
 `;
 export default Header;
