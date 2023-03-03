@@ -2,23 +2,26 @@ import styled from "@emotion/styled";
 import React from "react";
 import { AiOutlineHome, AiOutlinePieChart, AiOutlineUser } from "react-icons/ai";
 import { CiMemoPad } from "react-icons/ci";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 const NavigationBar = () => {
+  const activeStyle = {
+    color: "#5552ff",
+  };
   return (
     <Base>
-      <Link to="/">
+      <NavLink to="/" data-text="HOME" style={({ isActive }) => (isActive ? activeStyle : undefined)}>
         <AiOutlineHome />
-      </Link>
-      <Link to="/memo">
+      </NavLink>
+      <NavLink to="/memo" data-text="MEMO" style={({ isActive }) => (isActive ? activeStyle : undefined)}>
         <CiMemoPad />
-      </Link>
-      <Link>
+      </NavLink>
+      <NavLink to="/chart" data-text="CHART" style={({ isActive }) => (isActive ? activeStyle : undefined)}>
         <AiOutlinePieChart />
-      </Link>
-      <Link to="/user">
+      </NavLink>
+      <NavLink to="/user" data-text="USER" style={({ isActive }) => (isActive ? activeStyle : undefined)}>
         <AiOutlineUser />
-      </Link>
+      </NavLink>
     </Base>
   );
 };
@@ -27,7 +30,7 @@ const Base = styled.div`
   padding: 2rem 0 2rem;
   position: fixed;
   max-width: 1200px;
-  width: 95%;
+  width: 100%;
   margin: 0 auto;
   bottom: 0;
   background-color: #80808011;
@@ -43,8 +46,22 @@ const Base = styled.div`
 
   > a {
     font-size: 36px;
+    font-weight: bold;
     cursor: pointer;
     color: #3a3a3a;
+    position: relative;
+    &:after {
+      content: attr(data-text);
+      position: absolute;
+      left: 50%;
+      top: 100%;
+      transform: translateX(-50%);
+      font-size: 18px;
+
+      @media (max-width: 768px) {
+        font-size: 14px;
+      }
+    }
     @media (max-width: 768px) {
       font-size: 24px;
     }
