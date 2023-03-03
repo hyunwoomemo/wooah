@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "@emotion/styled";
 import { Link } from "react-router-dom";
+import { TbReload } from "react-icons/tb";
 
 const Header = () => {
   const birthDay = "2023-01-16T00:00:00";
@@ -54,7 +55,9 @@ const Header = () => {
         <DisplayTime>
           {checkStart ? checkStart : `${String(new Date().getHours()).padStart(2, "0")} : ${String(new Date().getMinutes()).padStart(2, "0")} : ${String(new Date().getSeconds()).padStart(2, "0")}`}
         </DisplayTime>
-        <button onClick={handleReload}>새로고침</button>
+        <button onClick={handleReload}>
+          <TbReload />
+        </button>
       </ContentsWrapper>
     </Base>
   );
