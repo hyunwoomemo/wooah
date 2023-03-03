@@ -14,12 +14,6 @@ root.render(
   </React.StrictMode>
 );
 
-window.addEventListener('beforeinstallprompt', function (event) {
-  event.preventDefault();
-  //@ts-ignore
-  window.promptEvent = event;
-  console.log(event);
-});
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
@@ -30,3 +24,12 @@ serviceWorkerRegistration.register();
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
+
+window.addEventListener('beforeinstallprompt', (event) => {
+  // Prevent the mini-infobar from appearing on mobile.
+  event.preventDefault();
+  console.log('👍', 'beforeinstallprompt', event);
+  // Stash the event so it can be triggered later.
+  window.deferredPrompt = event;
+  // Remove the 'hidden' class from the install button container.
+});
