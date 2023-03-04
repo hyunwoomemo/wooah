@@ -1,6 +1,6 @@
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
-import React, { useRef, useState } from "react";
+import React, { useMemo, useRef, useState } from "react";
 import Header from "./Header";
 import NavigationBar from "./Navigation";
 import { AiOutlineReload } from "react-icons/ai";
@@ -10,18 +10,21 @@ const Layout = ({ children }) => {
   const [showReload, setShowReload] = useState(false);
   const [reloadY, setReloadY] = useState(0);
 
-  const touchEnd = (e) => {
-    const distanceX = Math.abs(touchPosition.x - e.changedTouches[0].pageX);
-    const distanceY = Math.abs(touchPosition.y - e.changedTouches[0].pageY);
+  const touchEnd = useMemo(
+    (e) => {
+      const distanceX = Math.abs(touchPosition.x - e.changedTouches[0].pageX);
+      const distanceY = Math.abs(touchPosition.y - e.changedTouches[0].pageY);
 
-    if (distanceY + distanceX > 150 && distanceY > distanceX) {
-      if (touchPosition.y - e.changedTouches[0].pageY < 0) {
-        window.location.reload(true);
+      if (distanceY + distanceX > 150 && distanceY > distanceX) {
+        if (touchPosition.y - e.changedTouches[0].pageY < 0) {
+          window.location.reload(true);
+        }
       }
-    }
 
-    setTop(0);
-  };
+      setTop(0);
+    },
+    [touchPosition.x, touchPosition.y]
+  );
 
   const [top, setTop] = useState(0);
 
@@ -46,7 +49,6 @@ const Layout = ({ children }) => {
       {showReload ? <Background></Background> : undefined}
       <Reload ref={reloadRef} reloadY={reloadY} top={top}>
         <AiOutlineReload top={top} />
-        <p>당겨서 새로고침</p>
       </Reload>
 
       <Header></Header>
@@ -73,7 +75,8 @@ const Reload = styled.div`
   position: absolute;
   left: 50%;
   height: 100%;
-  transform: translate(-50%, -100%);
+  transform: translateX(-50%);
+  bottom: 100%;
   width: 100%;
   background-color: #fff;
   display: flex;
@@ -82,7 +85,9 @@ const Reload = styled.div`
   z-index: 999;
   margin: 0 auto;
   background-color: #ffffff;
-  top: ${({ top }) => (top > 0 ? `${top}px` : undefined)};
+  bottom: ${({ top }) => (top > 0 ? `${100 - top / 10}%` : undefined)};
+  /* transform: ${({ top }) => (top > 0 ? `translate(-50%, ${top - 100}%)` : undefined)}; */
+  /* transition: all 0.3s; */
 
   > svg {
     font-size: 36px;
@@ -91,12 +96,6 @@ const Reload = styled.div`
     opacity: ${({ top }) => (top > 50 ? `${top / 150}` : undefined)};
     position: absolute;
     bottom: 50px;
-  }
-
-  > p {
-    position: absolute;
-    bottom: 15px;
-    display: ${({ top }) => (top > 150 ? "block" : "none")};
   }
 `;
 
