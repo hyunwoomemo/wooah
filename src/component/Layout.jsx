@@ -4,6 +4,7 @@ import React, { useRef, useState } from "react";
 import Header from "./Header";
 import NavigationBar from "./Navigation";
 import { AiOutlineReload } from "react-icons/ai";
+/* import PullToRefresh from "react-simple-pull-to-refresh"; */
 
 const Layout = ({ children }) => {
   const [touchPosition, setTouchPosition] = useState({});
@@ -27,26 +28,30 @@ const Layout = ({ children }) => {
 
   const reloadRef = useRef();
 
+  const handleRefresh = () => {
+    window.location.reload(true);
+  };
+
   return (
     <Base
-      onTouchStart={(e) =>
-        setTouchPosition({
-          x: e.changedTouches[0].pageX,
-          y: e.changedTouches[0].pageY,
-        })
-      }
-      onTouchMove={(e) => {
-        setReloadY(touchPosition.y - e.changedTouches[0].pageY);
-        if (reloadY < 0) {
-          setTop(Math.abs(reloadY));
+    /* onTouchStart={(e) =>
+          setTouchPosition({
+            x: e.changedTouches[0].pageX,
+            y: e.changedTouches[0].pageY,
+          })
         }
-      }}
-      onTouchEnd={touchEnd}
+        onTouchMove={(e) => {
+          setReloadY(touchPosition.y - e.changedTouches[0].pageY);
+          if (reloadY < 0) {
+            setTop(Math.abs(reloadY));
+          }
+        }}
+        onTouchEnd={touchEnd} */
     >
-      {showReload ? <Background></Background> : undefined}
-      <Reload ref={reloadRef} reloadY={reloadY} top={top}>
-        <AiOutlineReload top={top} />
-      </Reload>
+      {/* {showReload ? <Background></Background> : undefined} */}
+      {/* <Reload ref={reloadRef} reloadY={reloadY} top={top}>
+          <AiOutlineReload top={top} />
+        </Reload> */}
 
       <Header></Header>
       {children}
