@@ -33,7 +33,7 @@ function App() {
     <Base>
       <GlobalStyle />
       {loading ? <Loading /> :
-        <PullWrapper onRefresh={handleRefresh} pullingContent="당겨서 새로고침">
+        <PullWrapper onRefresh={handleRefresh} pullingContent="당겨서 새로고침" pullDownThreshold={95} resistance={5}>
           <Routes>
             <Route exact path='/' element={<Main />}></Route>
             <Route path='/memo' element={<Memo />}></Route>
