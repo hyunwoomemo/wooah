@@ -68,33 +68,23 @@ const Background = styled.div`
 `;
 
 const Reload = styled.div`
-  /* padding: 3rem; */
-  position: absolute;
-  left: 50%;
-  bottom: 110%;
-  transform: translateX(-50%);
+  height: ${({ top }) => (top > 50 ? `${top - 50}px` : 0)};
   background-color: #fff;
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 999;
-  margin: 0 auto;
-  /* background-color: #9c8787; */
-  bottom: ${({ top }) => (top > 0 ? `${100 - top / 10}%` : undefined)};
-  /* transform: ${({ top }) => (top > 0 ? `translate(-50%, ${top - 100}%)` : undefined)}; */
-  /* transition: all 0.3s; */
-  border-radius: 50%;
+  position: relative;
 
   > svg {
-    position: absolute;
-    top: 50%;
-    left: 50%;
     font-size: 36px;
-    transform: translate(-50%, -50%) ${({ top }) => (top > 0 ? `rotate(${top * 4}deg)` : undefined)};
     color: ${({ top }) => (top > 149 ? `#5abde4` : "gray")};
-    opacity: ${({ top }) => (top > 0 ? `${top / 100}` : undefined)};
-    position: absolute;
+    opacity: ${({ top }) => (top > 50 ? `${top / 100}` : 0)};
     bottom: 50px;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%) ${({ top }) => (top > 0 ? `rotate(${top * 1}deg)` : undefined)};
   }
 `;
 

@@ -141,7 +141,6 @@ const defaultStyle = css`
 
   body {
     font-family: "Dovemayo_wild";
-    /*     padding: 1rem; */
     height: 100vh;
     overflow: hidden;
     box-sizing: border-box;
