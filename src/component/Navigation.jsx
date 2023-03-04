@@ -6,7 +6,7 @@ import { Link, NavLink } from "react-router-dom";
 
 const NavigationBar = () => {
   const activeStyle = {
-    color: "#5552ff",
+    color: "#fff",
   };
   return (
     <Base>
@@ -33,7 +33,7 @@ const Base = styled.div`
   width: 100%;
   margin: 0 auto;
   bottom: 0;
-  background-color: #80808011;
+  background-color: #000000;
   display: flex;
   justify-content: space-evenly;
   align-self: center;
@@ -48,7 +48,7 @@ const Base = styled.div`
     font-size: 32px;
     font-weight: bold;
     cursor: pointer;
-    color: #3a3a3a;
+    color: #898989;
     position: relative;
     &:after {
       content: attr(data-text);
