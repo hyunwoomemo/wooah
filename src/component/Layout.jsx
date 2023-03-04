@@ -1,6 +1,6 @@
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
-import React, { useMemo, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import Header from "./Header";
 import NavigationBar from "./Navigation";
 import { AiOutlineReload } from "react-icons/ai";
@@ -10,21 +10,18 @@ const Layout = ({ children }) => {
   const [showReload, setShowReload] = useState(false);
   const [reloadY, setReloadY] = useState(0);
 
-  const touchEnd = useMemo(
-    (e) => {
-      const distanceX = Math.abs(touchPosition.x - e.changedTouches[0].pageX);
-      const distanceY = Math.abs(touchPosition.y - e.changedTouches[0].pageY);
+  const touchEnd = (e) => {
+    const distanceX = Math.abs(touchPosition.x - e.changedTouches[0].pageX);
+    const distanceY = Math.abs(touchPosition.y - e.changedTouches[0].pageY);
 
-      if (distanceY + distanceX > 150 && distanceY > distanceX) {
-        if (touchPosition.y - e.changedTouches[0].pageY < 0) {
-          window.location.reload(true);
-        }
+    if (distanceY + distanceX > 150 && distanceY > distanceX) {
+      if (touchPosition.y - e.changedTouches[0].pageY < 0) {
+        window.location.reload(true);
       }
+    }
 
-      setTop(0);
-    },
-    [touchPosition.x, touchPosition.y]
-  );
+    setTop(0);
+  };
 
   const [top, setTop] = useState(0);
 
