@@ -45,7 +45,7 @@ const Base = styled.div`
   }
 
   > a {
-    font-size: 32px;
+    font-size: 36px;
     font-weight: bold;
     cursor: pointer;
     color: #898989;
@@ -64,7 +64,7 @@ const Base = styled.div`
       }
     }
     @media (max-width: 768px) {
-      font-size: 20px;
+      font-size: 24px;
     }
   }
 `;
