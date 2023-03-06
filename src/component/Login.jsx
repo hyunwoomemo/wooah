@@ -2,6 +2,7 @@ import styled from "@emotion/styled";
 import axios from "axios";
 import React, { useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useCookies } from "react-cookie";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -9,6 +10,7 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const passwordRef = useRef();
   const [password, setPassword] = useState("");
+  const [cookies, setCookie] = useCookies(["user"]);
 
   const handleEmail = () => {
     setEmail(emailRef.current.value);
@@ -31,31 +33,23 @@ const Login = () => {
       return false;
     }
 
-    console.log("LoginForm:window.sessionStorage(login_id) =>", window.sessionStorage.getItem("email"));
-
     axios
       .post("http://localhost:3001/login", {
         userEmail: email,
         password: password,
       })
       .then((res) => {
-        console.log("handleLogin =>", res);
-        if (res.data.length === 1) {
-          window.sessionStorage.setItem("email", emailRef.current.value); // 세션스토리지에 key : id , value : idRef.current.value로 저장
-          window.sessionStorage.setItem("user_name", res.data[0].user_name); // 세션스토리지에 key : id , value : idRef.current.value로 저장
-          window.sessionStorage.setItem("user_baby", res.data[0].user_baby); // 세션스토리지에 key : id , value : idRef.current.value로 저장
-          window.sessionStorage.setItem("baby_birthday", res.data[0].baby_birthday); // 세션스토리지에 key : id , value : idRef.current.value로 저장
-          // sessionsStorage는 창 닫으면 사라짐, localStorage는 안사라짐
-          alert("로그인 성공!");
-          navigate("/");
+        console.log(res.data.length > 0);
+        if (res.data.length > 0) {
+          alert("로그인에 성공했습니다.");
+          localStorage.setItem("baby", res.data[0].user_baby);
+          localStorage.setItem("email", res.data[0].user_email);
+          localStorage.setItem("baby_birthday", res.data[0].baby_birthday);
+          localStorage.setItem("isLogin", true);
+          window.location.href = "/";
         } else {
-          alert("아이디, 패스워드가 정확하지 않습니다.");
-          emailRef.current.value = "";
-          passwordRef.current.value = "";
+          alert("로그인에 실패했습니다.");
         }
-      })
-      .catch((e) => {
-        console.error(e);
       });
   };
 

@@ -1,30 +1,28 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import styled from "@emotion/styled";
 import { Link } from "react-router-dom";
 import { AiOutlineReload } from "react-icons/ai";
 import { css } from "@emotion/react";
+import { LatestWorkContext } from "../context/Context";
+
+import db from "../data/record.json";
 
 const Header = () => {
-  const birthDay = "2023-01-16T00:00:00";
+  const birthDay = `${localStorage.getItem("baby_birthday")}T00:00:00`;
   const getDateDiff = (birthDay) => {
     const diffDate = new Date() - new Date(birthDay);
     return Math.floor(diffDate / (1000 * 60 * 60 * 24));
   };
 
-  const [isLogin, setIsLogin] = useState(false);
+  const lastWork = db[db.length - 1].category;
+  const lastWorkTime = new Date(db[db.length - 1].date.concat(` ${db[db.length - 1].time}`));
+
   const [age, setAge] = useState(getDateDiff(birthDay) + 1);
 
   const [checkStart, setCheckStart] = useState("");
 
   const timer = () => {
-    const hours = String(new Date().getHours()).padStart(2, "0");
-    const minutes = String(new Date().getMinutes()).padStart(2, "0");
-    const seconds = String(new Date().getSeconds()).padStart(2, "0");
-    setCheckStart(`${hours} : ${minutes} : ${seconds}`);
-
-    if (checkStart === "0:0:0") {
-      setAge(getDateDiff(birthDay) + 1);
-    }
+    setCheckStart(`${parseInt((new Date() - new Date(lastWorkTime)) / 1000 / 60)} 분`);
   };
 
   useEffect(() => {
@@ -39,26 +37,28 @@ const Header = () => {
     window.location.reload(true);
   };
 
+  const isLogin = localStorage.getItem("isLogin");
+
   return (
     <Base>
-      {/*       {!isLogin ? (
+      {!isLogin ? (
         <LoginNoti to="/login"> 로그인을 해야해요! 😅 </LoginNoti>
-      ) : ( */}
-      <ContentsWrapper>
-        <ProfileImgWrapper>
-          <ProfileImg src={`${process.env.PUBLIC_URL}/upload/profile.png`}></ProfileImg>
-        </ProfileImgWrapper>
-        <BabyInfoWrapper>
-          <BabyName>우리 지안</BabyName>
-          <BabyAge>{`${age}일`}</BabyAge>
-        </BabyInfoWrapper>
-        <DisplayTime>
-          {checkStart ? checkStart : `${String(new Date().getHours()).padStart(2, "0")} : ${String(new Date().getMinutes()).padStart(2, "0")} : ${String(new Date().getSeconds()).padStart(2, "0")}`}
-        </DisplayTime>
-        <ReloadIcon>
-          <AiOutlineReload onClick={handleReload} />
-        </ReloadIcon>
-      </ContentsWrapper>
+      ) : (
+        <ContentsWrapper>
+          <ProfileImgWrapper>
+            <ProfileImg src={`${process.env.PUBLIC_URL}/upload/profile.png`}></ProfileImg>
+          </ProfileImgWrapper>
+          <BabyInfoWrapper>
+            <BabyName>{localStorage.getItem("baby")}</BabyName>
+            <BabyAge>{`${age}일`}</BabyAge>
+          </BabyInfoWrapper>
+          <DisplayLatestWork>{lastWork === "PowderedMilk" ? "🍼 분유 먹은 지" : lastWork === "sleep" ? "💤 잠자는 중" : undefined}</DisplayLatestWork>
+          <DisplayLatestTime>{checkStart ? checkStart : `${parseInt((new Date() - new Date(lastWorkTime)) / 1000 / 60)} 분`}</DisplayLatestTime>
+          <ReloadIcon>
+            <AiOutlineReload onClick={handleReload} />
+          </ReloadIcon>
+        </ContentsWrapper>
+      )}
     </Base>
   );
 };
@@ -122,11 +122,13 @@ const BabyAge = styled.div`
   font-size: 14px;
 `;
 
-const DisplayTime = styled.div`
+const DisplayLatestWork = styled.div`
   flex: 1 1 auto;
   text-align: end;
-  font-size: 24px;
+  font-size: 16px;
 `;
+
+const DisplayLatestTime = styled.div``;
 
 const ReloadIcon = styled.div`
   display: flex;

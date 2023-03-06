@@ -41,7 +41,7 @@ const Join = () => {
     e.preventDefault();
 
     axios
-      .post("http://localhost:3001/member", {
+      .post("http://localhost:3001/join", {
         userName: name,
         userEmail: email,
         userBaby: baby,

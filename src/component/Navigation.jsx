@@ -1,13 +1,21 @@
 import styled from "@emotion/styled";
-import React from "react";
-import { AiOutlineHome, AiOutlinePieChart, AiOutlineUser } from "react-icons/ai";
+import React, { useContext } from "react";
+import { AiOutlineHome, AiOutlinePieChart, AiOutlineUser, AiOutlinePlusCircle } from "react-icons/ai";
 import { CiMemoPad } from "react-icons/ci";
 import { Link, NavLink } from "react-router-dom";
+import { ModalContext } from "../context/Context";
 
-const NavigationBar = () => {
+const NavigationBar = ({ main }) => {
   const activeStyle = {
     color: "#fff",
   };
+
+  const { isOpen, setIsOpen } = useContext(ModalContext);
+
+  const handleOpenModal = () => {
+    setIsOpen(true);
+  };
+
   return (
     <Base>
       <NavLink to="/" data-text="HOME" style={({ isActive }) => (isActive ? activeStyle : undefined)}>
@@ -16,6 +24,9 @@ const NavigationBar = () => {
       <NavLink to="/memo" data-text="MEMO" style={({ isActive }) => (isActive ? activeStyle : undefined)}>
         <CiMemoPad />
       </NavLink>
+      <Button main={main} onClick={handleOpenModal}>
+        <AiOutlinePlusCircle />
+      </Button>
       <NavLink to="/chart" data-text="CHART" style={({ isActive }) => (isActive ? activeStyle : undefined)}>
         <AiOutlinePieChart />
       </NavLink>
@@ -37,7 +48,6 @@ const Base = styled.div`
   display: flex;
   justify-content: space-evenly;
   align-self: center;
-  /*   border-radius: 30px 30px 0 0; */
 
   @media (max-width: 768px) {
     bottom: 0;
@@ -67,6 +77,15 @@ const Base = styled.div`
       font-size: 24px;
     }
   }
+`;
+
+const Button = styled.div`
+  color: #fff;
+  font-size: 36px;
+  display: ${({ main }) => (main ? "flex" : "none")};
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
 `;
 
 export default NavigationBar;

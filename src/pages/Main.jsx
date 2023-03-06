@@ -1,12 +1,13 @@
-import styled from "@emotion/styled";
 import React, { useState } from "react";
+import AddModal from "../component/AddModal";
 import Calender from "../component/Calender";
 import Layout from "../component/Layout";
 
 const Main = () => {
   return (
-    <Layout>
+    <Layout main="main">
       <Calender />
+      <AddModal />
     </Layout>
   );
 };

@@ -11,7 +11,7 @@ const Memo = () => {
     setContents(e.target.value);
   };
 
-  const handleSubmit = (e) => {
+  /* const handleSubmit = (e) => {
     e.preventDefault();
     axois
       .post("http://localhost:3001/create", {
@@ -26,18 +26,18 @@ const Memo = () => {
         ]);
       });
     e.target[0].value = "";
-  };
-
+  }; */
+  /* 
   useEffect(() => {
     axois.get("http://localhost:3001/todos").then((response) => {
       setTodolist(response.data);
     });
-  }, []);
+  }, []); */
   return (
     <Layout>
       <Base>
         <h1>오늘의 할 일</h1>
-        <form onSubmit={handleSubmit}>
+        <form /* onSubmit={handleSubmit} */>
           <input type="text" placeholder="할 일 추가" onChange={handleContents} />
           <button>추가</button>
         </form>

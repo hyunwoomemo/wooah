@@ -1,6 +1,7 @@
 import styled from "@emotion/styled";
-import React, { useMemo, useState } from "react";
+import React, { useContext, useEffect, useMemo, useState } from "react";
 import { BiChevronLeft, BiChevronRight } from "react-icons/bi";
+import db from "../data/record.json";
 
 const DAYS = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"]; // 요일
 
@@ -39,12 +40,18 @@ const Calendar = () => {
       // 1일 부터 마지막 날까지 날짜 표기
       const thisDay = new Date(year, month, d + 1);
       const today = new Date();
+      const contents = db.filter((v) => isSameDay(new Date(v.date), thisDay) && v.email === localStorage.getItem("email"));
+      const milkSum = contents.reduce((acc, cur) => acc + Number(cur.volume), 0);
+      const newDb = db.map((v) => [v, new Date(v.date.concat(` ${v.time}`))]);
 
       return (
         <TableData key={d} onClick={() => selectDate(thisDay)}>
-          <DisplayDate isSelected={isSameDay(selectedDate, thisDay)} isToday={isSameDay(today, thisDay)}>
-            {new Date(year, month, d + 1).getDate()}
-          </DisplayDate>
+          <ContentsWrapper>
+            <DisplayDate isSelected={isSameDay(selectedDate, thisDay)} isToday={isSameDay(today, thisDay)}>
+              {new Date(year, month, d + 1).getDate()}
+            </DisplayDate>
+            <MilkContents>{milkSum > 0 ? `🍼 ${milkSum}` : undefined}</MilkContents>
+          </ContentsWrapper>
         </TableData>
       );
     });
@@ -200,6 +207,7 @@ const TableData = styled.td`
 
   @media (max-width: 768px) {
     font-size: 14px;
+    padding: 4px;
   }
   cursor: pointer;
 
@@ -208,20 +216,33 @@ const TableData = styled.td`
   }
 `;
 
+const ContentsWrapper = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap: 5px;
+`;
+
+const MilkContents = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  white-space: nowrap;
+  font-size: 14px;
+  width: 100%;
+`;
+
 const DisplayDate = styled.div`
   color: ${({ isToday }) => isToday && "#F8F7FA"};
-  /* background-color: ${({ isToday, isSelected }) => (isSelected ? "#5e5b68" : isToday ? "#313133" : "")}; */
   background-color: ${({ isToday }) => (isToday ? "#313133" : "")};
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 50%;
-  align-self: flex-end;
-  position: absolute;
-  top: 8px;
-  right: 8px;
-  width: 36px;
-  height: 36px;
+  width: 100%;
+  justify-self: flex-end;
+  flex-wrap: wrap;
+  width: 24px;
+  height: 24px;
 
   @media (max-width: 768px) {
     width: 16px;
