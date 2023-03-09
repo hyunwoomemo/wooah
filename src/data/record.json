@@ -1,7 +1,7 @@
 [
   {
     "id": 1,
-    "category": "PowderedMilk",
+    "category": "milk",
     "date": "2023-03-01",
     "time": "17:40:07",
     "recorder": "father",
@@ -31,7 +31,7 @@
   },
   {
     "id": 4,
-    "category": "PowderedMilk",
+    "category": "milk",
     "date": "2023-03-04",
     "time": "20:40:07",
     "recorder": "father",
@@ -41,7 +41,7 @@
   },
   {
     "id": 5,
-    "category": "PowderedMilk",
+    "category": "milk",
     "date": "2023-03-04",
     "time": "17:40:07",
     "recorder": "father",
@@ -51,7 +51,7 @@
   },
   {
     "id": 6,
-    "category": "PowderedMilk",
+    "category": "milk",
     "date": "2023-03-04",
     "time": "17:40:07",
     "recorder": "father",
@@ -61,7 +61,7 @@
   },
   {
     "id": 7,
-    "category": "PowderedMilk",
+    "category": "milk",
     "date": "2023-03-05",
     "time": "17:40:07",
     "recorder": "father",
@@ -71,7 +71,7 @@
   },
   {
     "id": 8,
-    "category": "PowderedMilk",
+    "category": "milk",
     "date": "2023-03-06",
     "time": "17:40:07",
     "recorder": "father",
@@ -81,7 +81,7 @@
   },
   {
     "id": 9,
-    "category": "PowderedMilk",
+    "category": "milk",
     "date": "2023-03-06",
     "time": "17:40:07",
     "recorder": "father",
@@ -111,7 +111,7 @@
   },
   {
     "id": 10,
-    "category": "PowderedMilk",
+    "category": "milk",
     "date": "2023-02-06",
     "time": "17:40:07",
     "recorder": "father",
@@ -121,7 +121,7 @@
   },
   {
     "id": 10,
-    "category": "PowderedMilk",
+    "category": "milk",
     "date": "2023-03-06",
     "time": "23:00:00",
     "recorder": "father",
@@ -135,6 +135,106 @@
     "date": "2023-03-06",
     "time": "23:30:00",
     "recorder": "father",
+    "volume": "",
+    "big": "",
+    "email": "archihw94@gmail.com"
+  },
+  {
+    "id": 10,
+    "category": "milk",
+    "date": "2023-03-07",
+    "time": "04:59:00",
+    "recorder": "father",
+    "volume": "140",
+    "big": "",
+    "email": "archihw94@gmail.com"
+  },
+  {
+    "id": 10,
+    "category": "milk",
+    "date": "2023-03-07",
+    "time": "09:10:00",
+    "recorder": "mother",
+    "volume": "140",
+    "big": "",
+    "email": "archihw94@gmail.com"
+  },
+  {
+    "id": 10,
+    "category": "milk",
+    "date": "2023-03-07",
+    "time": "12:09:00",
+    "recorder": "father",
+    "volume": "140",
+    "big": "",
+    "email": "archihw94@gmail.com"
+  },
+  {
+    "id": 10,
+    "category": "milk",
+    "date": "2023-03-07",
+    "time": "21:39:00",
+    "recorder": "mother",
+    "volume": "200",
+    "big": "",
+    "email": "archihw94@gmail.com"
+  },
+  {
+    "id": 10,
+    "category": "milk",
+    "date": "2023-03-07",
+    "time": "12:09:00",
+    "recorder": "father",
+    "volume": "140",
+    "big": "",
+    "email": "archihw94@gmail.com"
+  },
+  {
+    "id": 10,
+    "category": "milk",
+    "date": "2023-03-07",
+    "time": "12:09:00",
+    "recorder": "mother",
+    "volume": "140",
+    "big": "",
+    "email": "archihw94@gmail.com"
+  },
+  {
+    "id": 10,
+    "category": "milk",
+    "date": "2023-03-07",
+    "time": "12:09:00",
+    "recorder": "father",
+    "volume": "140",
+    "big": "",
+    "email": "archihw94@gmail.com"
+  },
+  {
+    "id": 10,
+    "category": "milk",
+    "date": "2023-03-07",
+    "time": "12:09:00",
+    "recorder": "father",
+    "volume": "140",
+    "big": "",
+    "email": "archihw94@gmail.com"
+  },
+  {
+    "id": 10,
+    "category": "milk",
+    "date": "2023-03-07",
+    "time": "21:39:00",
+    "recorder": "mother",
+    "volume": "140",
+    "big": "",
+    "email": "archihw94@gmail.com"
+  },
+  {
+    "id": 10,
+    "category": "sleep",
+    "date": "2023-03-07",
+    "time": "23:30:00",
+    "recorder": "mother",
     "volume": "",
     "big": "",
     "email": "archihw94@gmail.com"

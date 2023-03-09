@@ -1,6 +1,7 @@
 import styled from "@emotion/styled";
 import React, { useContext, useEffect, useMemo, useState } from "react";
 import { BiChevronLeft, BiChevronRight } from "react-icons/bi";
+import { DateContext, ModalContext } from "../context/Context";
 import db from "../data/record.json";
 
 const DAYS = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"]; // 요일
@@ -14,6 +15,8 @@ export const isSameDay = (a, b) => {
 
 const Calendar = () => {
   const [selectedDate, setSelectedDate] = useState(new Date()); // 선택한 날짜
+  const { isOpen, setIsOpen } = useContext(ModalContext);
+  const { date, setDate } = useContext(DateContext);
 
   const { year, month, firstDay, lastDay } = useMemo(() => {
     // 선택한 날을 기준으로 첫째 날, 마지막 날, 년, 월
@@ -28,9 +31,16 @@ const Calendar = () => {
     };
   }, [selectedDate]);
 
+  const handleModal = (date) => {
+    setSelectedDate(date);
+    setDate(date);
+    setIsOpen(true);
+  };
+
   const selectDate = (date) => {
     // 날짜를 선택한다.
     setSelectedDate(date);
+    setDate(date);
   };
 
   const pad = () => [...Array(firstDay.getDay()).keys()].map((p) => <TableData key={`pad_${p}`} />); // 해당 월의 첫째 날 전 pad
@@ -42,10 +52,9 @@ const Calendar = () => {
       const today = new Date();
       const contents = db.filter((v) => isSameDay(new Date(v.date), thisDay) && v.email === localStorage.getItem("email"));
       const milkSum = contents.reduce((acc, cur) => acc + Number(cur.volume), 0);
-      const newDb = db.map((v) => [v, new Date(v.date.concat(` ${v.time}`))]);
 
       return (
-        <TableData key={d} onClick={() => selectDate(thisDay)}>
+        <TableData key={d} onClick={() => handleModal(thisDay)}>
           <ContentsWrapper>
             <DisplayDate isSelected={isSameDay(selectedDate, thisDay)} isToday={isSameDay(today, thisDay)}>
               {new Date(year, month, d + 1).getDate()}
@@ -229,6 +238,10 @@ const MilkContents = styled.div`
   white-space: nowrap;
   font-size: 14px;
   width: 100%;
+
+  @media (max-width: 768px) {
+    font-size: 12px;
+  }
 `;
 
 const DisplayDate = styled.div`

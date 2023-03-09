@@ -52,8 +52,8 @@ const Header = () => {
             <BabyName>{localStorage.getItem("baby")}</BabyName>
             <BabyAge>{`${age}일`}</BabyAge>
           </BabyInfoWrapper>
-          <DisplayLatestWork>{lastWork === "PowderedMilk" ? "🍼 분유 먹은 지" : lastWork === "sleep" ? "💤 잠자는 중" : undefined}</DisplayLatestWork>
-          <DisplayLatestTime>{checkStart ? checkStart : `${parseInt((new Date() - new Date(lastWorkTime)) / 1000 / 60)} 분`}</DisplayLatestTime>
+          <DisplayLatestWork>{lastWork === "milk" ? "🍼 분유 먹은 지" : lastWork === "sleep" ? "💤 잠자는 중" : undefined}</DisplayLatestWork>
+          <DisplayLatestTime>{checkStart /*  ? checkStart : `${parseInt((new Date() - new Date(lastWorkTime)) / 1000 / 60)} 분` */}</DisplayLatestTime>
           <ReloadIcon>
             <AiOutlineReload onClick={handleReload} />
           </ReloadIcon>
@@ -114,7 +114,7 @@ const BabyName = styled.div`
   font-size: 24px;
 
   @media (max-width: 768px) {
-    font-size: 16px;
+    font-size: 14px;
   }
 `;
 
@@ -126,6 +126,10 @@ const DisplayLatestWork = styled.div`
   flex: 1 1 auto;
   text-align: end;
   font-size: 16px;
+
+  @media (max-width: 768px) {
+    font-size: 14px;
+  }
 `;
 
 const DisplayLatestTime = styled.div``;

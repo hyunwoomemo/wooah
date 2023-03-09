@@ -28,28 +28,20 @@ function App() {
   };
 
   const isLogin = localStorage.getItem('isLogin');
-  const [isOpen, setIsOpen] = useState(false)
   return (
     <Base>
       <GlobalStyle />
       {loading ? <Loading /> :
-        isLogin ?
-          <ModalContext.Provider value={{ isOpen, setIsOpen }}>
-            <PullWrapper onRefresh={handleRefresh} pullingContent="당겨서 새로고침" pullDownThreshold={95} resistance={5}>
-              <Routes>
-                <Route path='/' element={<Main />}></Route>
-                <Route path='/memo' element={<Memo />}></Route>
-                <Route path='/chart' element={<Chart />}></Route>
-                <Route path='/user' element={<User />}></Route>
-                <Route path='/login' element={<Login />}></Route>
-              </Routes>
-            </PullWrapper>
-          </ModalContext.Provider>
-          :
+
+        <PullWrapper onRefresh={handleRefresh} pullingContent="당겨서 새로고침" pullDownThreshold={95} resistance={5}>
           <Routes>
+            <Route path='/' element={<Main />}></Route>
+            <Route path='/memo' element={<Memo />}></Route>
+            <Route path='/chart' element={<Chart />}></Route>
+            <Route path='/user' element={<User />}></Route>
             <Route path='/login' element={<Login />}></Route>
-            <Route path='/join' element={<Join />}></Route>
           </Routes>
+        </PullWrapper>
       }
     </Base>
   );
@@ -73,3 +65,25 @@ height: 100vh;
 `
 
 export default App;
+
+{/* <Base>
+      <GlobalStyle />
+      {loading ? <Loading /> :
+        isLogin ?
+
+            <PullWrapper onRefresh={handleRefresh} pullingContent="당겨서 새로고침" pullDownThreshold={95} resistance={5}>
+              <Routes>
+                <Route path='/' element={<Main />}></Route>
+                <Route path='/memo' element={<Memo />}></Route>
+                <Route path='/chart' element={<Chart />}></Route>
+                <Route path='/user' element={<User />}></Route>
+                <Route path='/login' element={<Login />}></Route>
+              </Routes>
+            </PullWrapper>
+          :
+          <Routes>
+            <Route path='/login' element={<Login />}></Route>
+            <Route path='/join' element={<Join />}></Route>
+          </Routes>
+      }
+    </Base> */}
