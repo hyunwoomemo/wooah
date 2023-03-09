@@ -2,13 +2,7 @@ import styled from "@emotion/styled";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { DateContext, ModalContext } from "../context/Context";
-import Box from "@mui/material/Box";
-import Slider from "@mui/material/Slider";
-import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import dayjs from "dayjs";
+
 import db from "../data/record.json";
 import { css } from "@emotion/react";
 
@@ -87,13 +81,6 @@ const AddModal = () => {
           <Overlay onClick={handleClose}></Overlay>
           <Contents>
             <Day>{`${targetDate} (${day[new Date(targetDate).getDay()]})`}</Day>
-            {/* <DateWrapper>
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DemoContainer components={["DatePicker"]}>
-                  <DatePicker label="날짜를 선택하세요" defaultValue={dayjs(targetDate)} />
-                </DemoContainer>
-              </LocalizationProvider>
-            </DateWrapper> */}
             <CategoryWrapper active={active}>
               <li onClick={handleAll}>전체</li>
               <li onClick={handleMilk}>🍼 분유</li>
@@ -101,19 +88,6 @@ const AddModal = () => {
               <li onClick={handleBath}>🛁 목욕</li>
               <li onClick={handleDiaper}>🚽 기저귀</li>
             </CategoryWrapper>
-            {/* {category === "milk" ? (
-              <MilkWrapper>
-                <Box sx={{ width: 300 }}>
-                  <Slider aria-label="milk" defaultValue={100} getAriaValueText={valuetext} valueLabelDisplay="auto" step={10} marks min={10} max={260} />
-                </Box>
-              </MilkWrapper>
-            ) : undefined}
-            {category === "sleep" ? (
-              <SleepWrapper>
-                <Value type="time" />
-                <div></div>
-              </SleepWrapper>
-            ) : undefined} */}
             <ContentsWrapper ref={contentsRef}>
               {filterDb.map((v) => {
                 return (
