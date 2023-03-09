@@ -29,6 +29,7 @@ const Base = styled.div`
   margin: 0 auto;
 
   opacity: ${({ showAction }) => (showAction ? "0.4" : "1")};
+  pointer-events: ${({ showAction }) => (showAction ? "none" : undefined)};
 `;
 
 export default Layout;
