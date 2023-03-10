@@ -61,6 +61,18 @@ const AddModal = () => {
 
   const day = ["일", "월", "화", "수", "목", "금", "토", "일"];
 
+  const contentsRef = useRef();
+
+  const [scrollY, setScrollY] = useState(0);
+
+  useEffect(() => {
+    const myElement = document.querySelector("#ContentsWrapper");
+    const scroll = document.querySelector("#ContentsWrapper")?.scrollHeight - document.querySelector("#ContentsWrapper")?.offsetHeight;
+    if (myElement) {
+      myElement.scrollTo({ top: scroll, behavior: "smooth" });
+    }
+  }, [isOpen]);
+
   return (
     <>
       {isOpen ? (
@@ -79,7 +91,7 @@ const AddModal = () => {
               <li onClick={handleBath}>🛁 목욕</li>
               <li onClick={handleDiaper}>🚽 기저귀</li>
             </CategoryWrapper>
-            <ContentsWrapper>
+            <ContentsWrapper ref={contentsRef} id="ContentsWrapper">
               {filterDb.map((v) => {
                 return (
                   <Record recorder={v.recorder}>
@@ -93,10 +105,6 @@ const AddModal = () => {
                 );
               })}
             </ContentsWrapper>
-            {/*             <ButtonWrapper>
-              <button onClick={handleScroll}>저장</button>
-              <button onClick={handleCancel}>취소</button>
-            </ButtonWrapper> */}
           </Contents>
         </Portal>
       ) : undefined}

@@ -10,7 +10,6 @@ const Layout = ({ children, main }) => {
   const [showAction, setShowAction] = useState(false);
 
   const handleAction = () => {
-    console.log("ab");
     setShowAction(false);
   };
 
