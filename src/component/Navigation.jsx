@@ -35,7 +35,6 @@ const NavigationBar = ({ main }) => {
       <ActionBtn showAction={showAction}>🍼</ActionBtn>
       <ActionBtn showAction={showAction}>💤</ActionBtn>
       <ActionBtn showAction={showAction}>🗓️</ActionBtn>
-      <ActionBtn showAction={showAction}>more</ActionBtn>
       <Base showAction={showAction}>
         <Container>
           <NavLink to="/" data-text="HOME" style={({ isActive }) => (isActive ? activeStyle : undefined)}>
@@ -59,7 +58,7 @@ const NavigationBar = ({ main }) => {
 
 const Base = styled.div`
   position: fixed;
-  background-color: #d8d8d8;
+  background-color: #d8d8d85f;
   max-width: 1200px;
   width: 80vw;
   margin: 0 auto;
@@ -71,7 +70,7 @@ const Base = styled.div`
   padding: 14px;
 
   @media (max-width: 768px) {
-    padding: 7px;
+    padding: 9px;
   }
 
   ${({ showAction }) =>
@@ -137,19 +136,6 @@ const Container = styled.div`
       margin-right: 70px;
     }
 
-    /* &:after {
-      content: attr(data-text);
-      position: absolute;
-      left: 50%;
-      top: 100%;
-      transform: translateX(-50%);
-      font-size: 16px;
-      font-weight: lighter;
-
-      @media (max-width: 768px) {
-        font-size: 12px;
-      }
-    } */
     @media (max-width: 768px) {
       font-size: 24px;
     }
@@ -180,19 +166,19 @@ const PlusBtn = styled.p`
   position: relative;
   z-index: 999;
   border-radius: 50%;
-  opacity: ${({ main }) => (main ? "1" : "0")};
-  pointer-events: ${({ main }) => (main ? "auto" : "none")};
+  /* opacity: ${({ main }) => (main ? "1" : "0")};
+  pointer-events: ${({ main }) => (main ? "auto" : "none")}; */
 
   @media (max-width: 768px) {
-    width: 60px;
-    height: 60px;
+    width: 70px;
+    height: 70px;
   }
 
   &:after {
     width: 111%;
     height: 111%;
     position: absolute;
-    background-color: #5353c3;
+    background-color: #c39595;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -218,7 +204,7 @@ const ActionBtn = styled.div`
   height: 100px;
   font-size: 40px;
   border-radius: 50%;
-  background-color: #d8d8d8;
+  background-color: #ddbdbdb6;
   box-shadow: 1px 1px 3px gray;
   display: flex;
   justify-content: center;
@@ -227,17 +213,18 @@ const ActionBtn = styled.div`
   z-index: ${({ showAction }) => (showAction ? "999" : undefined)};
   pointer-events: ${({ showAction }) => (showAction ? undefined : "none")};
   z-index: 999;
+  transition: all 0.3s;
 
   &:first-of-type {
     ${({ showAction }) =>
       showAction
         ? css`
             transform: translate(-160px, -120px) scale(1);
-            transition: all 0.3s;
+            transition-delay: 0.1s;
           `
         : css`
             transform: translate(0, 0) scale(0);
-            transition: all 1.2s;
+            transition-delay: 0.3s;
           `}
   }
 
@@ -246,11 +233,11 @@ const ActionBtn = styled.div`
       showAction
         ? css`
             transform: translateY(-200px) scale(1);
-            transition: all 0.6s;
+            transition-delay: 0.2s;
           `
         : css`
             transform: translate(0, 0) scale(0);
-            transition: all 0.9s;
+            transition-delay: 0.2s;
           `}
   }
 
@@ -261,32 +248,17 @@ const ActionBtn = styled.div`
       showAction
         ? css`
             transform: translate(160px, -120px) scale(1);
-            transition: all 0.9s;
+            transition-delay: 0.3s;
           `
         : css`
             transform: translate(0, 0) scale(0);
-            transition: all 0.6s;
-          `}
-  }
-
-  &:nth-of-type(4) {
-    font-size: 28px;
-    color: #fff;
-    ${({ showAction }) =>
-      showAction
-        ? css`
-            transform: translate(260px, -0px) scale(1);
-            transition: all 1.2s;
-          `
-        : css`
-            transform: translate(0, 0) scale(0);
-            transition: all 0.3s;
+            transition-delay: 0.1s;
           `}
   }
 
   @media (max-width: 768px) {
-    width: 70px;
-    height: 70px;
+    width: 60px;
+    height: 60px;
     font-size: 24px;
     transition-delay: 0.3ms;
     &:first-of-type {
@@ -294,11 +266,9 @@ const ActionBtn = styled.div`
         showAction
           ? css`
               transform: translate(-80px, -80px) scale(1);
-              transition: all 0.3s;
             `
           : css`
               transform: translate(0, 0) scale(0);
-              transition: all 1.2s;
             `}
     }
 
@@ -307,39 +277,20 @@ const ActionBtn = styled.div`
         showAction
           ? css`
               transform: translateY(-120px) scale(1);
-              transition: all 0.6s;
             `
           : css`
               transform: translate(0, 0) scale(0);
-              transition: all 0.9s;
             `}
     }
 
     &:nth-of-type(3) {
-      font-size: 20px;
       ${({ showAction }) =>
         showAction
           ? css`
               transform: translate(80px, -80px) scale(1);
-              transition: all 0.9s;
             `
           : css`
               transform: translate(0, 0) scale(0);
-              transition: all 0.6s;
-            `}
-    }
-
-    &:nth-of-type(4) {
-      font-size: 20px;
-      ${({ showAction }) =>
-        showAction
-          ? css`
-              transform: translate(140px, -0px) scale(1);
-              transition: all 1.2s;
-            `
-          : css`
-              transform: translate(0, 0) scale(0);
-              transition: all 0.3s;
             `}
     }
   }

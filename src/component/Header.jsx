@@ -41,24 +41,24 @@ const Header = () => {
 
   return (
     <Base>
-      {!isLogin ? (
+      {/* {!isLogin ? (
         <LoginNoti to="/login"> 로그인을 해야해요! 😅 </LoginNoti>
-      ) : (
-        <ContentsWrapper>
-          <ProfileImgWrapper>
-            <ProfileImg src={`${process.env.PUBLIC_URL}/upload/profile.png`}></ProfileImg>
-          </ProfileImgWrapper>
-          <BabyInfoWrapper>
-            <BabyName>{localStorage.getItem("baby")}</BabyName>
-            <BabyAge>{`${age}일`}</BabyAge>
-          </BabyInfoWrapper>
-          <DisplayLatestWork>{lastWork === "milk" ? "🍼 분유 먹은 지" : lastWork === "sleep" ? "💤 잠자는 중" : undefined}</DisplayLatestWork>
-          <DisplayLatestTime>{checkStart /*  ? checkStart : `${parseInt((new Date() - new Date(lastWorkTime)) / 1000 / 60)} 분` */}</DisplayLatestTime>
-          <ReloadIcon>
-            <AiOutlineReload onClick={handleReload} />
-          </ReloadIcon>
-        </ContentsWrapper>
-      )}
+      ) : ( */}
+      <ContentsWrapper>
+        <ProfileImgWrapper>
+          <ProfileImg src={`${process.env.PUBLIC_URL}/upload/profile.png`}></ProfileImg>
+        </ProfileImgWrapper>
+        <BabyInfoWrapper>
+          <BabyName>{localStorage.getItem("baby")}</BabyName>
+          <BabyAge>{`${age}일`}</BabyAge>
+        </BabyInfoWrapper>
+        <DisplayLatestWork>{lastWork === "milk" ? "🍼 분유 먹은 지" : lastWork === "sleep" ? "💤 잠자는 중" : undefined}</DisplayLatestWork>
+        <DisplayLatestTime>{checkStart /*  ? checkStart : `${parseInt((new Date() - new Date(lastWorkTime)) / 1000 / 60)} 분` */}</DisplayLatestTime>
+        <ReloadIcon>
+          <AiOutlineReload onClick={handleReload} />
+        </ReloadIcon>
+      </ContentsWrapper>
+      {/* )} */}
     </Base>
   );
 };

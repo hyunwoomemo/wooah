@@ -43,14 +43,6 @@ const AddModal = () => {
     setActive(5);
   };
 
-  const handleCancel = () => {
-    setIsOpen(false);
-  };
-
-  function valuetext(value) {
-    return `${value}ml`;
-  }
-
   const targetDate = `${new Date(date).getFullYear()}-${String(new Date(date).getMonth() + 1).padStart(2, 0)}-${String(new Date(date).getDate()).padStart(2, 0)}`;
 
   const isSameDay = (a, b) => {
@@ -60,10 +52,6 @@ const AddModal = () => {
   const filterDb = db.filter((v) => isSameDay(new Date(v.date), new Date(date)));
 
   const day = ["일", "월", "화", "수", "목", "금", "토", "일"];
-
-  const contentsRef = useRef();
-
-  const [scrollY, setScrollY] = useState(0);
 
   useEffect(() => {
     const myElement = document.querySelector("#ContentsWrapper");
@@ -75,53 +63,42 @@ const AddModal = () => {
 
   return (
     <>
-      {isOpen ? (
-        <Portal>
-          <Overlay onClick={handleClose}></Overlay>
-          <Contents>
-            <Day>
-              <div>{`${targetDate} (${day[new Date(targetDate).getDay()]})`}</div>
-              <div onClick={() => setIsOpen(false)}>X</div>
-            </Day>
-            <Memo>등록된 일정이 없습니다.</Memo>
-            <CategoryWrapper active={active}>
-              <li onClick={handleAll}>전체</li>
-              <li onClick={handleMilk}>🍼 분유</li>
-              <li onClick={handleSleep}>💤 잠</li>
-              <li onClick={handleBath}>🛁 목욕</li>
-              <li onClick={handleDiaper}>🚽 기저귀</li>
-            </CategoryWrapper>
-            <ContentsWrapper ref={contentsRef} id="ContentsWrapper">
-              {filterDb.map((v) => {
-                return (
-                  <Record recorder={v.recorder}>
-                    <ContetnsRecord>
-                      <div>{v.time.slice(0, 5)}</div>
-                      <div>{v.category === "milk" ? "🍼 분유" : v.category === "sleep" ? "💤 잠" : v.category}</div>
-                      {v.volume ? <div>{`${v.volume}ml`}</div> : undefined}
-                      {/* <div>{v.recorder === "father" ? "🧒🏻" : "👧🏻"}</div> */}
-                    </ContetnsRecord>
-                  </Record>
-                );
-              })}
-            </ContentsWrapper>
-          </Contents>
-        </Portal>
-      ) : undefined}
+      <Portal>
+        <Contents isOpen={isOpen}>
+          <Day>
+            <div>{`${targetDate} (${day[new Date(targetDate).getDay()]})`}</div>
+            <div onClick={() => setIsOpen(false)}>X</div>
+          </Day>
+          <Memo>등록된 일정이 없습니다.</Memo>
+          <CategoryWrapper active={active}>
+            <li onClick={handleAll}>전체</li>
+            <li onClick={handleMilk}>🍼 분유</li>
+            <li onClick={handleSleep}>💤 잠</li>
+            <li onClick={handleBath}>🛁 목욕</li>
+            <li onClick={handleDiaper}>🚽 기저귀</li>
+          </CategoryWrapper>
+          <ContentsWrapper id="ContentsWrapper">
+            {filterDb.map((v) => {
+              return (
+                <Record recorder={v.recorder}>
+                  <ContetnsRecord>
+                    <div>{v.time.slice(0, 5)}</div>
+                    <div>{v.category === "milk" ? "🍼 분유" : v.category === "sleep" ? "💤 잠" : v.category}</div>
+                    {v.volume ? <div>{`${v.volume}ml`}</div> : undefined}
+                  </ContetnsRecord>
+                </Record>
+              );
+            })}
+          </ContentsWrapper>
+          <Dashboard>
+            <DbItem>분유 :</DbItem>
+            <DbItem>잠 : </DbItem>
+          </Dashboard>
+        </Contents>
+      </Portal>
     </>
   );
 };
-
-const Overlay = styled.div`
-  width: 100%;
-  height: 100%;
-  background-color: #000;
-  opacity: 0.3;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-`;
 
 const Contents = styled.div`
   max-width: 1200px;
@@ -139,6 +116,18 @@ const Contents = styled.div`
   flex-direction: column;
   gap: 10px;
   overflow-y: scroll;
+  transition: all 0.3s;
+
+  ${({ isOpen }) =>
+    isOpen
+      ? css`
+          transform: translate(-50%, -50%) scale(1);
+          opacity: 1;
+        `
+      : css`
+          transform: translate(-50%, -50%) scale(0);
+          opacity: 0;
+        `}
 
   > input:first-of-type {
     margin-top: 20px;
@@ -199,27 +188,6 @@ const CategoryWrapper = styled.ul`
     color: #fff;
   }
 `;
-const MilkWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 1rem;
-  gap: 1rem;
-`;
-
-const SleepWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 1rem;
-  gap: 1rem;
-`;
-
-const Value = styled.input`
-  display: flex;
-
-  border: 1px solid gray;
-`;
 
 const ContentsWrapper = styled.div`
   overflow: auto;
@@ -228,20 +196,6 @@ const ContentsWrapper = styled.div`
 const Record = styled.div`
   padding: 1rem;
   gap: 10px;
-  /* ${({ recorder }) =>
-    recorder === "father"
-      ? css`
-          display: flex;
-          flex-direction: column;
-          justify-content: flex-end;
-          align-items: flex-end;
-        `
-      : css`
-          display: flex;
-          flex-direction: column;
-          justify-content: flex-start;
-          align-items: flex-start;
-        `} */
 
   > div:first-of-type {
     margin-bottom: 10px;
@@ -270,27 +224,16 @@ const ContetnsRecord = styled.div`
   }
 `;
 
-const ButtonWrapper = styled.div`
+const Dashboard = styled.ul`
   display: flex;
-  justify-content: center;
+  gap: 1rem;
   padding: 1rem;
+  background-color: #c39595;
+  color: #fff;
+`;
 
-  button {
-    flex: 1 1 auto;
-    color: #fff;
-    padding: 16px 0;
-    cursor: pointer;
-
-    &:first-of-type {
-      border: 0;
-      background-color: #6ae188;
-    }
-
-    &:not(:first-of-type) {
-      border: 0;
-      background-color: #e17e6a;
-    }
-  }
+const DbItem = styled.li`
+  flex: 1 1 auto;
 `;
 
 export default AddModal;
