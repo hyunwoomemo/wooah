@@ -28,33 +28,32 @@ const NavigationBar = ({ main }) => {
   };
 
   return (
-    <>
-      <Button showAction={showAction}>
-        <PlusBtn onClick={handleAction} showAction={showAction} main={main}>
-          +
-        </PlusBtn>
-        <ActionBtn showAction={showAction}>🍼</ActionBtn>
-        <ActionBtn showAction={showAction}>💤</ActionBtn>
-        <ActionBtn showAction={showAction}></ActionBtn>
-        <Base showAction={showAction}>
-          <Container>
-            <NavLink to="/" data-text="HOME" style={({ isActive }) => (isActive ? activeStyle : undefined)}>
-              <AiOutlineHome />
-            </NavLink>
-            <NavLink to="/memo" data-text="MEMO" style={({ isActive }) => (isActive ? activeStyle : undefined)}>
-              <CiMemoPad />
-            </NavLink>
-            <NavLink to="/chart" data-text="CHART" style={({ isActive }) => (isActive ? activeStyle : undefined)}>
-              <AiOutlinePieChart />
-            </NavLink>
-            <NavLink to="/user" data-text="USER" style={({ isActive }) => (isActive ? activeStyle : undefined)}>
-              <AiOutlineUser />
-            </NavLink>
-          </Container>
-          <OverLay showAction={showAction}></OverLay>
-        </Base>
-      </Button>
-    </>
+    <Button showAction={showAction} isOpen={isOpen}>
+      <PlusBtn onClick={handleAction} showAction={showAction} main={main}>
+        +
+      </PlusBtn>
+      <ActionBtn showAction={showAction}>🍼</ActionBtn>
+      <ActionBtn showAction={showAction}>💤</ActionBtn>
+      <ActionBtn showAction={showAction}>🗓️</ActionBtn>
+      <ActionBtn showAction={showAction}>more</ActionBtn>
+      <Base showAction={showAction}>
+        <Container>
+          <NavLink to="/" data-text="HOME" style={({ isActive }) => (isActive ? activeStyle : undefined)}>
+            <AiOutlineHome />
+          </NavLink>
+          <NavLink to="/memo" data-text="MEMO" style={({ isActive }) => (isActive ? activeStyle : undefined)}>
+            <CiMemoPad />
+          </NavLink>
+          <NavLink to="/chart" data-text="CHART" style={({ isActive }) => (isActive ? activeStyle : undefined)}>
+            <AiOutlinePieChart />
+          </NavLink>
+          <NavLink to="/user" data-text="USER" style={({ isActive }) => (isActive ? activeStyle : undefined)}>
+            <AiOutlineUser />
+          </NavLink>
+        </Container>
+        <OverLay showAction={showAction}></OverLay>
+      </Base>
+    </Button>
   );
 };
 
@@ -158,7 +157,7 @@ const Container = styled.div`
 `;
 
 const Button = styled.div`
-  display: flex;
+  display: ${({ isOpen }) => (isOpen ? "none" : "flex")};
   justify-content: center;
   align-items: center;
   cursor: pointer;
@@ -215,11 +214,11 @@ const PlusBtn = styled.p`
 
 const ActionBtn = styled.div`
   position: absolute;
-  width: 70px;
-  height: 70px;
-  font-size: 32px;
+  width: 100px;
+  height: 100px;
+  font-size: 40px;
   border-radius: 50%;
-  background-color: gray;
+  background-color: #d8d8d8;
   box-shadow: 1px 1px 3px gray;
   display: flex;
   justify-content: center;
@@ -233,12 +232,12 @@ const ActionBtn = styled.div`
     ${({ showAction }) =>
       showAction
         ? css`
-            transform: translate(-80px, -60px) scale(1);
+            transform: translate(-160px, -120px) scale(1);
             transition: all 0.3s;
           `
         : css`
             transform: translate(0, 0) scale(0);
-            transition: all 0.9s;
+            transition: all 1.2s;
           `}
   }
 
@@ -246,8 +245,23 @@ const ActionBtn = styled.div`
     ${({ showAction }) =>
       showAction
         ? css`
-            transform: translateY(-100px) scale(1);
+            transform: translateY(-200px) scale(1);
             transition: all 0.6s;
+          `
+        : css`
+            transform: translate(0, 0) scale(0);
+            transition: all 0.9s;
+          `}
+  }
+
+  &:nth-of-type(3) {
+    font-size: 28px;
+    color: #fff;
+    ${({ showAction }) =>
+      showAction
+        ? css`
+            transform: translate(160px, -120px) scale(1);
+            transition: all 0.9s;
           `
         : css`
             transform: translate(0, 0) scale(0);
@@ -255,12 +269,14 @@ const ActionBtn = styled.div`
           `}
   }
 
-  &:nth-of-type(3) {
+  &:nth-of-type(4) {
+    font-size: 28px;
+    color: #fff;
     ${({ showAction }) =>
       showAction
         ? css`
-            transform: translate(80px, -60px) scale(1);
-            transition: all 0.9s;
+            transform: translate(260px, -0px) scale(1);
+            transition: all 1.2s;
           `
         : css`
             transform: translate(0, 0) scale(0);
@@ -282,7 +298,7 @@ const ActionBtn = styled.div`
             `
           : css`
               transform: translate(0, 0) scale(0);
-              transition: all 0.9s;
+              transition: all 1.2s;
             `}
     }
 
@@ -295,16 +311,31 @@ const ActionBtn = styled.div`
             `
           : css`
               transform: translate(0, 0) scale(0);
-              transition: all 0.6s;
+              transition: all 0.9s;
             `}
     }
 
     &:nth-of-type(3) {
+      font-size: 20px;
       ${({ showAction }) =>
         showAction
           ? css`
               transform: translate(80px, -80px) scale(1);
               transition: all 0.9s;
+            `
+          : css`
+              transform: translate(0, 0) scale(0);
+              transition: all 0.6s;
+            `}
+    }
+
+    &:nth-of-type(4) {
+      font-size: 20px;
+      ${({ showAction }) =>
+        showAction
+          ? css`
+              transform: translate(140px, -0px) scale(1);
+              transition: all 1.2s;
             `
           : css`
               transform: translate(0, 0) scale(0);

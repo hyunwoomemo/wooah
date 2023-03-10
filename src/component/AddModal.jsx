@@ -59,19 +59,6 @@ const AddModal = () => {
 
   const filterDb = db.filter((v) => isSameDay(new Date(v.date), new Date(date)));
 
-  const contentsRef = useRef();
-
-  const [elementHeight, setElementHeight] = useState(0);
-
-  useEffect(() => {
-    setElementHeight(contentsRef?.current?.getBoundingClientRect().bottom);
-  }, []);
-
-  const handleScroll = () => {
-    console.log(elementHeight);
-    console.log(contentsRef);
-  };
-
   const day = ["일", "월", "화", "수", "목", "금", "토", "일"];
 
   return (
@@ -80,7 +67,11 @@ const AddModal = () => {
         <Portal>
           <Overlay onClick={handleClose}></Overlay>
           <Contents>
-            <Day>{`${targetDate} (${day[new Date(targetDate).getDay()]})`}</Day>
+            <Day>
+              <div>{`${targetDate} (${day[new Date(targetDate).getDay()]})`}</div>
+              <div onClick={() => setIsOpen(false)}>X</div>
+            </Day>
+            <Memo>등록된 일정이 없습니다.</Memo>
             <CategoryWrapper active={active}>
               <li onClick={handleAll}>전체</li>
               <li onClick={handleMilk}>🍼 분유</li>
@@ -88,7 +79,7 @@ const AddModal = () => {
               <li onClick={handleBath}>🛁 목욕</li>
               <li onClick={handleDiaper}>🚽 기저귀</li>
             </CategoryWrapper>
-            <ContentsWrapper ref={contentsRef}>
+            <ContentsWrapper>
               {filterDb.map((v) => {
                 return (
                   <Record recorder={v.recorder}>
@@ -102,10 +93,10 @@ const AddModal = () => {
                 );
               })}
             </ContentsWrapper>
-            <ButtonWrapper>
+            {/*             <ButtonWrapper>
               <button onClick={handleScroll}>저장</button>
               <button onClick={handleCancel}>취소</button>
-            </ButtonWrapper>
+            </ButtonWrapper> */}
           </Contents>
         </Portal>
       ) : undefined}
@@ -139,7 +130,7 @@ const Contents = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
-  overflow: auto;
+  overflow-y: scroll;
 
   > input:first-of-type {
     margin-top: 20px;
@@ -152,9 +143,25 @@ const Contents = styled.div`
 const Day = styled.div`
   font-size: 20px;
   padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+
+  > div:last-of-type {
+    padding: 5px;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 14px;
+    cursor: pointer;
+
+    background-color: #e3e3e3;
+    border-radius: 50%;
+  }
 `;
 
-const DateWrapper = styled.div`
+const Memo = styled.div`
   padding: 1rem;
 `;
 
