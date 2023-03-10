@@ -36,7 +36,9 @@ const NavigationBar = ({ main }) => {
           <CiMemoPad />
         </NavLink>
         <Button main={main} showAction={showAction}>
-          <AiOutlinePlusCircle onClick={handleAction} />
+          <PlusBtn onClick={handleAction} showAction={showAction}>
+            +
+          </PlusBtn>
           <ActionBtn showAction={showAction}>🍼</ActionBtn>
           <ActionBtn showAction={showAction}>💤</ActionBtn>
           <ActionBtn showAction={showAction}></ActionBtn>
@@ -58,12 +60,6 @@ const Base = styled.div`
   position: fixed;
   bottom: 0;
   background-color: #000000;
-  ${({ showAction }) =>
-    showAction
-      ? css`
-          /* opacity: 0.7; */
-        `
-      : css``}
 `;
 
 const OverLay = styled.div`
@@ -130,8 +126,8 @@ const Container = styled.div`
 `;
 
 const Button = styled.div`
-  color: #66b355;
-  font-size: 36px;
+  background-color: #fff;
+  /* font-size: 36px; */
   display: flex;
   opacity: ${({ main }) => (main ? "1" : "0")};
   pointer-events: ${({ main }) => (main ? "auto" : "none")};
@@ -140,6 +136,45 @@ const Button = styled.div`
   cursor: pointer;
   position: relative;
   z-index: 999;
+  border-radius: 50%;
+`;
+
+const PlusBtn = styled.p`
+  width: 60px;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 36px;
+  position: relative;
+
+  @media (max-width: 768px) {
+    width: 40px;
+    height: 40px;
+  }
+
+  &:after {
+    width: 111%;
+    height: 111%;
+    position: absolute;
+    background-color: #5353c3;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 1px 0px 5px gray;
+    content: "+";
+    color: #fff;
+    border-radius: 50%;
+    transition: all 0.6s;
+    ${({ showAction }) =>
+      showAction
+        ? css`
+            transform: rotate(45deg) scale(1);
+          `
+        : css`
+            transform: rotate(0) scale(0);
+          `}
+  }
 `;
 
 const ActionBtn = styled.div`
@@ -162,12 +197,12 @@ const ActionBtn = styled.div`
     ${({ showAction }) =>
       showAction
         ? css`
-            transform: translate(-80px, -60px);
-            transition: all 0.2s;
+            transform: translate(-80px, -60px) scale(1);
+            transition: all 0.3s;
           `
         : css`
-            transform: translate(0, 0);
-            transition: all 0.2s;
+            transform: translate(0, 0) scale(0);
+            transition: all 0.9s;
           `}
   }
 
@@ -175,12 +210,12 @@ const ActionBtn = styled.div`
     ${({ showAction }) =>
       showAction
         ? css`
-            transform: translateY(-100px);
-            transition: all 0.4s;
+            transform: translateY(-100px) scale(1);
+            transition: all 0.6s;
           `
         : css`
-            transform: translate(0, 0);
-            transition: all 0.4s;
+            transform: translate(0, 0) scale(0);
+            transition: all 0.6s;
           `}
   }
 
@@ -188,12 +223,12 @@ const ActionBtn = styled.div`
     ${({ showAction }) =>
       showAction
         ? css`
-            transform: translate(80px, -60px);
-            transition: all 0.6s;
+            transform: translate(80px, -60px) scale(1);
+            transition: all 0.9s;
           `
         : css`
-            transform: translate(0, 0);
-            transition: all 0.6s;
+            transform: translate(0, 0) scale(0);
+            transition: all 0.3s;
           `}
   }
 
@@ -201,16 +236,17 @@ const ActionBtn = styled.div`
     width: 50px;
     height: 50px;
     font-size: 24px;
+    transition-delay: 0.3ms;
     &:first-of-type {
       ${({ showAction }) =>
         showAction
           ? css`
-              transform: translate(-50px, -40px);
-              transition: all 0.2s;
+              transform: translate(-60px, -60px) scale(1);
+              transition: all 0.3s;
             `
           : css`
-              transform: translate(0, 0);
-              transition: all 0.2s;
+              transform: translate(0, 0) scale(0);
+              transition: all 0.9s;
             `}
     }
 
@@ -218,12 +254,12 @@ const ActionBtn = styled.div`
       ${({ showAction }) =>
         showAction
           ? css`
-              transform: translateY(-70px);
-              transition: all 0.4s;
+              transform: translateY(-100px) scale(1);
+              transition: all 0.6s;
             `
           : css`
-              transform: translate(0, 0);
-              transition: all 0.4s;
+              transform: translate(0, 0) scale(0);
+              transition: all 0.6s;
             `}
     }
 
@@ -231,12 +267,12 @@ const ActionBtn = styled.div`
       ${({ showAction }) =>
         showAction
           ? css`
-              transform: translate(50px, -40px);
-              transition: all 0.6s;
+              transform: translate(60px, -60px) scale(1);
+              transition: all 0.9s;
             `
           : css`
-              transform: translate(0, 0);
-              transition: all 0.6s;
+              transform: translate(0, 0) scale(0);
+              transition: all 0.3s;
             `}
     }
   }

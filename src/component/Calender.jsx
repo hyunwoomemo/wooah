@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import React, { useContext, useEffect, useMemo, useState } from "react";
 import { BiChevronLeft, BiChevronRight } from "react-icons/bi";
-import { DateContext, ModalContext } from "../context/Context";
+import { ActionContext, DateContext, ModalContext } from "../context/Context";
 import db from "../data/record.json";
 
 const DAYS = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"]; // 요일
@@ -17,6 +17,7 @@ const Calendar = () => {
   const [selectedDate, setSelectedDate] = useState(new Date()); // 선택한 날짜
   const { isOpen, setIsOpen } = useContext(ModalContext);
   const { date, setDate } = useContext(DateContext);
+  const { showAction, setShowAction } = useContext(ActionContext);
 
   const { year, month, firstDay, lastDay } = useMemo(() => {
     // 선택한 날을 기준으로 첫째 날, 마지막 날, 년, 월
@@ -98,6 +99,7 @@ const Calendar = () => {
         })
       }
       onTouchEnd={touchEnd}
+      showAction={showAction}
     >
       <Header>
         <ButtonContainer>
@@ -134,6 +136,8 @@ const Base = styled.div`
   align-items: center;
   box-sizing: border-box;
   margin: auto 0;
+
+  pointer-events: ${({ showAction }) => (showAction ? "none" : undefined)};
 `;
 
 const Header = styled.div`
