@@ -9,7 +9,8 @@ import { ActionContext, DateContext, ModalContext } from "../context/Context";
 
 const NavigationBar = ({ main }) => {
   const activeStyle = {
-    color: "#fff",
+    backgroundColor: "#fff",
+    borderRadius: "50%",
   };
 
   const Portal = (props) => {
@@ -27,48 +28,70 @@ const NavigationBar = ({ main }) => {
   };
 
   return (
-    <Base showAction={showAction}>
-      <Container>
-        <NavLink to="/" data-text="HOME" style={({ isActive }) => (isActive ? activeStyle : undefined)}>
-          <AiOutlineHome />
-        </NavLink>
-        <NavLink to="/memo" data-text="MEMO" style={({ isActive }) => (isActive ? activeStyle : undefined)}>
-          <CiMemoPad />
-        </NavLink>
-        <Button main={main} showAction={showAction}>
-          <PlusBtn onClick={handleAction} showAction={showAction}>
-            +
-          </PlusBtn>
-          <ActionBtn showAction={showAction}>🍼</ActionBtn>
-          <ActionBtn showAction={showAction}>💤</ActionBtn>
-          <ActionBtn showAction={showAction}></ActionBtn>
-        </Button>
-        <NavLink to="/chart" data-text="CHART" style={({ isActive }) => (isActive ? activeStyle : undefined)}>
-          <AiOutlinePieChart />
-        </NavLink>
-        <NavLink to="/user" data-text="USER" style={({ isActive }) => (isActive ? activeStyle : undefined)}>
-          <AiOutlineUser />
-        </NavLink>
-      </Container>
-      <OverLay showAction={showAction}></OverLay>
-    </Base>
+    <>
+      <Button showAction={showAction}>
+        <PlusBtn onClick={handleAction} showAction={showAction} main={main}>
+          +
+        </PlusBtn>
+        <ActionBtn showAction={showAction}>🍼</ActionBtn>
+        <ActionBtn showAction={showAction}>💤</ActionBtn>
+        <ActionBtn showAction={showAction}></ActionBtn>
+        <Base showAction={showAction}>
+          <Container>
+            <NavLink to="/" data-text="HOME" style={({ isActive }) => (isActive ? activeStyle : undefined)}>
+              <AiOutlineHome />
+            </NavLink>
+            <NavLink to="/memo" data-text="MEMO" style={({ isActive }) => (isActive ? activeStyle : undefined)}>
+              <CiMemoPad />
+            </NavLink>
+            <NavLink to="/chart" data-text="CHART" style={({ isActive }) => (isActive ? activeStyle : undefined)}>
+              <AiOutlinePieChart />
+            </NavLink>
+            <NavLink to="/user" data-text="USER" style={({ isActive }) => (isActive ? activeStyle : undefined)}>
+              <AiOutlineUser />
+            </NavLink>
+          </Container>
+          <OverLay showAction={showAction}></OverLay>
+        </Base>
+      </Button>
+    </>
   );
 };
 
 const Base = styled.div`
-  width: 100%;
   position: fixed;
-  bottom: 0;
-  background-color: #000000;
+  background-color: #d8d8d8;
+  max-width: 1200px;
+  width: 80vw;
+  margin: 0 auto;
+  border-radius: 80px;
+  transition: all 0.6s;
+  transform-origin: 50% 50%;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 14px;
+
+  @media (max-width: 768px) {
+    padding: 7px;
+  }
+
+  ${({ showAction }) =>
+    showAction
+      ? css`
+          transform: translateX(-50%) scale(0);
+        `
+      : css`
+          transform: translateX(-50%) scale(1);
+        `}
 `;
 
 const OverLay = styled.div`
   position: absolute;
   width: 100%;
   height: 100%;
+  border-radius: 80px;
   top: 0;
   bottom: 0;
-  background-color: #000;
   left: 0;
   right: 0;
   ${({ showAction }) =>
@@ -84,17 +107,16 @@ const OverLay = styled.div`
 `;
 
 const Container = styled.div`
-  padding: 2rem 0 2rem;
   max-width: 1200px;
   width: 100%;
   margin: 0 auto;
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-between;
   align-self: center;
+  height: 100%;
 
   @media (max-width: 768px) {
     bottom: 0;
-    padding: 1rem 0 3rem;
   }
 
   > a {
@@ -106,7 +128,17 @@ const Container = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    &:after {
+    padding: 8px;
+
+    @media (max-width: 768px) {
+      padding: 4px;
+    }
+
+    &:nth-of-type(2) {
+      margin-right: 70px;
+    }
+
+    /* &:after {
       content: attr(data-text);
       position: absolute;
       left: 50%;
@@ -118,7 +150,7 @@ const Container = styled.div`
       @media (max-width: 768px) {
         font-size: 12px;
       }
-    }
+    } */
     @media (max-width: 768px) {
       font-size: 24px;
     }
@@ -126,31 +158,35 @@ const Container = styled.div`
 `;
 
 const Button = styled.div`
-  background-color: #fff;
-  /* font-size: 36px; */
   display: flex;
-  opacity: ${({ main }) => (main ? "1" : "0")};
-  pointer-events: ${({ main }) => (main ? "auto" : "none")};
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  position: relative;
+  position: fixed;
+  bottom: 30px;
   z-index: 999;
-  border-radius: 50%;
+  left: 50%;
+  transform: translateX(-50%);
 `;
 
 const PlusBtn = styled.p`
-  width: 60px;
-  height: 60px;
+  background-color: #fff;
+  box-shadow: 1px 1px 3px gray;
+  width: 100px;
+  height: 100px;
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 36px;
   position: relative;
+  z-index: 999;
+  border-radius: 50%;
+  opacity: ${({ main }) => (main ? "1" : "0")};
+  pointer-events: ${({ main }) => (main ? "auto" : "none")};
 
   @media (max-width: 768px) {
-    width: 40px;
-    height: 40px;
+    width: 60px;
+    height: 60px;
   }
 
   &:after {
@@ -183,8 +219,8 @@ const ActionBtn = styled.div`
   height: 70px;
   font-size: 32px;
   border-radius: 50%;
-  background-color: #ffffff;
-  border: 1px solid #00000032;
+  background-color: gray;
+  box-shadow: 1px 1px 3px gray;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -233,15 +269,15 @@ const ActionBtn = styled.div`
   }
 
   @media (max-width: 768px) {
-    width: 50px;
-    height: 50px;
+    width: 70px;
+    height: 70px;
     font-size: 24px;
     transition-delay: 0.3ms;
     &:first-of-type {
       ${({ showAction }) =>
         showAction
           ? css`
-              transform: translate(-60px, -60px) scale(1);
+              transform: translate(-80px, -80px) scale(1);
               transition: all 0.3s;
             `
           : css`
@@ -254,7 +290,7 @@ const ActionBtn = styled.div`
       ${({ showAction }) =>
         showAction
           ? css`
-              transform: translateY(-100px) scale(1);
+              transform: translateY(-120px) scale(1);
               transition: all 0.6s;
             `
           : css`
@@ -267,7 +303,7 @@ const ActionBtn = styled.div`
       ${({ showAction }) =>
         showAction
           ? css`
-              transform: translate(60px, -60px) scale(1);
+              transform: translate(80px, -80px) scale(1);
               transition: all 0.9s;
             `
           : css`
