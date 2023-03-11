@@ -54,9 +54,6 @@ const Header = () => {
         </BabyInfoWrapper>
         <DisplayLatestWork>{lastWork === "milk" ? "🍼 분유 먹은 지" : lastWork === "sleep" ? "💤 잠자는 중" : undefined}</DisplayLatestWork>
         <DisplayLatestTime>{checkStart /*  ? checkStart : `${parseInt((new Date() - new Date(lastWorkTime)) / 1000 / 60)} 분` */}</DisplayLatestTime>
-        <ReloadIcon>
-          <AiOutlineReload onClick={handleReload} />
-        </ReloadIcon>
       </ContentsWrapper>
       {/* )} */}
     </Base>

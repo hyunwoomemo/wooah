@@ -5,6 +5,7 @@ import { DateContext, ModalContext } from "../context/Context";
 
 import db from "../data/record.json";
 import { css } from "@emotion/react";
+import FilterCateogry from "./AddModal/FilterCateogry";
 
 const Portal = (props) => {
   return createPortal(props.children, document.getElementById("portal"));
@@ -20,28 +21,20 @@ const AddModal = () => {
 
   const [milk, setMilk] = useState(0);
 
-  const [category, setCategory] = useState("");
+  const [category, setCategory] = useState(false);
   const [active, setActive] = useState(0);
 
   const handleAll = () => {
-    setActive(1);
+    setCategory(!category);
   };
 
-  const handleMilk = () => {
-    setActive(2);
-  };
+  const handleMilk = () => {};
 
-  const handleSleep = () => {
-    setActive(3);
-  };
+  const handleSleep = () => {};
 
-  const handleBath = () => {
-    setActive(4);
-  };
+  const handleBath = () => {};
 
-  const handleDiaper = () => {
-    setActive(5);
-  };
+  const handleDiaper = () => {};
 
   const targetDate = `${new Date(date).getFullYear()}-${String(new Date(date).getMonth() + 1).padStart(2, 0)}-${String(new Date(date).getDate()).padStart(2, 0)}`;
 
@@ -70,13 +63,7 @@ const AddModal = () => {
             <div onClick={() => setIsOpen(false)}>X</div>
           </Day>
           <Memo>등록된 일정이 없습니다.</Memo>
-          <CategoryWrapper active={active}>
-            <li onClick={handleAll}>전체</li>
-            <li onClick={handleMilk}>🍼 분유</li>
-            <li onClick={handleSleep}>💤 잠</li>
-            <li onClick={handleBath}>🛁 목욕</li>
-            <li onClick={handleDiaper}>🚽 기저귀</li>
-          </CategoryWrapper>
+          <FilterCateogry />
           <ContentsWrapper id="ContentsWrapper">
             {filterDb.map((v) => {
               return (
@@ -90,10 +77,6 @@ const AddModal = () => {
               );
             })}
           </ContentsWrapper>
-          <Dashboard>
-            <DbItem>분유 :</DbItem>
-            <DbItem>잠 : </DbItem>
-          </Dashboard>
         </Contents>
       </Portal>
     </>
@@ -168,7 +151,17 @@ const CategoryWrapper = styled.ul`
   display: flex;
   gap: 5px;
   align-items: center;
-  flex-wrap: wrap;
+  overflow: hidden;
+  white-space: nowrap;
+  width: auto;
+  transition: all 0.3s;
+
+  ${({ category }) =>
+    category
+      ? css`
+          width: 100%;
+        `
+      : css``}
 
   > li {
     font-size: 16px;

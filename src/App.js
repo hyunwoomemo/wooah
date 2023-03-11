@@ -20,7 +20,7 @@ function App() {
   useEffect(() => {
     setTimeout(() => {
       setLoading(false);
-    }, 2500)
+    }, 1000)
   })
 
   const handleRefresh = () => {
