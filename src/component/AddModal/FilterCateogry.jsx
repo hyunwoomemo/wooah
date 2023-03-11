@@ -15,6 +15,7 @@ const FilterCateogry = () => {
 const Base = styled.div`
   padding: 1rem;
   list-style: none;
+  border-bottom: 1px solid #b6b6b6;
 `;
 
 const CategoryWrapper = styled.ul`

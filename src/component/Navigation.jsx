@@ -2,8 +2,9 @@ import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import React, { useContext, useState } from "react";
 import { createPortal } from "react-dom";
-import { AiOutlineHome, AiOutlinePieChart, AiOutlineUser, AiOutlinePlusCircle } from "react-icons/ai";
-import { CiMemoPad } from "react-icons/ci";
+import { AiOutlineHome, AiOutlinePieChart, AiOutlineUser } from "react-icons/ai";
+import { HiOutlineChatBubbleBottomCenterText } from "react-icons/hi2";
+import { BsCalendarDate } from "react-icons/bs";
 import { Link, NavLink } from "react-router-dom";
 import { ActionContext, DateContext, ModalContext } from "../context/Context";
 
@@ -41,10 +42,10 @@ const NavigationBar = ({ main }) => {
             <AiOutlineHome />
           </NavLink>
           <NavLink to="/memo" data-text="MEMO" style={({ isActive }) => (isActive ? activeStyle : undefined)}>
-            <CiMemoPad />
+            <HiOutlineChatBubbleBottomCenterText />
           </NavLink>
           <NavLink to="/chart" data-text="CHART" style={({ isActive }) => (isActive ? activeStyle : undefined)}>
-            <AiOutlinePieChart />
+            <BsCalendarDate />
           </NavLink>
           <NavLink to="/user" data-text="USER" style={({ isActive }) => (isActive ? activeStyle : undefined)}>
             <AiOutlineUser />
@@ -129,11 +130,16 @@ const Container = styled.div`
     padding: 8px;
 
     @media (max-width: 768px) {
-      padding: 4px;
+      padding: 8px;
     }
 
     &:nth-of-type(2) {
       margin-right: 70px;
+    }
+    &:nth-of-type(3) {
+      > svg {
+        width: 80%;
+      }
     }
 
     @media (max-width: 768px) {
@@ -166,8 +172,6 @@ const PlusBtn = styled.p`
   position: relative;
   z-index: 999;
   border-radius: 50%;
-  /* opacity: ${({ main }) => (main ? "1" : "0")};
-  pointer-events: ${({ main }) => (main ? "auto" : "none")}; */
 
   @media (max-width: 768px) {
     width: 70px;

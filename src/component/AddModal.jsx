@@ -65,10 +65,10 @@ const AddModal = () => {
           <Memo>등록된 일정이 없습니다.</Memo>
           <FilterCateogry />
           <ContentsWrapper id="ContentsWrapper">
-            {filterDb.map((v) => {
+            {filterDb.map((v, i) => {
               return (
                 <Record recorder={v.recorder}>
-                  <ContetnsRecord>
+                  <ContetnsRecord last={i === filterDb.length - 1}>
                     <div>{v.time.slice(0, 5)}</div>
                     <div>{v.category === "milk" ? "🍼 분유" : v.category === "sleep" ? "💤 잠" : v.category}</div>
                     {v.volume ? <div>{`${v.volume}ml`}</div> : undefined}
@@ -145,43 +145,6 @@ const Memo = styled.div`
   padding: 1rem;
 `;
 
-const CategoryWrapper = styled.ul`
-  margin-top: 10px;
-  padding: 1rem;
-  display: flex;
-  gap: 5px;
-  align-items: center;
-  overflow: hidden;
-  white-space: nowrap;
-  width: auto;
-  transition: all 0.3s;
-
-  ${({ category }) =>
-    category
-      ? css`
-          width: 100%;
-        `
-      : css``}
-
-  > li {
-    font-size: 16px;
-    padding: 1rem;
-    border-radius: 5px;
-    background-color: #f1f1f18f;
-    cursor: pointer;
-
-    @media screen and (max-width: 768px) {
-      padding: 7px;
-      font-size: 14px;
-    }
-  }
-
-  > li:nth-of-type(${({ active }) => (active > 0 ? active : "1")}) {
-    background-color: #6a92e1;
-    color: #fff;
-  }
-`;
-
 const ContentsWrapper = styled.div`
   overflow: auto;
 `;
@@ -207,6 +170,13 @@ const ContetnsRecord = styled.div`
       background-color: #f1f1f1;
       padding: 10px;
       border-radius: 3px;
+
+      ${({ last }) =>
+        last
+          ? css`
+              background-color: #e5e5cf;
+            `
+          : css``}
     }
     &:nth-of-type(3) {
       background-color: #f6e5e5;

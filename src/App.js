@@ -11,6 +11,7 @@ import Memo from './pages/Memo';
 import User from './pages/User';
 import PullToRefresh from "react-simple-pull-to-refresh";
 import { ContextProvider, ModalContext } from './context/Context';
+import NotFound from './component/common/NotFound';
 
 function App() {
 
@@ -40,6 +41,7 @@ function App() {
             <Route path='/chart' element={<Chart />}></Route>
             <Route path='/user' element={<User />}></Route>
             <Route path='/login' element={<Login />}></Route>
+            <Route path='/*' element={<NotFound />}></Route>
           </Routes>
         </PullWrapper>
       }
