@@ -25,7 +25,6 @@ const CategoryWrapper = styled.ul`
 `;
 
 const CategoryItem = styled.li`
-  padding: 4px 15px;
   border-radius: 5px;
   white-space: nowrap;
 `;
