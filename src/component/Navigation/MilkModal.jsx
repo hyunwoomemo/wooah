@@ -59,6 +59,7 @@ const Base = styled.div`
   justify-content: center;
   align-items: center;
   gap: 3rem;
+  overflow-y: hidden;
 
   ${({ openAction, hideAction, showAction }) =>
     openAction === "milk" && hideAction && showAction
