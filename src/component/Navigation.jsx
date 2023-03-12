@@ -26,26 +26,34 @@ const NavigationBar = ({ main }) => {
   const handleAction = () => {
     setShowAction(!showAction);
     setHideAction(false);
+    setOpenAction("");
   };
 
   const handleRecordMilk = () => {
-    setHideAction(true);
     setOpenAction("milk");
+  };
+
+  const handleRecordSleep = () => {
+    setOpenAction("sleep");
+  };
+
+  const handleRecordCalender = () => {
+    setOpenAction("calender");
   };
 
   return (
     <Button showAction={showAction} isOpen={isOpen}>
       <PlusBtn onClick={handleAction} showAction={showAction} main={main} hideAction={hideAction}>
-        {hideAction && showAction ? <AiOutlineCheck /> : <span>+</span>}
+        +
       </PlusBtn>
-      <ActionBtn showAction={showAction} onClick={handleRecordMilk} hideAction={hideAction}>
+      <ActionBtn showAction={showAction} onClick={handleRecordMilk} openAction={openAction}>
         🍼
       </ActionBtn>
-      <MilkModal openAction={openAction} hideAction={hideAction} showAction={showAction} />
-      <ActionBtn showAction={showAction} hideAction={hideAction}>
+      <MilkModal openAction={openAction} showAction={showAction} />
+      <ActionBtn showAction={showAction} openAction={openAction} onClick={handleRecordSleep}>
         💤
       </ActionBtn>
-      <ActionBtn showAction={showAction} hideAction={hideAction}>
+      <ActionBtn showAction={showAction} openAction={openAction} onClick={handleRecordCalender}>
         🗓️
       </ActionBtn>
       <Base showAction={showAction}>
@@ -168,16 +176,8 @@ const Button = styled.div`
 `;
 
 const PlusBtn = styled.p`
-  ${({ hideAction, showAction }) =>
-    hideAction && showAction
-      ? css`
-          background-color: #6db56d;
-          color: #fff;
-        `
-      : css`
-          background-color: #fff;
-          color: #000;
-        `}
+  background-color: #fff;
+  color: #000;
   box-shadow: 1px 1px 3px gray;
   width: 100px;
   height: 100px;
@@ -195,8 +195,8 @@ const PlusBtn = styled.p`
   }
 
   &:after {
-    width: 111%;
-    height: 111%;
+    width: 101%;
+    height: 101%;
     position: absolute;
     background-color: #c39595;
     display: flex;
@@ -252,6 +252,21 @@ const ActionBtn = styled.div`
             transform: translate(0, 0) scale(0);
             transition-delay: 0.3s;
           `}
+
+    ${({ openAction }) =>
+      openAction === "milk"
+        ? css`
+            transform: translate(0, 0) scale(1);
+            transition-delay: 0.1s;
+            background-color: #c39595;
+          `
+        : openAction === ""
+        ? undefined
+        : css`
+            transform: translate(0, 0) scale(0);
+            transition-delay: 0.1s;
+            background-color: #c39595;
+          `}
   }
 
   &:nth-of-type(2) {
@@ -264,6 +279,21 @@ const ActionBtn = styled.div`
         : css`
             transform: translate(0, 0) scale(0);
             transition-delay: 0.2s;
+          `}
+
+    ${({ openAction }) =>
+      openAction === "sleep"
+        ? css`
+            transform: translate(0, 0) scale(1);
+            transition-delay: 0.1s;
+            background-color: #c39595;
+          `
+        : openAction === ""
+        ? undefined
+        : css`
+            transform: translate(0, 0) scale(0);
+            transition-delay: 0.1s;
+            background-color: #c39595;
           `}
   }
 
@@ -280,11 +310,26 @@ const ActionBtn = styled.div`
             transform: translate(0, 0) scale(0);
             transition-delay: 0.1s;
           `}
+
+    ${({ openAction }) =>
+      openAction === "calender"
+        ? css`
+            transform: translate(0, 0) scale(1);
+            transition-delay: 0.1s;
+            background-color: #c39595;
+          `
+        : openAction === ""
+        ? undefined
+        : css`
+            transform: translate(0, 0) scale(0);
+            transition-delay: 0.1s;
+            background-color: #c39595;
+          `}
   }
 
   @media (max-width: 768px) {
-    width: 60px;
-    height: 60px;
+    width: 70px;
+    height: 70px;
     font-size: 24px;
     transition-delay: 0.3ms;
     &:first-of-type {
@@ -297,13 +342,20 @@ const ActionBtn = styled.div`
               transform: translate(0, 0) scale(0);
             `}
 
-      ${({ hideAction }) =>
-        hideAction
+      ${({ openAction }) =>
+        openAction === "milk"
           ? css`
+              transform: translate(0, 0) scale(1);
+              transition-delay: 0.1s;
+              background-color: #c39595;
+            `
+          : openAction === ""
+          ? undefined
+          : css`
               transform: translate(0, 0) scale(0);
               transition-delay: 0.1s;
-            `
-          : undefined}
+              background-color: #c39595;
+            `}
     }
 
     &:nth-of-type(2) {
@@ -316,13 +368,20 @@ const ActionBtn = styled.div`
               transform: translate(0, 0) scale(0);
             `}
 
-      ${({ hideAction }) =>
-        hideAction
+      ${({ openAction }) =>
+        openAction === "sleep"
           ? css`
+              transform: translate(0, 0) scale(1);
+              transition-delay: 0.1s;
+              background-color: #c39595;
+            `
+          : openAction === ""
+          ? undefined
+          : css`
               transform: translate(0, 0) scale(0);
               transition-delay: 0.1s;
-            `
-          : undefined}
+              background-color: #c39595;
+            `}
     }
 
     &:nth-of-type(3) {
@@ -335,13 +394,20 @@ const ActionBtn = styled.div`
               transform: translate(0, 0) scale(0);
             `}
 
-      ${({ hideAction }) =>
-        hideAction
+      ${({ openAction }) =>
+        openAction === "calender"
           ? css`
+              transform: translate(0, 0) scale(1);
+              transition-delay: 0.1s;
+              background-color: #c39595;
+            `
+          : openAction === ""
+          ? undefined
+          : css`
               transform: translate(0, 0) scale(0);
               transition-delay: 0.1s;
-            `
-          : undefined}
+              background-color: #c39595;
+            `}
     }
   }
 `;

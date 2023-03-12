@@ -1,18 +1,19 @@
-import { css } from "@emotion/react";
+import { css, keyframes } from "@emotion/react";
 import styled from "@emotion/styled";
 import { StaticTimePicker } from "@mui/x-date-pickers";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 import dayjs from "dayjs";
+import { AiOutlineCheck } from "react-icons/ai";
 
 const Portal = (props) => {
   return createPortal(props.children, document.getElementById("portal"));
 };
 
-const MilkModal = ({ openAction, hideAction, showAction }) => {
+const MilkModal = ({ openAction, showAction }) => {
   const [milkVolume, setMilkVolume] = useState(140);
   const [value, setValue] = useState(dayjs(new Date()));
 
@@ -22,10 +23,11 @@ const MilkModal = ({ openAction, hideAction, showAction }) => {
   const handlePlus = () => {
     setMilkVolume((prev) => prev + 5);
   };
+
   return (
     <Portal>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <Base openAction={openAction} hideAction={hideAction} showAction={showAction}>
+        <Base openAction={openAction} showAction={showAction}>
           <MilkWrapper>
             <MilkHandler>
               <button onClick={handleMinus}>-</button>
@@ -34,6 +36,9 @@ const MilkModal = ({ openAction, hideAction, showAction }) => {
             </MilkHandler>
           </MilkWrapper>
           <TimePicker label="분유 먹은 시간" value={value} defaultValue={value} />
+          <SaveBtn openAction={openAction}>
+            <AiOutlineCheck />
+          </SaveBtn>
         </Base>
       </LocalizationProvider>
     </Portal>
@@ -61,8 +66,8 @@ const Base = styled.div`
   gap: 3rem;
   overflow-y: hidden;
 
-  ${({ openAction, hideAction, showAction }) =>
-    openAction === "milk" && hideAction && showAction
+  ${({ openAction, showAction }) =>
+    openAction === "milk" && showAction
       ? css`
           transform: translate(-50%, -50%) scale(1);
         `
@@ -97,6 +102,25 @@ const MilkHandler = styled.div`
     justify-content: center;
     align-items: center;
   }
+`;
+
+const SaveBtn = styled.div`
+  position: fixed;
+  bottom: 1rem;
+  background-color: #6db56d;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  border-radius: 50%;
+  box-shadow: 1px 1px 3px gray;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+  cursor: pointer;
 `;
 
 export default MilkModal;
