@@ -44,7 +44,7 @@ const NavigationBar = ({ main }) => {
           <NavLink to="/memo" data-text="MEMO" style={({ isActive }) => (isActive ? activeStyle : undefined)}>
             <HiOutlineChatBubbleBottomCenterText />
           </NavLink>
-          <div></div>
+          <div>a</div>
           <NavLink to="/chart" data-text="CHART" style={({ isActive }) => (isActive ? activeStyle : undefined)}>
             <BsCalendarDate />
           </NavLink>
@@ -137,9 +137,6 @@ const Container = styled.div`
       padding: 8px;
     }
 
-    /* &:nth-of-type(2) {
-      margin-right: 70px;
-    } */
     &:nth-of-type(3) {
       > svg {
         width: 80%;
