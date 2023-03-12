@@ -2,11 +2,12 @@ import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import React, { useContext, useState } from "react";
 import { createPortal } from "react-dom";
-import { AiOutlineHome, AiOutlinePieChart, AiOutlineUser } from "react-icons/ai";
+import { AiOutlineHome, AiOutlinePieChart, AiOutlineUser, AiOutlineCheck } from "react-icons/ai";
 import { HiOutlineChatBubbleBottomCenterText } from "react-icons/hi2";
 import { BsCalendarDate } from "react-icons/bs";
 import { Link, NavLink } from "react-router-dom";
 import { ActionContext, DateContext, ModalContext } from "../context/Context";
+import MilkModal from "./Navigation/MilkModal";
 
 const NavigationBar = ({ main }) => {
   const activeStyle = {
@@ -14,28 +15,39 @@ const NavigationBar = ({ main }) => {
     borderRadius: "50%",
   };
 
-  const Portal = (props) => {
-    return createPortal(props.children, document.getElementById("portal"));
-  };
-
   const { isOpen, setIsOpen } = useContext(ModalContext);
   const { date, setDate } = useContext(DateContext);
   const today = new Date();
   const current = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, 0)}-${String(today.getDate()).padStart(2, 0)}`;
   const { showAction, setShowAction } = useContext(ActionContext);
+  const [hideAction, setHideAction] = useState(false);
+  const [openAction, setOpenAction] = useState("");
 
   const handleAction = () => {
     setShowAction(!showAction);
+    setHideAction(false);
+  };
+
+  const handleRecordMilk = () => {
+    setHideAction(true);
+    setOpenAction("milk");
   };
 
   return (
     <Button showAction={showAction} isOpen={isOpen}>
-      <PlusBtn onClick={handleAction} showAction={showAction} main={main}>
-        +
+      <PlusBtn onClick={handleAction} showAction={showAction} main={main} hideAction={hideAction}>
+        {hideAction && showAction ? <AiOutlineCheck /> : <span>+</span>}
       </PlusBtn>
-      <ActionBtn showAction={showAction}>🍼</ActionBtn>
-      <ActionBtn showAction={showAction}>💤</ActionBtn>
-      <ActionBtn showAction={showAction}>🗓️</ActionBtn>
+      <ActionBtn showAction={showAction} onClick={handleRecordMilk} hideAction={hideAction}>
+        🍼
+      </ActionBtn>
+      <MilkModal openAction={openAction} hideAction={hideAction} showAction={showAction} />
+      <ActionBtn showAction={showAction} hideAction={hideAction}>
+        💤
+      </ActionBtn>
+      <ActionBtn showAction={showAction} hideAction={hideAction}>
+        🗓️
+      </ActionBtn>
       <Base showAction={showAction}>
         <Container>
           <NavLink to="/" data-text="HOME" style={({ isActive }) => (isActive ? activeStyle : undefined)}>
@@ -156,7 +168,16 @@ const Button = styled.div`
 `;
 
 const PlusBtn = styled.p`
-  background-color: #fff;
+  ${({ hideAction, showAction }) =>
+    hideAction && showAction
+      ? css`
+          background-color: #6db56d;
+          color: #fff;
+        `
+      : css`
+          background-color: #fff;
+          color: #000;
+        `}
   box-shadow: 1px 1px 3px gray;
   width: 100px;
   height: 100px;
@@ -194,6 +215,12 @@ const PlusBtn = styled.p`
         : css`
             transform: rotate(0) scale(0);
           `}
+    ${({ hideAction }) =>
+      hideAction
+        ? css`
+            transform: rotate(45deg) scale(0);
+          `
+        : undefined}
   }
 `;
 
@@ -269,6 +296,14 @@ const ActionBtn = styled.div`
           : css`
               transform: translate(0, 0) scale(0);
             `}
+
+      ${({ hideAction }) =>
+        hideAction
+          ? css`
+              transform: translate(0, 0) scale(0);
+              transition-delay: 0.1s;
+            `
+          : undefined}
     }
 
     &:nth-of-type(2) {
@@ -280,6 +315,14 @@ const ActionBtn = styled.div`
           : css`
               transform: translate(0, 0) scale(0);
             `}
+
+      ${({ hideAction }) =>
+        hideAction
+          ? css`
+              transform: translate(0, 0) scale(0);
+              transition-delay: 0.1s;
+            `
+          : undefined}
     }
 
     &:nth-of-type(3) {
@@ -291,6 +334,14 @@ const ActionBtn = styled.div`
           : css`
               transform: translate(0, 0) scale(0);
             `}
+
+      ${({ hideAction }) =>
+        hideAction
+          ? css`
+              transform: translate(0, 0) scale(0);
+              transition-delay: 0.1s;
+            `
+          : undefined}
     }
   }
 `;

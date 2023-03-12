@@ -36,7 +36,6 @@ const Base = styled.div`
   opacity: ${({ showAction }) => (showAction ? "0.4" : "1")};
   transform: ${({ showAction }) => (showAction ? "scale(0.9)" : "scale(1)")};
   transition: all 0.3s;
-  /* pointer-events: ${({ showAction }) => (showAction ? "none" : undefined)}; */
 `;
 
 export default Layout;
