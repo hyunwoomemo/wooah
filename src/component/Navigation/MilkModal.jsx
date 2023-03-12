@@ -1,50 +1,41 @@
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
+import { StaticTimePicker } from "@mui/x-date-pickers";
 import React, { useState } from "react";
 import { createPortal } from "react-dom";
-import { TimePicker } from "antd";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 import dayjs from "dayjs";
-import customParseFormat from "dayjs/plugin/customParseFormat";
-import { Slider } from "antd";
-import { useNow } from "@mui/x-date-pickers/internals";
-
-const onAfterChange = (value) => {
-  console.log("onAfterChange: ", value);
-};
-
-const formatter = (value) => `${value}ml`;
-
-dayjs.extend(customParseFormat);
 
 const Portal = (props) => {
   return createPortal(props.children, document.getElementById("portal"));
 };
 
 const MilkModal = ({ openAction, hideAction, showAction }) => {
-  const [milkValue, setMilkValue] = useState(0);
+  const [milkVolume, setMilkVolume] = useState(140);
+  const [value, setValue] = useState(dayjs(new Date()));
 
-  const onChange = (value) => {
-    console.log("onChange: ", value);
-    setMilkValue(value);
+  const handleMinus = () => {
+    setMilkVolume((prev) => prev - 5);
   };
-
+  const handlePlus = () => {
+    setMilkVolume((prev) => prev + 5);
+  };
   return (
     <Portal>
-      <Base openAction={openAction} hideAction={hideAction} showAction={showAction}>
-        <MilkValue>{`${milkValue}ml`}</MilkValue>
-        <Slider
-          tooltip={{
-            open: false,
-          }}
-          max={300}
-          step={10}
-          defaultValue={150}
-          onChange={onChange}
-          onAfterChange={onAfterChange}
-          placement="bottomRight"
-        />
-        <TimePickerWrapper format={"HH:mm"} />
-      </Base>
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <Base openAction={openAction} hideAction={hideAction} showAction={showAction}>
+          <MilkWrapper>
+            <MilkHandler>
+              <button onClick={handleMinus}>-</button>
+              <MilkValue>{`${milkVolume}ml`}</MilkValue>
+              <button onClick={handlePlus}>+</button>
+            </MilkHandler>
+          </MilkWrapper>
+          <TimePicker label="분유 먹은 시간" value={value} defaultValue={value} />
+        </Base>
+      </LocalizationProvider>
     </Portal>
   );
 };
@@ -63,6 +54,10 @@ const Base = styled.div`
   top: 50%;
   left: 50%;
   transition: all 0.2s;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 3rem;
 
   ${({ openAction, hideAction, showAction }) =>
     openAction === "milk" && hideAction && showAction
@@ -74,19 +69,32 @@ const Base = styled.div`
         `}
 `;
 
+const MilkWrapper = styled.div``;
+
 const MilkValue = styled.div`
-  padding: 1rem;
+  display: flex;
+  justify-content: center;
+`;
+
+const MilkHandler = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  gap: 2rem;
   font-size: 24px;
-`;
 
-const TimePickerWrapper = styled(TimePicker)`
-  padding: 1rem;
-  margin: 3rem 0;
-  display: flex;
-  font-size: 24px;
+  > button {
+    background: none;
+    border: 0;
+    font-size: 24px;
+    border: 1px solid #f1f1f1;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 `;
 
 export default MilkModal;

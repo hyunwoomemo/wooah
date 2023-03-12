@@ -98,7 +98,7 @@ const Contents = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
-  overflow-y: scroll;
+  /* overflow-y: scroll; */
   transition: all 0.3s;
 
   ${({ isOpen }) =>
