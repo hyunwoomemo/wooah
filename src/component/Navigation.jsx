@@ -26,34 +26,49 @@ const NavigationBar = ({ main }) => {
   const handleAction = () => {
     setShowAction(!showAction);
     setHideAction(false);
-    setOpenAction("");
   };
 
   const handleRecordMilk = () => {
+    setHideAction(true);
     setOpenAction("milk");
   };
-
   const handleRecordSleep = () => {
+    setHideAction(true);
     setOpenAction("sleep");
   };
 
-  const handleRecordCalender = () => {
-    setOpenAction("calender");
+  const handleSave = () => {
+    console.log(openAction);
+    setOpenAction("");
+  };
+
+  const handleSleepSave = () => {
+    console.log(openAction);
+    alert(openAction);
+    setOpenAction("");
   };
 
   return (
     <Button showAction={showAction} isOpen={isOpen}>
       <PlusBtn onClick={handleAction} showAction={showAction} main={main} hideAction={hideAction}>
-        +
+        {openAction === "milk" ? (
+          <AiOutlineCheck onClick={handleSave} />
+        ) : openAction === "sleep" ? (
+          <AiOutlineCheck onClick={handleSleepSave} />
+        ) : openAction === "calender" ? (
+          <AiOutlineCheck />
+        ) : (
+          <span>+</span>
+        )}
       </PlusBtn>
-      <ActionBtn showAction={showAction} onClick={handleRecordMilk} openAction={openAction}>
+      <ActionBtn showAction={showAction} onClick={handleRecordMilk} hideAction={hideAction}>
         🍼
       </ActionBtn>
-      <MilkModal openAction={openAction} showAction={showAction} />
-      <ActionBtn showAction={showAction} openAction={openAction} onClick={handleRecordSleep}>
+      <MilkModal openAction={openAction} hideAction={hideAction} showAction={showAction} />
+      <ActionBtn showAction={showAction} onClick={handleRecordSleep} hideAction={hideAction}>
         💤
       </ActionBtn>
-      <ActionBtn showAction={showAction} openAction={openAction} onClick={handleRecordCalender}>
+      <ActionBtn showAction={showAction} hideAction={hideAction}>
         🗓️
       </ActionBtn>
       <Base showAction={showAction}>
@@ -176,8 +191,16 @@ const Button = styled.div`
 `;
 
 const PlusBtn = styled.p`
-  background-color: #fff;
-  color: #000;
+  ${({ hideAction, showAction }) =>
+    hideAction && showAction
+      ? css`
+          background-color: #6db56d;
+          color: #fff;
+        `
+      : css`
+          background-color: #fff;
+          color: #000;
+        `}
   box-shadow: 1px 1px 3px gray;
   width: 100px;
   height: 100px;
@@ -195,8 +218,8 @@ const PlusBtn = styled.p`
   }
 
   &:after {
-    width: 101%;
-    height: 101%;
+    width: 111%;
+    height: 111%;
     position: absolute;
     background-color: #c39595;
     display: flex;
@@ -252,21 +275,6 @@ const ActionBtn = styled.div`
             transform: translate(0, 0) scale(0);
             transition-delay: 0.3s;
           `}
-
-    ${({ openAction }) =>
-      openAction === "milk"
-        ? css`
-            transform: translate(0, 0) scale(1);
-            transition-delay: 0.1s;
-            background-color: #c39595;
-          `
-        : openAction === ""
-        ? undefined
-        : css`
-            transform: translate(0, 0) scale(0);
-            transition-delay: 0.1s;
-            background-color: #c39595;
-          `}
   }
 
   &:nth-of-type(2) {
@@ -279,21 +287,6 @@ const ActionBtn = styled.div`
         : css`
             transform: translate(0, 0) scale(0);
             transition-delay: 0.2s;
-          `}
-
-    ${({ openAction }) =>
-      openAction === "sleep"
-        ? css`
-            transform: translate(0, 0) scale(1);
-            transition-delay: 0.1s;
-            background-color: #c39595;
-          `
-        : openAction === ""
-        ? undefined
-        : css`
-            transform: translate(0, 0) scale(0);
-            transition-delay: 0.1s;
-            background-color: #c39595;
           `}
   }
 
@@ -310,26 +303,11 @@ const ActionBtn = styled.div`
             transform: translate(0, 0) scale(0);
             transition-delay: 0.1s;
           `}
-
-    ${({ openAction }) =>
-      openAction === "calender"
-        ? css`
-            transform: translate(0, 0) scale(1);
-            transition-delay: 0.1s;
-            background-color: #c39595;
-          `
-        : openAction === ""
-        ? undefined
-        : css`
-            transform: translate(0, 0) scale(0);
-            transition-delay: 0.1s;
-            background-color: #c39595;
-          `}
   }
 
   @media (max-width: 768px) {
-    width: 70px;
-    height: 70px;
+    width: 60px;
+    height: 60px;
     font-size: 24px;
     transition-delay: 0.3ms;
     &:first-of-type {
@@ -342,20 +320,13 @@ const ActionBtn = styled.div`
               transform: translate(0, 0) scale(0);
             `}
 
-      ${({ openAction }) =>
-        openAction === "milk"
+      ${({ hideAction }) =>
+        hideAction
           ? css`
-              transform: translate(0, 0) scale(1);
-              transition-delay: 0.1s;
-              background-color: #c39595;
-            `
-          : openAction === ""
-          ? undefined
-          : css`
               transform: translate(0, 0) scale(0);
               transition-delay: 0.1s;
-              background-color: #c39595;
-            `}
+            `
+          : undefined}
     }
 
     &:nth-of-type(2) {
@@ -368,20 +339,13 @@ const ActionBtn = styled.div`
               transform: translate(0, 0) scale(0);
             `}
 
-      ${({ openAction }) =>
-        openAction === "sleep"
+      ${({ hideAction }) =>
+        hideAction
           ? css`
-              transform: translate(0, 0) scale(1);
-              transition-delay: 0.1s;
-              background-color: #c39595;
-            `
-          : openAction === ""
-          ? undefined
-          : css`
               transform: translate(0, 0) scale(0);
               transition-delay: 0.1s;
-              background-color: #c39595;
-            `}
+            `
+          : undefined}
     }
 
     &:nth-of-type(3) {
@@ -394,20 +358,13 @@ const ActionBtn = styled.div`
               transform: translate(0, 0) scale(0);
             `}
 
-      ${({ openAction }) =>
-        openAction === "calender"
+      ${({ hideAction }) =>
+        hideAction
           ? css`
-              transform: translate(0, 0) scale(1);
-              transition-delay: 0.1s;
-              background-color: #c39595;
-            `
-          : openAction === ""
-          ? undefined
-          : css`
               transform: translate(0, 0) scale(0);
               transition-delay: 0.1s;
-              background-color: #c39595;
-            `}
+            `
+          : undefined}
     }
   }
 `;
