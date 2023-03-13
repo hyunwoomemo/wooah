@@ -36,12 +36,10 @@ const NavigationBar = ({ main }) => {
   };
 
   const handleSave = () => {
-    console.log(openAction);
     setOpenAction("");
   };
 
   const handleSleepSave = () => {
-    console.log(openAction);
     alert(openAction);
     setOpenAction("");
   };
@@ -94,7 +92,7 @@ const NavigationBar = ({ main }) => {
 
 const Base = styled.div`
   position: fixed;
-  background-color: #c9dd535f;
+  background-color: #cbcbcb5f;
   max-width: 1200px;
   width: 80vw;
   margin: 0 auto;
@@ -193,7 +191,7 @@ const PlusBtn = styled.p`
   ${({ hideAction, showAction }) =>
     hideAction && showAction
       ? css`
-          background-color: #6db56d;
+          background-color: #96cd96;
           color: #fff;
         `
       : css`
@@ -220,7 +218,7 @@ const PlusBtn = styled.p`
     width: 111%;
     height: 111%;
     position: absolute;
-    background-color: #a64d58;
+    background-color: #959595;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -233,7 +231,6 @@ const PlusBtn = styled.p`
       showAction
         ? css`
             transform: rotate(45deg) scale(1);
-            font-size: 48px;
           `
         : css`
             transform: rotate(0) scale(0);
@@ -253,7 +250,7 @@ const ActionBtn = styled.div`
   height: 100px;
   font-size: 40px;
   border-radius: 50%;
-  background-color: #c9dd535f;
+  background-color: #cbcbcb5f;
   box-shadow: 1px 1px 3px gray;
   display: flex;
   justify-content: center;
