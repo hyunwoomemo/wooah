@@ -48,7 +48,7 @@ const Base = styled.div`
   justify-content: center;
   align-items: center;
   gap: 3rem;
-  overflow-y: hidden;
+  overflow: hidden;
 
   ${({ openAction, hideAction, showAction }) =>
     openAction === "sleep" && hideAction && showAction

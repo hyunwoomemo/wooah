@@ -98,7 +98,7 @@ const Contents = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
-  overflow-y: hidden;
+  overflow: hidden;
   transition: all 0.3s;
 
   ${({ isOpen }) =>
