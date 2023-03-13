@@ -34,7 +34,7 @@ const MilkModal = ({ openAction, hideAction, showAction }) => {
               <button onClick={handlePlus}>+</button>
             </MilkHandler>
           </MilkWrapper>
-          <TimePicker label="분유 먹은 시간" value={value} defaultValue={value} />
+          <TimePicker label="분유 먹은 시간" defaultValue={value || ""} value={value || ""} onChange={(newValue) => setValue(newValue)} />
         </Base>
       </LocalizationProvider>
     </Portal>
@@ -97,6 +97,11 @@ const MilkHandler = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
+
+    &:hover {
+      box-shadow: 0 0 2px black;
+    }
   }
 `;
 

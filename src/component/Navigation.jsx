@@ -8,6 +8,7 @@ import { BsCalendarDate } from "react-icons/bs";
 import { Link, NavLink } from "react-router-dom";
 import { ActionContext, DateContext, ModalContext } from "../context/Context";
 import MilkModal from "./Navigation/MilkModal";
+import SleepModal from "./Navigation/SleepModal";
 
 const NavigationBar = ({ main }) => {
   const activeStyle = {
@@ -16,9 +17,6 @@ const NavigationBar = ({ main }) => {
   };
 
   const { isOpen, setIsOpen } = useContext(ModalContext);
-  const { date, setDate } = useContext(DateContext);
-  const today = new Date();
-  const current = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, 0)}-${String(today.getDate()).padStart(2, 0)}`;
   const { showAction, setShowAction } = useContext(ActionContext);
   const [hideAction, setHideAction] = useState(false);
   const [openAction, setOpenAction] = useState("");
@@ -68,6 +66,7 @@ const NavigationBar = ({ main }) => {
       <ActionBtn showAction={showAction} onClick={handleRecordSleep} hideAction={hideAction}>
         💤
       </ActionBtn>
+      <SleepModal openAction={openAction} hideAction={hideAction} showAction={showAction} />
       <ActionBtn showAction={showAction} hideAction={hideAction}>
         🗓️
       </ActionBtn>
@@ -275,6 +274,14 @@ const ActionBtn = styled.div`
             transform: translate(0, 0) scale(0);
             transition-delay: 0.3s;
           `}
+
+    ${({ hideAction }) =>
+      hideAction
+        ? css`
+            transform: translate(0, 0) scale(0);
+            transition-delay: 0.1s;
+          `
+        : undefined}
   }
 
   &:nth-of-type(2) {
@@ -288,6 +295,14 @@ const ActionBtn = styled.div`
             transform: translate(0, 0) scale(0);
             transition-delay: 0.2s;
           `}
+
+    ${({ hideAction }) =>
+      hideAction
+        ? css`
+            transform: translate(0, 0) scale(0);
+            transition-delay: 0.1s;
+          `
+        : undefined}
   }
 
   &:nth-of-type(3) {
@@ -303,6 +318,14 @@ const ActionBtn = styled.div`
             transform: translate(0, 0) scale(0);
             transition-delay: 0.1s;
           `}
+
+    ${({ hideAction }) =>
+      hideAction
+        ? css`
+            transform: translate(0, 0) scale(0);
+            transition-delay: 0.1s;
+          `
+        : undefined}
   }
 
   @media (max-width: 768px) {
