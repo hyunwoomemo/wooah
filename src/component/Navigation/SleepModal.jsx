@@ -31,7 +31,8 @@ const SleepModal = ({ openAction, hideAction, showAction }) => {
 
 const Base = styled.div`
   z-index: 999;
-  width: 80vw;
+  max-width: 1200px;
+  width: 90vw;
   height: 50vh;
   background-color: #fff;
   border: 1px solid #f1f1f1;
