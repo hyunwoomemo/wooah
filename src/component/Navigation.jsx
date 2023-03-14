@@ -9,6 +9,7 @@ import { Link, NavLink } from "react-router-dom";
 import { ActionContext, DateContext, ModalContext } from "../context/Context";
 import MilkModal from "./Navigation/MilkModal";
 import SleepModal from "./Navigation/SleepModal";
+import CalendarModal from "./Navigation/CalendarModal";
 
 const NavigationBar = ({ main }) => {
   const activeStyle = {
@@ -35,7 +36,13 @@ const NavigationBar = ({ main }) => {
     setOpenAction("sleep");
   };
 
-  const handleSave = () => {
+  const handleRecordCalendar = () => {
+    setHideAction(true);
+    setOpenAction("calendar");
+  };
+
+  const handleMilkSave = () => {
+    alert(openAction);
     setOpenAction("");
   };
 
@@ -44,15 +51,20 @@ const NavigationBar = ({ main }) => {
     setOpenAction("");
   };
 
+  const handleCalendarSave = () => {
+    alert(openAction);
+    setOpenAction("");
+  };
+
   return (
     <Button showAction={showAction} isOpen={isOpen}>
       <PlusBtn onClick={handleAction} showAction={showAction} main={main} hideAction={hideAction}>
         {openAction === "milk" ? (
-          <AiOutlineCheck onClick={handleSave} />
+          <AiOutlineCheck onClick={handleMilkSave} />
         ) : openAction === "sleep" ? (
           <AiOutlineCheck onClick={handleSleepSave} />
-        ) : openAction === "calender" ? (
-          <AiOutlineCheck />
+        ) : openAction === "calendar" ? (
+          <AiOutlineCheck onClick={handleCalendarSave} />
         ) : (
           <span>+</span>
         )}
@@ -65,9 +77,10 @@ const NavigationBar = ({ main }) => {
         💤
       </ActionBtn>
       <SleepModal openAction={openAction} hideAction={hideAction} showAction={showAction} />
-      <ActionBtn showAction={showAction} hideAction={hideAction}>
+      <ActionBtn showAction={showAction} hideAction={hideAction} onClick={handleRecordCalendar}>
         🗓️
       </ActionBtn>
+      <CalendarModal openAction={openAction} hideAction={hideAction} showAction={showAction} />
       <Base showAction={showAction}>
         <Container>
           <NavLink to="/" data-text="HOME" style={({ isActive }) => (isActive ? activeStyle : undefined)}>
