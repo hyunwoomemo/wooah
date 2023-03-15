@@ -15,7 +15,7 @@ const NavigationBar = ({ main }) => {
   const activeStyle = {
     backgroundColor: "#fff",
     borderRadius: "50%",
-    boxShadow: "1px 1px 3px #79797994",
+    boxShadow: "1px 1px 1px #79797994",
   };
 
   const { isOpen, setIsOpen } = useContext(ModalContext);
@@ -106,7 +106,7 @@ const NavigationBar = ({ main }) => {
 
 const Base = styled.div`
   position: fixed;
-  background-color: #cbcbcb5f;
+  background-color: #f3f3f3;
   max-width: 1200px;
   width: 80vw;
   margin: 0 auto;
