@@ -65,6 +65,8 @@ const Base = styled.div`
   gap: 1rem;
   align-items: center;
   padding: 2rem;
+
+  color: var(--black-text-color);
 `;
 
 const ContentsWrapper = styled.div`

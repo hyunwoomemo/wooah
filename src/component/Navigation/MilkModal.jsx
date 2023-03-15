@@ -93,8 +93,8 @@ const MilkHandler = styled.div`
     font-size: 24px;
     border: 1px solid #f1f1f1;
     border-radius: 50%;
-    width: 36px;
-    height: 36px;
+    width: 48px;
+    height: 48px;
     display: flex;
     justify-content: center;
     align-items: center;

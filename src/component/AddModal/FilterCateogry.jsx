@@ -22,7 +22,7 @@ const CategoryWrapper = styled.ul`
   display: flex;
   flex-wrap: wrap;
   gap: 5px;
-  overflow: hidden;
+  /* overflow: hidden; */
 `;
 
 const CategoryItem = styled.li`
