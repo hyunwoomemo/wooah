@@ -15,6 +15,7 @@ const NavigationBar = ({ main }) => {
   const activeStyle = {
     backgroundColor: "#fff",
     borderRadius: "50%",
+    boxShadow: "1px 1px 3px #79797994",
   };
 
   const { isOpen, setIsOpen } = useContext(ModalContext);
@@ -221,6 +222,17 @@ const PlusBtn = styled.p`
   position: relative;
   z-index: 999;
   border-radius: 50%;
+
+  > svg {
+    /* width: 100%;
+    height: 100%; */
+    padding: 2rem;
+    box-sizing: content-box;
+
+    @media (max-width: 768px) {
+      padding: 1rem;
+    }
+  }
 
   @media (max-width: 768px) {
     width: 70px;

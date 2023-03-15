@@ -1,8 +1,27 @@
 import { keyframes } from "@emotion/react";
 import styled from "@emotion/styled";
-import React from "react";
+import React, { useEffect } from "react";
 
 const NotFound = () => {
+  const setZeroAndBeamAppear = () => {
+    document.getElementById("number-0-soaking").removeEventListener("animationend", setZeroAndBeamDisappear);
+    document.getElementById("number-0-soaking").setAttribute("id", "number-0");
+    document.getElementById("UFO-beam-disappear").setAttribute("id", "UFO-beam");
+
+    document.getElementById("number-0").addEventListener("animationend", setZeroAndBeamDisappear);
+  };
+
+  const setZeroAndBeamDisappear = () => {
+    document.getElementById("number-0").removeEventListener("animationend", setZeroAndBeamDisappear);
+    document.getElementById("number-0").setAttribute("id", "number-0-soaking");
+    document.getElementById("UFO-beam").setAttribute("id", "UFO-beam-disappear");
+
+    document.getElementById("number-0-soaking").addEventListener("animationend", setZeroAndBeamAppear);
+  };
+  useEffect(() => {
+    document.getElementById("number-0").addEventListener("animationend", setZeroAndBeamDisappear);
+  }, []);
+
   return (
     <Base>
       <svg id="ufo-image" viewBox="0 0 2303 1630" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -52,10 +71,10 @@ const NotFound = () => {
               <circle id="Ellipse 24" cx="1156.53" cy="435.375" r="70.5" transform="rotate(7.76141 1156.53 435.375)" fill="#B5F7C3" />
               <circle id="Ellipse 25" cx="1143.86" cy="399.328" r="14.9294" transform="rotate(7.76141 1143.86 399.328)" fill="white" />
               <circle id="Ellipse 26" cx="1178.38" cy="404.033" r="14.9294" transform="rotate(7.76141 1178.38 404.033)" fill="white" />
-              <line id="Line 5" x1="1133.66" y1="382.034" x2="1192.83" y2="390.099" stroke="black" stroke-width="11.6118" stroke-linecap="round" />
-              <line id="Line 6" x1="1159.36" y1="402.278" x2="1157.35" y2="417.071" stroke="#09A82D" stroke-width="11.6118" stroke-linecap="round" />
-              <line id="Line 7" x1="1134.45" y1="431.529" x2="1164.03" y2="435.561" stroke="#5EDF7A" stroke-width="16.5882" stroke-linecap="round" />
-              <line id="Line 8" x1="1136.09" y1="431.753" x2="1160.75" y2="435.113" stroke="#09A82D" stroke-width="3.31765" stroke-linecap="round" />
+              <line id="Line 5" x1="1133.66" y1="382.034" x2="1192.83" y2="390.099" stroke="black" strokeWidth="11.6118" strokeLinecap="round" />
+              <line id="Line 6" x1="1159.36" y1="402.278" x2="1157.35" y2="417.071" stroke="#09A82D" strokeWidth="11.6118" strokeLinecap="round" />
+              <line id="Line 7" x1="1134.45" y1="431.529" x2="1164.03" y2="435.561" stroke="#5EDF7A" strokeWidth="16.5882" strokeLinecap="round" />
+              <line id="Line 8" x1="1136.09" y1="431.753" x2="1160.75" y2="435.113" stroke="#09A82D" strokeWidth="3.31765" strokeLinecap="round" />
               <circle id="left-eye" cx="1137.38" cy="399.282" r="5.18382" transform="rotate(7.76141 1137.38 399.282)" fill="black" />
               <circle id="right-eye" cx="1171.89" cy="403.987" r="5.18382" transform="rotate(7.76141 1171.89 403.987)" fill="black" />
               <circle id="Ellipse 30" cx="1193.69" cy="421.324" r="1.65417" transform="rotate(7.76141 1193.69 421.324)" fill="#5EDF7A" />
@@ -65,8 +84,8 @@ const NotFound = () => {
               <circle id="Ellipse 32" cx="1199.79" cy="429.35" r="1.65417" transform="rotate(7.76141 1199.79 429.35)" fill="#5EDF7A" />
               <circle id="Ellipse 35" cx="1125.33" cy="418.403" r="1.65417" transform="rotate(7.76141 1125.33 418.403)" fill="#5EDF7A" />
             </g>
-            <path id="alien_hand-R" d="M1077.07 400.9C1078.47 405.192 1082.03 412.875 1092.04 416.39" stroke="#B5F7C3" stroke-width="12" stroke-linecap="round" />
-            <path id="alien_hand-L" d="M1225.41 436.218C1229.9 435.767 1240.03 429.375 1243.72 424.875" stroke="#B5F7C3" stroke-width="12" stroke-linecap="round" />
+            <path id="alien_hand-R" d="M1077.07 400.9C1078.47 405.192 1082.03 412.875 1092.04 416.39" stroke="#B5F7C3" strokeWidth="12" strokeLinecap="round" />
+            <path id="alien_hand-L" d="M1225.41 436.218C1229.9 435.767 1240.03 429.375 1243.72 424.875" stroke="#B5F7C3" strokeWidth="12" strokeLinecap="round" />
           </g>
           <g id="UFO">
             <path
@@ -81,12 +100,12 @@ const NotFound = () => {
             />
           </g>
           <g id="alien_Leg-L">
-            <path id="Vector 5" d="M1167.32 481.051C1162.81 481.266 1152.72 483.64 1148.44 491.418" stroke="#09A82D" stroke-width="12" stroke-linecap="round" />
-            <path id="Vector 9" d="M1142.36 487.071L1147.87 490.931" stroke="#09A82D" stroke-width="12" stroke-linecap="round" />
+            <path id="Vector 5" d="M1167.32 481.051C1162.81 481.266 1152.72 483.64 1148.44 491.418" stroke="#09A82D" strokeWidth="12" strokeLinecap="round" />
+            <path id="Vector 9" d="M1142.36 487.071L1147.87 490.931" stroke="#09A82D" strokeWidth="12" strokeLinecap="round" />
           </g>
           <g id="alien_Leg-R">
-            <path id="Vector 5_2" d="M1105.5 470C1100 471 1094 473.5 1090.43 479.918" stroke="#09A82D" stroke-width="12" stroke-linecap="round" />
-            <path id="Vector 9_2" d="M1084.36 475.571L1089.87 479.432" stroke="#09A82D" stroke-width="12" stroke-linecap="round" />
+            <path id="Vector 5_2" d="M1105.5 470C1100 471 1094 473.5 1090.43 479.918" stroke="#09A82D" strokeWidth="12" strokeLinecap="round" />
+            <path id="Vector 9_2" d="M1084.36 475.571L1089.87 479.432" stroke="#09A82D" strokeWidth="12" strokeLinecap="round" />
           </g>
         </g>
       </svg>
@@ -124,6 +143,57 @@ const Base = styled.div`
     }
     100% {
       transform: scale(0);
+    }
+  }
+
+  @keyframes expandHorizontal {
+    from {
+      transform: scaleX(0);
+    }
+
+    to {
+      transform: scaleX(1);
+    }
+  }
+
+  @keyframes appearFromBottom {
+    from {
+      transform: translateY(1000px);
+    }
+
+    to {
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes shakingUpAndDown {
+    from {
+      transform: translateY(0);
+    }
+
+    25% {
+      transform: translateY(5px);
+    }
+    50% {
+      transform: translateY(-5px);
+    }
+    75% {
+      transform: translateY(5px);
+    }
+    to {
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes soaking {
+    to {
+      transform: translateY(-250px) scale(0);
+    }
+  }
+
+  @keyframes shrinkHorizontal {
+    to {
+      transform: scaleX(0);
     }
   }
 
@@ -175,6 +245,33 @@ const Base = styled.div`
   }
   #star_9 {
     animation: shrinkAndGrow 14s infinite;
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+
+  #UFO-beam {
+    animation: expandHorizontal 2s;
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+
+  #number-0 {
+    animation: appearFromBottom 2s;
+  }
+
+  #alien_hand-R,
+  #alien_hand-L {
+    animation: shakingUpAndDown 1s infinite;
+  }
+
+  #number-0-soaking {
+    animation: soaking 2s;
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+
+  #UFO-beam-disappear {
+    animation: shrinkHorizontal 2s;
     transform-box: fill-box;
     transform-origin: center;
   }

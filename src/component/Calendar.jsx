@@ -55,7 +55,7 @@ const Calendar = () => {
       const milkSum = contents.reduce((acc, cur) => acc + Number(cur.volume), 0);
 
       return (
-        <TableData key={d} onClick={() => handleModal(thisDay)}>
+        <TableData key={d} onDoubleClick={() => handleModal(thisDay)}>
           <ContentsWrapper>
             <DisplayDate isSelected={isSameDay(selectedDate, thisDay)} isToday={isSameDay(today, thisDay)}>
               {new Date(year, month, d + 1).getDate()}
