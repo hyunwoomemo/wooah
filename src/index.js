@@ -6,15 +6,20 @@ import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom'
 import { CookiesProvider } from 'react-cookie';
 
+import { Provider } from 'react-redux';
+import store from './store'
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
-    <CookiesProvider>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </CookiesProvider>
-  </React.StrictMode>
+  <Provider store={store}>
+    <React.StrictMode>
+      <CookiesProvider>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </CookiesProvider>
+    </React.StrictMode>
+  </Provider>
 );
 
 

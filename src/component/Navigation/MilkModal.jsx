@@ -7,6 +7,8 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 import dayjs from "dayjs";
+import { useDispatch, useSelector } from "react-redux";
+import { plus, minus, timeChange } from "../../slices/MilkSlice";
 
 const Portal = (props) => {
   return createPortal(props.children, document.getElementById("portal"));
@@ -16,11 +18,20 @@ const MilkModal = ({ openAction, hideAction, showAction }) => {
   const [milkVolume, setMilkVolume] = useState(140);
   const [value, setValue] = useState(dayjs(new Date()));
 
-  const handleMinus = () => {
+  const { volume, date } = useSelector((state) => state.MilkSlice);
+
+  /* const handleMinus = () => {
     setMilkVolume((prev) => prev - 5);
   };
   const handlePlus = () => {
     setMilkVolume((prev) => prev + 5);
+  }; */
+
+  const dispatch = useDispatch();
+
+  const handleTimeChange = (e) => {
+    setValue(e);
+    dispatch(timeChange(e));
   };
 
   return (
@@ -29,12 +40,12 @@ const MilkModal = ({ openAction, hideAction, showAction }) => {
         <Base openAction={openAction} hideAction={hideAction} showAction={showAction}>
           <MilkWrapper>
             <MilkHandler>
-              <button onClick={handleMinus}>-</button>
-              <MilkValue>{`${milkVolume}ml`}</MilkValue>
-              <button onClick={handlePlus}>+</button>
+              <button onClick={(e) => dispatch(minus(5))}>-</button>
+              <MilkValue>{`${volume}ml`}</MilkValue>
+              <button onClick={() => dispatch(plus(5))}>+</button>
             </MilkHandler>
           </MilkWrapper>
-          <TimePicker label="분유 먹은 시간" defaultValue={value || ""} value={value || ""} onChange={(newValue) => setValue(newValue)} />
+          <TimePicker label="분유 먹은 시간" defaultValue={value || ""} value={value || ""} onChange={handleTimeChange} />
         </Base>
       </LocalizationProvider>
     </Portal>

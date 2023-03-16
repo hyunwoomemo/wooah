@@ -10,6 +10,7 @@ import { ActionContext, DateContext, ModalContext } from "../context/Context";
 import MilkModal from "./Navigation/MilkModal";
 import SleepModal from "./Navigation/SleepModal";
 import CalendarModal from "./Navigation/CalendarModal";
+import { useSelector } from "react-redux";
 
 const NavigationBar = ({ main }) => {
   const activeStyle = {
@@ -22,6 +23,9 @@ const NavigationBar = ({ main }) => {
   const { showAction, setShowAction } = useContext(ActionContext);
   const [hideAction, setHideAction] = useState(false);
   const [openAction, setOpenAction] = useState("");
+
+  const { volume, date } = useSelector((state) => state.MilkSlice);
+  console.log(volume, date);
 
   const handleAction = () => {
     setShowAction(!showAction);
@@ -43,7 +47,7 @@ const NavigationBar = ({ main }) => {
   };
 
   const handleMilkSave = () => {
-    alert(openAction);
+    alert(`우유양: ${volume}, 먹은 시간: ${date.$d}`);
     setOpenAction("");
   };
 
