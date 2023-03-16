@@ -5,21 +5,24 @@ import { useNavigate } from "react-router-dom";
 
 const Join = () => {
   const navigate = useNavigate();
-  const nameRef = useRef();
-  const [name, setName] = useState("");
+  const groupNameRef = useRef();
+  const [groupName, setGroupName] = useState("");
   const emailRef = useRef();
   const [email, setEmail] = useState("");
   const babyRef = useRef();
   const [baby, setBaby] = useState("");
   const birthdayRef = useRef();
   const [birthday, setBirthday] = useState("");
+  const [parents, setParents] = useState("father");
   const passwordRef = useRef();
   const [password, setPassword] = useState("");
   const passwordCheckRef = useRef();
   const [passwordCheck, setPasswordCheck] = useState("");
 
-  const handleName = () => {
-    setName(nameRef.current.value);
+  console.log(parents);
+
+  const handleGroupName = () => {
+    setGroupName(groupNameRef.current.value);
   };
   const handleEmail = () => {
     setEmail(emailRef.current.value);
@@ -30,6 +33,11 @@ const Join = () => {
   const handleBirthday = () => {
     setBirthday(birthdayRef.current.value);
   };
+
+  const handleParents = (e) => {
+    setParents(e.target.value);
+  };
+
   const handlePassword = () => {
     setPassword(passwordRef.current.value);
   };
@@ -42,10 +50,11 @@ const Join = () => {
 
     axios
       .post("http://localhost:3001/join", {
-        userName: name,
+        groupName: groupName,
         userEmail: email,
         userBaby: baby,
         babyBirthday: birthday,
+        parents: parents,
         password: password,
         passwordCheck: passwordCheck,
       })
@@ -64,14 +73,25 @@ const Join = () => {
   return (
     <Base>
       <JoinForm>
-        <label htmlFor="userName">이름</label>
-        <input id="userName" type="text" ref={nameRef} onChange={handleName} />
+        <label htmlFor="userName">그룹 이름</label>
+        <input id="userName" type="text" ref={groupNameRef} onChange={handleGroupName} />
         <label htmlFor="userEmail">이메일 주소</label>
         <input id="userEmail" type="email" ref={emailRef} onChange={handleEmail} />
         <label htmlFor="userBaby">아기 이름</label>
         <input id="userBaby" type="text" ref={babyRef} onChange={handleBaby} />
         <label htmlFor="babyBirthday">아기 생일</label>
         <input id="babyBirthday" type="date" ref={birthdayRef} onChange={handleBirthday} />
+        <fieldset>
+          <legend>관계</legend>
+          <label htmlFor="father">
+            <input type="radio" id="father" name="parents" value="father" checked={parents === "father" ? true : false} onChange={handleParents}></input>
+            아빠
+          </label>
+          <label htmlFor="mother">
+            <input type="radio" id="mother" name="parents" value="mother" checked={parents === "mother" ? true : false} onChange={handleParents}></input>
+            엄마
+          </label>
+        </fieldset>
         <label htmlFor="password">비밀번호</label>
         <input id="password" type="password" ref={passwordRef} onChange={handlePassword} />
         <label htmlFor="passwordCheck">비밀번호 확인</label>
@@ -100,6 +120,14 @@ const JoinForm = styled.form`
 
   > label:not(:first-of-type) {
     margin-top: 1rem;
+  }
+
+  > fieldset {
+    margin-top: 1rem;
+
+    > legend {
+      margin-bottom: 10px;
+    }
   }
 `;
 

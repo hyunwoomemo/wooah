@@ -41,6 +41,7 @@ function App() {
             <Route path='/chart' element={<Chart />}></Route>
             <Route path='/user' element={<User />}></Route>
             <Route path='/login' element={<Login />}></Route>
+            <Route path='/join' element={<Join />}></Route>
             <Route path='/*' element={<NotFound />}></Route>
           </Routes>
         </PullWrapper>

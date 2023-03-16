@@ -15,23 +15,20 @@ const Portal = (props) => {
 };
 
 const MilkModal = ({ openAction, hideAction, showAction }) => {
-  const [milkVolume, setMilkVolume] = useState(140);
   const [value, setValue] = useState(dayjs(new Date()));
 
-  const { volume, date } = useSelector((state) => state.MilkSlice);
+  useEffect(() => {
+    setValue(dayjs(new Date()));
+    dispatch(timeChange(dayjs(new Date()).format("YYYY-MM-DD hh:mm:ss")));
+  }, [openAction]);
 
-  /* const handleMinus = () => {
-    setMilkVolume((prev) => prev - 5);
-  };
-  const handlePlus = () => {
-    setMilkVolume((prev) => prev + 5);
-  }; */
+  const { volume } = useSelector((state) => state.MilkSlice);
 
   const dispatch = useDispatch();
 
   const handleTimeChange = (e) => {
     setValue(e);
-    dispatch(timeChange(e));
+    dispatch(timeChange(e.format("YYYY-MM-DD hh:mm:ss")));
   };
 
   return (

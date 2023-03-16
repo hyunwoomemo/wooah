@@ -1,6 +1,6 @@
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { AiOutlineHome, AiOutlinePieChart, AiOutlineUser, AiOutlineCheck } from "react-icons/ai";
 import { HiOutlineChatBubbleBottomCenterText } from "react-icons/hi2";
@@ -10,7 +10,8 @@ import { ActionContext, DateContext, ModalContext } from "../context/Context";
 import MilkModal from "./Navigation/MilkModal";
 import SleepModal from "./Navigation/SleepModal";
 import CalendarModal from "./Navigation/CalendarModal";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { postItem } from "../slices/RecordSlice";
 
 const NavigationBar = ({ main }) => {
   const activeStyle = {
@@ -25,7 +26,10 @@ const NavigationBar = ({ main }) => {
   const [openAction, setOpenAction] = useState("");
 
   const { volume, date } = useSelector((state) => state.MilkSlice);
-  console.log(volume, date);
+
+  useEffect(() => {
+    if (!showAction) setOpenAction("");
+  }, [showAction]);
 
   const handleAction = () => {
     setShowAction(!showAction);
@@ -46,8 +50,20 @@ const NavigationBar = ({ main }) => {
     setOpenAction("calendar");
   };
 
+  const dispatch = useDispatch();
+
   const handleMilkSave = () => {
-    alert(`우유양: ${volume}, 먹은 시간: ${date.$d}`);
+    alert(`우유양: ${volume}, 먹은 시간: ${date}`);
+    dispatch(
+      postItem({
+        category: "milk",
+        date: date,
+        recorder: localStorage.getItem("parents"),
+        volume: volume,
+        email: localStorage.getItem("email"),
+        groupName: localStorage.getItem("group"),
+      })
+    );
     setOpenAction("");
   };
 

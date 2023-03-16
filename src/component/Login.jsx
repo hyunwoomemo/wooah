@@ -6,15 +6,15 @@ import { useCookies } from "react-cookie";
 
 const Login = () => {
   const navigate = useNavigate();
-  const emailRef = useRef();
-  const [email, setEmail] = useState("");
+  const groupRef = useRef();
+  const [group, setGroup] = useState("");
   const passwordRef = useRef();
   const [password, setPassword] = useState("");
   const [cookies, setCookie] = useCookies(["user"]);
 
-  const handleEmail = () => {
-    setEmail(emailRef.current.value);
-    console.log(emailRef.current.value);
+  const handleGroup = () => {
+    setGroup(groupRef.current.value);
+    console.log(groupRef.current.value);
   };
   const handlePassword = () => {
     setPassword(passwordRef.current.value);
@@ -22,9 +22,9 @@ const Login = () => {
   };
   const handleLogin = (e) => {
     e.preventDefault();
-    if (emailRef.current.value === "" || emailRef.current.value === undefined) {
-      alert("이메일을 입력하세요!!!");
-      emailRef.current.focus();
+    if (groupRef.current.value === "" || groupRef.current.value === undefined) {
+      alert("그룹 이름을 입력하세요!!!");
+      groupRef.current.focus();
       return false;
     }
     if (passwordRef.current.value === "" || passwordRef.current.value === undefined) {
@@ -35,17 +35,20 @@ const Login = () => {
 
     axios
       .post("http://localhost:3001/login", {
-        userEmail: email,
+        groupName: group,
         password: password,
       })
       .then((res) => {
         console.log(res.data.length > 0);
+        console.log(res.data[0]);
         if (res.data.length > 0) {
           alert("로그인에 성공했습니다.");
           localStorage.setItem("baby", res.data[0].user_baby);
-          localStorage.setItem("email", res.data[0].user_email);
+          localStorage.setItem("group", res.data[0].group_name);
+          localStorage.setItem("parents", res.data[0].parents);
           localStorage.setItem("baby_birthday", res.data[0].baby_birthday);
           localStorage.setItem("isLogin", true);
+          localStorage.setItem("email", res.data[0].user_email);
           window.location.href = "/";
         } else {
           alert("로그인에 실패했습니다.");
@@ -56,8 +59,8 @@ const Login = () => {
   return (
     <Base>
       <LoginForm>
-        <label htmlFor="email">이메일 주소</label>
-        <input id="email" type="email" ref={emailRef} onChange={handleEmail} />
+        <label htmlFor="groupName">그룹 이름</label>
+        <input id="groupName" type="text" ref={groupRef} onChange={handleGroup} />
         <label htmlFor="password">비밀번호</label>
         <input id="password" type="password" ref={passwordRef} onChange={handlePassword} />
         <ButtonWrapper>
