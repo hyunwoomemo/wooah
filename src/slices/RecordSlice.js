@@ -123,14 +123,11 @@ const RecordSlice = createSlice({
     [postItem.pending]: pending,
     [postItem.fulfilled]: (state, { payload }) => {
       Swal.fire({
-        position: "center",
+        position: "top-end",
         icon: "success",
         title: `분유 기록이 추가되었습니다 🍼`,
         showConfirmButton: false,
         timer: 1500,
-        style: {
-          fontSize: "12px"
-        }
       });
       return {
         data: payload.item,
@@ -139,7 +136,30 @@ const RecordSlice = createSlice({
         error: null
       }
     },
-    [postItem.rejected]: rejected,
+    [postItem.rejected]: (state, { payload }) => {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Something went wrong!',
+        footer: '<a href="">Why do I have this issue?</a>'
+      });
+      const err = new Error();
+
+      if (typeof payload.data === "string") {
+        err.code = payload.status ? payload.status : 500;
+        err.name = "React Error";
+        err.message = payload.data;
+      } else {
+        err.code = payload.data.rtcode;
+        err.name = payload.data.rt;
+        err.message = payload.data.rtmsg;
+      }
+      return {
+        ...state,
+        loading: false,
+        error: err
+      }
+    },
 
 
     [putItem.pending]: pending,
