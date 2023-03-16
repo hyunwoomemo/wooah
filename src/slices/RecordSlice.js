@@ -128,6 +128,9 @@ const RecordSlice = createSlice({
         title: `분유 기록이 추가되었습니다 🍼`,
         showConfirmButton: false,
         timer: 1500,
+        style: {
+          fontSize: "12px"
+        }
       });
       return {
         data: payload.item,
@@ -149,6 +152,8 @@ const RecordSlice = createSlice({
     [deleteItem.rejected]: rejected
   },
 });
+
+
 
 export const { getCurrentData } = RecordSlice.actions;
 export default RecordSlice.reducer;

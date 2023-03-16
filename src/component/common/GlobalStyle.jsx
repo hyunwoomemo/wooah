@@ -146,6 +146,11 @@ const defaultStyle = css`
     box-sizing: border-box;
   }
 
+  .swal2-popup {
+    font-size: 12px !important;
+    font-family: "Dovemayo_wild";
+  }
+
   * {
     font-family: "Dovemayo_wild";
     -webkit-touch-callout: none;
