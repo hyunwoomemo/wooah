@@ -12,6 +12,7 @@ import SleepModal from "./Navigation/SleepModal";
 import CalendarModal from "./Navigation/CalendarModal";
 import { useDispatch, useSelector } from "react-redux";
 import { postItem } from "../slices/RecordSlice";
+import Swal from "sweetalert2";
 
 const NavigationBar = ({ main }) => {
   const activeStyle = {
@@ -53,7 +54,6 @@ const NavigationBar = ({ main }) => {
   const dispatch = useDispatch();
 
   const handleMilkSave = () => {
-    alert(`우유양: ${volume}, 먹은 시간: ${date}`);
     dispatch(
       postItem({
         category: "milk",

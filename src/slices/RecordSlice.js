@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { pending, fulfilled, rejected } from '../helper/ReduxHelper'
 import { cloneDeep } from 'lodash';
+import Swal from "sweetalert2";
 
 
 const URL = "http://localhost:3001/record";
@@ -120,7 +121,21 @@ const RecordSlice = createSlice({
     [getItem.rejected]: rejected,
 
     [postItem.pending]: pending,
-    [postItem.fulfilled]: fulfilled,
+    [postItem.fulfilled]: (state, { payload }) => {
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: `분유 기록이 추가되었습니다 🍼`,
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      return {
+        data: payload.item,
+        pagenation: payload.pagenation,
+        loading: false,
+        error: null
+      }
+    },
     [postItem.rejected]: rejected,
 
 
