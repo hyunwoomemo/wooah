@@ -1,10 +1,16 @@
 import styled from "@emotion/styled";
+import { display } from "@mui/system";
 import React, { useContext, useEffect, useMemo, useState } from "react";
 import { BiChevronLeft, BiChevronRight } from "react-icons/bi";
+import { useDispatch, useSelector } from "react-redux";
 import { ActionContext, DateContext, ModalContext } from "../context/Context";
 import db from "../data/record.json";
+import { minusMonth, plusMonth, select } from "../slices/DateSlice";
+import DayDetail from "./Calendar/DayDetail";
+import Header from "./Header";
 
-const DAYS = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"]; // 요일
+/* const DAYS = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"]; */ // 요일
+const DAYS = ["일", "월", "화", "수", "목", "금", "토"]; // 요일
 
 /* const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]; // 달 */
 const MONTHS = ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"]; // 달
@@ -14,15 +20,13 @@ export const isSameDay = (a, b) => {
 };
 
 const Calendar = () => {
-  const [selectedDate, setSelectedDate] = useState(new Date()); // 선택한 날짜
-  const { isOpen, setIsOpen } = useContext(ModalContext);
-  const { date, setDate } = useContext(DateContext);
-  const { showAction, setShowAction } = useContext(ActionContext);
+  const { selectValue } = useSelector((state) => state.DateSlice);
+  const { showAction } = useSelector((state) => state.ActionModalSlice);
 
   const { year, month, firstDay, lastDay } = useMemo(() => {
     // 선택한 날을 기준으로 첫째 날, 마지막 날, 년, 월
-    const year = selectedDate.getFullYear();
-    const month = selectedDate.getMonth();
+    const year = selectValue.getFullYear();
+    const month = selectValue.getMonth();
 
     return {
       year,
@@ -30,18 +34,10 @@ const Calendar = () => {
       firstDay: new Date(year, month, 1),
       lastDay: new Date(year, month + 1, 0),
     };
-  }, [selectedDate]);
-
-  const handleModal = (date) => {
-    setSelectedDate(date);
-    setDate(date);
-    setIsOpen(true);
-  };
+  }, [selectValue]);
 
   const selectDate = (date) => {
-    // 날짜를 선택한다.
-    setSelectedDate(date);
-    setDate(date);
+    dispatch(select(date));
   };
 
   const pad = () => [...Array(firstDay.getDay()).keys()].map((p) => <TableData key={`pad_${p}`} />); // 해당 월의 첫째 날 전 pad
@@ -55,12 +51,16 @@ const Calendar = () => {
       const milkSum = contents.reduce((acc, cur) => acc + Number(cur.volume), 0);
 
       return (
-        <TableData key={d} onDoubleClick={() => handleModal(thisDay)}>
-          <ContentsWrapper>
-            <DisplayDate isSelected={isSameDay(selectedDate, thisDay)} isToday={isSameDay(today, thisDay)}>
-              {new Date(year, month, d + 1).getDate()}
+        <TableData key={d} onClick={() => selectDate(thisDay)}>
+          <ContentsWrapper isSelected={isSameDay(selectValue, thisDay)} isToday={isSameDay(today, thisDay)}>
+            <DisplayDate>
+              <DateItem>{new Date(year, month, d + 1).getDate()}</DateItem>
+              <Contents>
+                {milkSum > 0 ? <MilkContents>{`🍼${milkSum}`}</MilkContents> : undefined}
+                <CalendarItem>일정</CalendarItem>
+                <CalendarItem>일정</CalendarItem>
+              </Contents>
             </DisplayDate>
-            <MilkContents>{milkSum > 0 ? `🍼 ${milkSum}` : undefined}</MilkContents>
           </ContentsWrapper>
         </TableData>
       );
@@ -83,74 +83,82 @@ const Calendar = () => {
 
     if (distanceY + distanceX > 30 && distanceX > distanceY) {
       if (touchPosition.x - e.changedTouches[0].pageX < 0) {
-        selectDate(new Date(selectedDate.setMonth(selectedDate.getMonth() - 1)));
+        previousMonth();
       } else if (touchPosition.x - e.changedTouches[0].pageX > 0) {
-        selectDate(new Date(selectedDate.setMonth(selectedDate.getMonth() + 1)));
+        nextMonth();
       }
     }
   };
 
+  const dispatch = useDispatch();
+
+  const previousMonth = () => {
+    dispatch(select(new Date(selectValue.setMonth(selectValue.getMonth() - 1))));
+    selectDate(new Date(selectValue.setDate(1)));
+  };
+  const nextMonth = () => {
+    dispatch(select(new Date(selectValue.setMonth(selectValue.getMonth() + 1))));
+    selectDate(new Date(selectValue.setDate(1)));
+  };
+
   return (
-    <Base
-      onTouchStart={(e) =>
-        setTouchPosition({
-          x: e.changedTouches[0].pageX,
-          y: e.changedTouches[0].pageY,
-        })
-      }
-      onTouchEnd={touchEnd}
-      showAction={showAction}
-    >
-      <Header>
+    <Container>
+      <Base
+        onTouchStart={(e) =>
+          setTouchPosition({
+            x: e.changedTouches[0].pageX,
+            y: e.changedTouches[0].pageY,
+          })
+        }
+        onTouchEnd={touchEnd}
+        showAction={showAction}
+      >
         <ButtonContainer>
-          <ArrowButton pos="left" onClick={() => selectDate(new Date(selectedDate.setMonth(selectedDate.getMonth() - 1)))}>
+          <ArrowButton pos="left" onClick={previousMonth}>
             <BiChevronLeft />
           </ArrowButton>
-          <Title>{`${MONTHS[month]} ${year}`}</Title>
-          <ArrowButton pos="right" onClick={() => selectDate(new Date(selectedDate.setMonth(selectedDate.getMonth() + 1)))}>
+          <ArrowButton pos="right" onClick={nextMonth}>
             <BiChevronRight />
           </ArrowButton>
         </ButtonContainer>
-      </Header>
-      <Table>
-        <TableHeader>
-          <tr>
-            {DAYS.map((day, index) => (
-              <th key={day} align="center">
-                {day}
-              </th>
-            ))}
-          </tr>
-        </TableHeader>
-        <TableBody>{render()}</TableBody>
-      </Table>
-    </Base>
+        <Table>
+          <TableHeader>
+            <tr>
+              {DAYS.map((day, index) => (
+                <th key={day} align="center">
+                  {day}
+                </th>
+              ))}
+            </tr>
+          </TableHeader>
+          <TableBody>{render()}</TableBody>
+        </Table>
+      </Base>
+    </Container>
   );
 };
 
+const Container = styled.div`
+  position: relative;
+`;
+
 const Base = styled.div`
   width: 100%;
-  height: 60vh;
+  height: 60%;
   display: flex;
   flex-direction: column;
   align-items: center;
   box-sizing: border-box;
-  margin: auto 0;
+  transition: all 0.3s;
 
   pointer-events: ${({ showAction }) => (showAction ? "none" : undefined)};
-`;
-
-const Header = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 `;
 
 const ButtonContainer = styled.div`
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
+  width: 100%;
 `;
 
 const ArrowButton = styled.button`
@@ -166,25 +174,14 @@ const ArrowButton = styled.button`
   }
 `;
 
-const Title = styled.h1`
-  margin: 0;
-  padding: 8px 24px;
-  font-size: 24px;
-  font-weight: normal;
-  text-align: center;
-  margin-bottom: 1rem;
-
-  @media (max-width: 768px) {
-    font-size: 16px;
-  }
-`;
-
 const Table = styled.table`
   border-collapse: collapse;
   width: 100%;
   height: 100%;
   border-spacing: 0;
   table-layout: fixed;
+  word-break: break-all;
+  height: auto;
 `;
 
 const TableHeader = styled.thead`
@@ -212,58 +209,118 @@ const TableBody = styled.tbody`
 `;
 
 const TableData = styled.td`
-  text-align: center;
-  color: #c9c8cc;
-  padding: 8px;
-  position: relative;
-  border: 1px solid #cfcfcf;
+  color: #434343;
+  border-radius: 5px;
+  height: 96px;
 
   @media (max-width: 768px) {
-    font-size: 14px;
-    padding: 4px;
+    font-size: 12px;
+    height: 74px;
   }
   cursor: pointer;
 
   &:hover {
     background-color: #80808011;
   }
+
+  > div {
+    width: 100%;
+    height: 100%;
+
+    > div {
+      width: 100%;
+    }
+  }
 `;
 
 const ContentsWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
-  justify-content: flex-start;
   gap: 5px;
+  background-color: ${({ isToday, isSelected }) => (isToday ? "#ebebeb" : isSelected ? "#313133" : undefined)};
+  color: ${({ isToday, isSelected }) => (isToday ? "#000" : isSelected ? "#fff" : "#000")};
+  border-radius: 5px;
+  padding: 5px 0;
+  box-sizing: border-box;
+  transition: all 0.3s;
 `;
 
 const MilkContents = styled.div`
-  display: flex;
-  justify-content: flex-start;
   white-space: nowrap;
-  font-size: 14px;
-  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  /*   background-color: #bed79095; */
 
-  @media (max-width: 768px) {
-    font-size: 12px;
+  &::before {
+    content: ".";
+    text-indent: -99em;
+    display: block;
+    height: 100%;
+    width: 4px;
+    margin-right: 4px;
+    background-color: #bed790;
+    border-radius: 10px;
+
+    @media (max-width: 768px) {
+      width: 2px;
+    }
   }
 `;
 
 const DisplayDate = styled.div`
-  color: ${({ isToday }) => isToday && "#F8F7FA"};
-  background-color: ${({ isToday }) => (isToday ? "#313133" : "")};
+  @media (max-width: 768px) {
+  }
+`;
+
+const DateItem = styled.div`
   display: flex;
   justify-content: center;
-  align-items: center;
-  border-radius: 50%;
   width: 100%;
-  justify-self: flex-end;
-  flex-wrap: wrap;
-  width: 24px;
-  height: 24px;
+
+  > div {
+    width: 100%;
+  }
+`;
+
+const Contents = styled.div`
+  display: flex;
+  gap: 3px;
+  flex-direction: column;
+  font-size: 14px;
+  margin-top: 10px;
+  padding: 0 5px;
+  align-items: center;
 
   @media (max-width: 768px) {
-    width: 16px;
-    height: 16px;
+    font-size: 8px;
+  }
+
+  > div {
+    width: 100%;
+    position: relative;
+    display: flex;
+    padding: 2px 0;
+
+    @media (max-width: 768px) {
+      padding: 1px 0;
+    }
+  }
+`;
+
+const CalendarItem = styled.div`
+  &:before {
+    content: ".";
+    text-indent: -99em;
+    height: 100%;
+    width: 4px;
+    background-color: #d79090;
+    border-radius: 10px;
+    margin-right: 4px;
+
+    @media (max-width: 768px) {
+      width: 2px;
+    }
   }
 `;
 

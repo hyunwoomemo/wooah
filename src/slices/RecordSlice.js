@@ -3,19 +3,19 @@ import axios from "axios";
 import { pending, fulfilled, rejected } from '../helper/ReduxHelper'
 import { cloneDeep } from 'lodash';
 import Swal from "sweetalert2";
+import dayjs from "dayjs";
 
 
 const URL = "http://localhost:3001/record";
 // 다중행 데이터 조회
 export const getList = createAsyncThunk("RecordSlice/getList", async (payload, { rejectWithValue }) => {
   let result = null;
+  let params = null;
 
   try {
     const response = await axios.get(URL, {
       params: {
-        page: payload?.page || 1,
-        rows: payload?.rows || 30,
-        query: payload?.keyword || ''
+        'date': payload,
       }
     });
     result = response.data;
@@ -27,8 +27,9 @@ export const getList = createAsyncThunk("RecordSlice/getList", async (payload, {
 // 단일행 데이터 조회
 export const getItem = createAsyncThunk("RecordSlice/getItem", async (payload, { rejectWithValue }) => {
   let result = null;
+  const parmas = dayjs(new Date(payload)).format('YYYY-MM-DD');
   try {
-    const response = await axios.get(`${URL}/${payload?.id}`);
+    const response = await axios.get(`${URL}/${parmas}`);
     result = response.data;
   } catch (err) {
     console.log(err);
@@ -75,7 +76,9 @@ export const deleteItem = createAsyncThunk("RecordSlice/deleteItem", async (payl
     result = rejectWithValue(err.response);
   }
   return result;
+
 });
+
 
 /** Slice 정의   */
 const RecordSlice = createSlice({
@@ -101,14 +104,10 @@ const RecordSlice = createSlice({
     // 로딩중임을 표시
 
     [getList.pending]: pending,
-    [getList.fulfilled]: (state, { meta, payload }) => {
-      if (meta.page > 1) {
-        payload.item = state.data.concat(payload.item);
-      }
-
+    [getList.fulfilled]: (state, { payload }) => {
+      console.log(payload)
       return {
-        pagination: payload.pagination,
-        data: payload.item,
+        data: [...payload],
         loading: false,
         error: null,
       };
@@ -130,8 +129,7 @@ const RecordSlice = createSlice({
         timer: 1500,
       });
       return {
-        data: payload.item,
-        pagenation: payload.pagenation,
+        data: [...payload],
         loading: false,
         error: null
       }

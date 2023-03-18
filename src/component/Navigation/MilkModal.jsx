@@ -1,6 +1,5 @@
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
-import { StaticTimePicker } from "@mui/x-date-pickers";
 import React, { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";

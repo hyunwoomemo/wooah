@@ -1,11 +1,13 @@
 import React, { useContext, useEffect, useState } from "react";
 import styled from "@emotion/styled";
 import { Link } from "react-router-dom";
-import { AiOutlineReload } from "react-icons/ai";
+import { AiOutlineReload, AiOutlineSearch } from "react-icons/ai";
 import { css } from "@emotion/react";
 import { LatestWorkContext } from "../context/Context";
 
 import db from "../data/record.json";
+import dayjs from "dayjs";
+import { useSelector } from "react-redux";
 
 const Header = () => {
   const birthDay = `${localStorage.getItem("baby_birthday")}T00:00:00`;
@@ -33,29 +35,28 @@ const Header = () => {
     };
   });
 
-  const handleReload = () => {
-    window.location.reload(true);
-  };
+  const { selectValue } = useSelector((state) => state.DateSlice);
 
-  const isLogin = localStorage.getItem("isLogin");
-
+  console.log(selectValue);
   return (
     <Base>
       {/* {!isLogin ? (
         <LoginNoti to="/login"> 로그인을 해야해요! 😅 </LoginNoti>
       ) : ( */}
+
+      <Month>{selectValue.getMonth() + 1}</Month>
       <ContentsWrapper>
-        <ProfileImgWrapper>
-          <ProfileImg src={`${process.env.PUBLIC_URL}/upload/profile.png`}></ProfileImg>
-        </ProfileImgWrapper>
         <BabyInfoWrapper>
-          <BabyName>{localStorage.getItem("baby")}</BabyName>
           <BabyAge>{`${age}일`}</BabyAge>
         </BabyInfoWrapper>
         <DisplayLatestWork>{lastWork === "milk" ? "🍼 분유 먹은 지" : lastWork === "sleep" ? "💤 잠자는 중" : undefined}</DisplayLatestWork>
-        <DisplayLatestTime>{checkStart /*  ? checkStart : `${parseInt((new Date() - new Date(lastWorkTime)) / 1000 / 60)} 분` */}</DisplayLatestTime>
+        <DisplayLatestTime>{checkStart}</DisplayLatestTime>
       </ContentsWrapper>
-      {/* )} */}
+      <IconsWrapper>
+        <IconsItem>
+          <AiOutlineSearch />
+        </IconsItem>
+      </IconsWrapper>
     </Base>
   );
 };
@@ -64,9 +65,17 @@ const Base = styled.div`
   display: flex;
   gap: 1rem;
   align-items: center;
-  padding: 2rem;
-
+  padding: 1rem;
+  position: sticky;
+  top: 0;
   color: var(--black-text-color);
+  backdrop-filter: blur(100px);
+  z-index: 998;
+`;
+
+const Month = styled.div`
+  font-size: 48px;
+  transition: all 0.3s;
 `;
 
 const ContentsWrapper = styled.div`
@@ -80,68 +89,27 @@ const ContentsWrapper = styled.div`
   }
 `;
 
-const LoginNoti = styled(Link)`
-  background-color: #e5e6aa;
-  padding: 2rem;
-  border-radius: 10px;
-
-  text-decoration: none;
-  color: #000000;
-  cursor: pointer;
-`;
-
-const ProfileImgWrapper = styled.div``;
-
-const ProfileImg = styled.img`
-  width: 75px;
-  height: 75px;
-
-  @media (max-width: 768px) {
-    width: 50px;
-    height: 50px;
-  }
-`;
-
 const BabyInfoWrapper = styled.div`
   display: flex;
-  flex-direction: column;
   gap: 1rem;
   flex-wrap: wrap;
+  align-items: center;
 `;
 
-const BabyName = styled.div`
-  font-size: 24px;
-
-  @media (max-width: 768px) {
-    font-size: 14px;
-  }
-`;
+const BabyName = styled.div``;
 
 const BabyAge = styled.div`
-  font-size: 14px;
+  /* font-size: 14px; */
 `;
 
-const DisplayLatestWork = styled.div`
-  flex: 1 1 auto;
-  text-align: end;
-  font-size: 16px;
-
-  @media (max-width: 768px) {
-    font-size: 14px;
-  }
-`;
+const DisplayLatestWork = styled.div``;
 
 const DisplayLatestTime = styled.div``;
 
-const ReloadIcon = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
+const IconsWrapper = styled.ul``;
 
-  @media (max-width: 768px) {
-    display: none;
-  }
+const IconsItem = styled.li`
+  font-size: 24px;
 `;
 
 export default Header;
