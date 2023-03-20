@@ -10,14 +10,8 @@ const URL = "http://localhost:3001/record";
 // 다중행 데이터 조회
 export const getList = createAsyncThunk("RecordSlice/getList", async (payload, { rejectWithValue }) => {
   let result = null;
-  let params = null;
-
   try {
-    const response = await axios.get(URL, {
-      params: {
-        'date': payload,
-      }
-    });
+    const response = await axios.get(URL)
     result = response.data;
   } catch (err) {
     result = rejectWithValue(err.response);
@@ -27,10 +21,26 @@ export const getList = createAsyncThunk("RecordSlice/getList", async (payload, {
 // 단일행 데이터 조회
 export const getItem = createAsyncThunk("RecordSlice/getItem", async (payload, { rejectWithValue }) => {
   let result = null;
-  const parmas = dayjs(new Date(payload)).format('YYYY-MM-DD');
   try {
-    const response = await axios.get(`${URL}/${parmas}`);
+    const response = await axios.get(`${URL}/${payload}`);
+
     result = response.data;
+  } catch (err) {
+    console.log(err);
+    result = rejectWithValue(err.response);
+  }
+  return result;
+});
+
+// 마지막행 데이터 조회
+
+export const lastItem = createAsyncThunk("RecordSlice/lastItem", async (payload, { rejectWithValue }) => {
+  let result = null;
+  try {
+    const response = await axios.get(`${URL}/latest`);
+
+    result = response.data;
+    console.log(result)
   } catch (err) {
     console.log(err);
     result = rejectWithValue(err.response);
@@ -85,10 +95,11 @@ const RecordSlice = createSlice({
   name: 'RecordSlice',
   initialState: {
     // backend 
+    allData: null,
     data: null,
     pagination: null,
     loading: false,
-    error: null
+    error: null,
   },
 
   //  외부 action 및 비동기 action (Ajax용)
@@ -105,7 +116,6 @@ const RecordSlice = createSlice({
 
     [getList.pending]: pending,
     [getList.fulfilled]: (state, { payload }) => {
-      console.log(payload)
       return {
         data: [...payload],
         loading: false,
@@ -116,7 +126,13 @@ const RecordSlice = createSlice({
 
 
     [getItem.pending]: pending,
-    [getItem.fulfilled]: fulfilled,
+    [getItem.fulfilled]: (state, { payload }) => {
+      return {
+        data: [...payload],
+        loading: false,
+        error: null,
+      };
+    },
     [getItem.rejected]: rejected,
 
     [postItem.pending]: pending,

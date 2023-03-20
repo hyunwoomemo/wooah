@@ -14,30 +14,41 @@ const DayDetail = () => {
 
   const { data, loading, error } = useSelector((state) => state.RecordSlice);
 
-  useEffect(() => {
-    dispatch(getList(dayjs(new Date(selectValue)).format("YYYY-MM-DD")));
-  }, [selectValue, dispatch]);
-
-  const [isOpen, setIsOpen] = useState(false);
-
-  const handleOpen = () => {
-    setIsOpen(!isOpen);
+  const isSameDay = (a, b) => {
+    return a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate();
   };
 
+  const contents = data?.filter((v) => isSameDay(new Date(v.date), selectValue) && v.email === localStorage.getItem("email"))?.sort((a, b) => new Date(a.date) - new Date(b.date));
+
+  useEffect(() => {
+    dispatch(getList());
+  }, [selectValue, dispatch]);
+
+  const [dataLength, setDataLength] = useState(0);
+
+  useEffect(() => {
+    setDataLength(contents?.length);
+
+    return () => {
+      setDataLength(0);
+    };
+  }, [contents]);
+
   return (
-    <Base isOpen={isOpen}>
-      <Toggle onClick={handleOpen}></Toggle>
+    <Base>
       <Title> {dayjs(new Date(selectValue)).format(`YYYY년 MM월 DD일 (${day[selectValue.getDay()]})`)}</Title>
-      <Content>
+      <Content dataLength={dataLength}>
         {error
           ? "조회된 데이터가 없습니다"
-          : data?.map((item) => {
+          : contents?.map((item) => {
               return (
-                <div key={item.date}>
-                  <div>{item.category}</div>
-                  <div>{item.volume}</div>
-                  <div>{dayjs(new Date(item.date)).format("YYYY-MM-DD hh:mm:ss")}</div>
-                </div>
+                <>
+                  <Record key={item.date}>
+                    <RecordDate>{dayjs(new Date(item.date)).format("HH:mm")}</RecordDate>
+                    <RecordCategory>{item.category === "milk" ? "분유" : item.category}</RecordCategory>
+                    <RecordDetail>{item.category === "milk" ? `${item.volume}ml` : undefined}</RecordDetail>
+                  </Record>
+                </>
               );
             })}
       </Content>
@@ -46,40 +57,13 @@ const DayDetail = () => {
 };
 
 const Base = styled.div`
-  margin: 1rem 0 0;
   padding: 1rem;
-  border: 1px solid gray;
-  border-radius: 15px 15px 0 0;
-  box-shadow: 0 0 5px;
-  background-color: #fafafa;
+  @media (max-width: 768px) {
+    padding: 10px;
+  }
   transition: all 0.3s;
   z-index: 999;
-
-  ${({ isOpen }) =>
-    isOpen
-      ? css`
-          transform: translateY(-60vh);
-        `
-      : css`
-          transform: translateY(0);
-        `}
-
-  @media (max-width: 768px) {
-    margin: 0.5rem 0;
-    padding: 0.5rem;
-  }
-`;
-
-const Toggle = styled.div`
-  display: block;
-  width: 50px;
-  height: 5px;
-  background-color: #7d7d7d;
-  border-radius: 20px;
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  cursor: pointer;
+  background-color: #fff;
 `;
 
 const Title = styled.h1`
@@ -91,6 +75,47 @@ const Title = styled.h1`
   }
 `;
 
-const Content = styled.div``;
+const Content = styled.div`
+  margin-top: 15px;
+  transition: all 0.7s;
+  transform: scaleY(0);
+  transform-origin: top;
+
+  ${({ dataLength }) =>
+    dataLength
+      ? css`
+          transform: scaleY(1);
+        `
+      : css``}
+
+  @media (max-width: 768px) {
+    /* padding: 0.5rem; */
+  }
+`;
+
+const Record = styled.div`
+  display: flex;
+  margin-bottom: 7px;
+  gap: 1rem;
+  background-color: #f2f2f25e;
+  padding: 10px;
+  border-radius: 5px;
+
+  > div {
+    padding: 5px;
+    border-radius: 5px;
+  }
+`;
+
+const RecordDate = styled.div`
+  background-color: #fff;
+`;
+
+const RecordCategory = styled.div``;
+
+const RecordDetail = styled.div`
+  box-shadow: 0 0 2px gray;
+  margin-left: auto;
+`;
 
 export default DayDetail;

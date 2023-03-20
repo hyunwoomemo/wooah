@@ -56,7 +56,6 @@ const NavigationBar = ({ main }) => {
   };
 
   const handleMilkSave = () => {
-    console.log(new Date(date));
     dispatch(
       postItem({
         category: "milk",
@@ -70,6 +69,7 @@ const NavigationBar = ({ main }) => {
     setOpenAction("");
 
     dispatch(select(new Date(date)));
+    window.scrollTo({ top: 1000, behavior: "smooth" });
   };
 
   const handleSleepSave = () => {
@@ -84,7 +84,7 @@ const NavigationBar = ({ main }) => {
 
   return (
     <>
-      <Button showAction={showAction} isOpen={isOpen}>
+      {/*  <Button showAction={showAction} isOpen={isOpen}>
         <PlusBtn onClick={handleAction} showAction={showAction} main={main} hideAction={hideAction}>
           {openAction === "milk" ? (
             <AiOutlineCheck onClick={handleMilkSave} />
@@ -108,8 +108,7 @@ const NavigationBar = ({ main }) => {
           🗓️
         </ActionBtn>
         <CalendarModal openAction={openAction} hideAction={hideAction} showAction={showAction} />
-      </Button>
-      <OverLay></OverLay>
+      </Button> */}
     </>
   );
 };

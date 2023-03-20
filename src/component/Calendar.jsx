@@ -1,13 +1,16 @@
 import styled from "@emotion/styled";
-import { display } from "@mui/system";
-import React, { useContext, useEffect, useMemo, useState } from "react";
+import { css, display } from "@mui/system";
+import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
 import { BiChevronLeft, BiChevronRight } from "react-icons/bi";
 import { useDispatch, useSelector } from "react-redux";
 import { ActionContext, DateContext, ModalContext } from "../context/Context";
 import db from "../data/record.json";
 import { minusMonth, plusMonth, select } from "../slices/DateSlice";
-import DayDetail from "./Calendar/DayDetail";
-import Header from "./Header";
+import Slide from "react-reveal/Slide";
+import { transform } from "lodash";
+import dayjs from "dayjs";
+import { getCurrentData, getList } from "../slices/RecordSlice";
+import { selectDateMilk } from "../slices/MilkSlice";
 
 /* const DAYS = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"]; */ // 요일
 const DAYS = ["일", "월", "화", "수", "목", "금", "토"]; // 요일
@@ -38,17 +41,33 @@ const Calendar = () => {
 
   const selectDate = (date) => {
     dispatch(select(date));
+    /* dispatch(selectDateMilk()); */
+    /* setTimeout(() => {
+      window.scrollTo({ top: 1000, behavior: "smooth" });
+    }, 100); */
   };
 
-  const pad = () => [...Array(firstDay.getDay()).keys()].map((p) => <TableData key={`pad_${p}`} />); // 해당 월의 첫째 날 전 pad
+  const { data, loading, error } = useSelector((state) => state.RecordSlice);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getList());
+  }, [dispatch]);
+
+  const pad = () =>
+    [...Array(firstDay.getDay()).keys()]?.map((p, i, arr) => (
+      <TableData key={`pad_${p}`}>
+        <PadData>{dayjs(new Date(year, month, p - arr.length + 1)).format("DD")}</PadData>
+      </TableData>
+    )); // 해당 월의 첫째 날 전 pad
 
   const range = () =>
-    [...Array(lastDay.getDate()).keys()].map((d) => {
+    [...Array(lastDay.getDate()).keys()]?.map((d) => {
       // 1일 부터 마지막 날까지 날짜 표기
       const thisDay = new Date(year, month, d + 1);
       const today = new Date();
-      const contents = db.filter((v) => isSameDay(new Date(v.date), thisDay) && v.email === localStorage.getItem("email"));
-      const milkSum = contents.reduce((acc, cur) => acc + Number(cur.volume), 0);
+      const contents = data?.filter((v) => isSameDay(new Date(v.date), thisDay) && v.email === localStorage.getItem("email"));
+      const milkSum = contents?.reduce((acc, cur) => acc + Number(cur.volume), 0);
 
       return (
         <TableData key={d} onClick={() => selectDate(thisDay)}>
@@ -57,8 +76,8 @@ const Calendar = () => {
               <DateItem>{new Date(year, month, d + 1).getDate()}</DateItem>
               <Contents>
                 {milkSum > 0 ? <MilkContents>{`🍼${milkSum}`}</MilkContents> : undefined}
-                <CalendarItem>일정</CalendarItem>
-                <CalendarItem>일정</CalendarItem>
+                {/* <CalendarItem>일정</CalendarItem>
+                <CalendarItem>일정</CalendarItem> */}
               </Contents>
             </DisplayDate>
           </ContentsWrapper>
@@ -72,7 +91,7 @@ const Calendar = () => {
 
     const weeks = Math.ceil(items.length / 7);
 
-    return [...Array(weeks).keys()].map((week) => <tr key={`week_${week}`}>{items.slice(week * 7, week * 7 + 7)}</tr>);
+    return [...Array(weeks).keys()]?.map((week) => <tr key={`week_${week}`}>{items.slice(week * 7, week * 7 + 7)}</tr>);
   };
 
   const [touchPosition, setTouchPosition] = useState({});
@@ -90,15 +109,24 @@ const Calendar = () => {
     }
   };
 
-  const dispatch = useDispatch();
+  const [moveLeft, setMoveLeft] = useState(false);
+  const [moveRight, setMoveRight] = useState(false);
 
   const previousMonth = () => {
     dispatch(select(new Date(selectValue.setMonth(selectValue.getMonth() - 1))));
     selectDate(new Date(selectValue.setDate(1)));
+    setMoveLeft(true);
+    setTimeout(() => {
+      setMoveLeft(false);
+    }, 300);
   };
   const nextMonth = () => {
     dispatch(select(new Date(selectValue.setMonth(selectValue.getMonth() + 1))));
     selectDate(new Date(selectValue.setDate(1)));
+    setMoveRight(true);
+    setTimeout(() => {
+      setMoveRight(false);
+    }, 300);
   };
 
   return (
@@ -121,7 +149,7 @@ const Calendar = () => {
             <BiChevronRight />
           </ArrowButton>
         </ButtonContainer>
-        <Table>
+        <Table moveLeft={moveLeft} moveRight={moveRight}>
           <TableHeader>
             <tr>
               {DAYS.map((day, index) => (
@@ -144,12 +172,15 @@ const Container = styled.div`
 
 const Base = styled.div`
   width: 100%;
-  height: 60%;
   display: flex;
   flex-direction: column;
   align-items: center;
   box-sizing: border-box;
   transition: all 0.3s;
+  padding: 1rem;
+  @media (max-width: 768px) {
+    padding: 10px;
+  }
 
   pointer-events: ${({ showAction }) => (showAction ? "none" : undefined)};
 `;
@@ -178,10 +209,26 @@ const Table = styled.table`
   border-collapse: collapse;
   width: 100%;
   height: 100%;
-  border-spacing: 0;
   table-layout: fixed;
   word-break: break-all;
   height: auto;
+  transition: all 0.3s;
+
+  ${({ moveLeft, moveRight }) =>
+    moveLeft
+      ? css`
+          transform: translateX(-5%);
+          opacity: 0;
+        `
+      : moveRight
+      ? css`
+          transform: translateX(5%);
+          opacity: 0;
+        `
+      : css`
+          transform: translateX(0);
+          opacity: 1;
+        `}
 `;
 
 const TableHeader = styled.thead`
@@ -211,11 +258,10 @@ const TableBody = styled.tbody`
 const TableData = styled.td`
   color: #434343;
   border-radius: 5px;
-  height: 96px;
+  transition: all 0.3s;
 
   @media (max-width: 768px) {
     font-size: 12px;
-    height: 74px;
   }
   cursor: pointer;
 
@@ -224,25 +270,32 @@ const TableData = styled.td`
   }
 
   > div {
-    width: 100%;
-    height: 100%;
-
     > div {
       width: 100%;
     }
   }
 `;
 
+const PadData = styled.div`
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  color: #c1c1c1;
+`;
+
 const ContentsWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: 5px;
-  background-color: ${({ isToday, isSelected }) => (isToday ? "#ebebeb" : isSelected ? "#313133" : undefined)};
-  color: ${({ isToday, isSelected }) => (isToday ? "#000" : isSelected ? "#fff" : "#000")};
+  background-color: ${({ isToday, isSelected }) => (isSelected ? "#313133" : isToday ? "#ebebeb" : undefined)};
+
+  color: ${({ isToday, isSelected }) => (isSelected ? "#fff" : isToday ? "#000" : "#000")};
+
   border-radius: 5px;
   padding: 5px 0;
   box-sizing: border-box;
   transition: all 0.3s;
+  position: relative;
 `;
 
 const MilkContents = styled.div`
@@ -250,7 +303,6 @@ const MilkContents = styled.div`
   display: flex;
   align-items: center;
   gap: 3px;
-  /*   background-color: #bed79095; */
 
   &::before {
     content: ".";
@@ -291,9 +343,13 @@ const Contents = styled.div`
   margin-top: 10px;
   padding: 0 5px;
   align-items: center;
+  height: 50px;
+  box-sizing: border-box;
+  overflow-y: hidden;
 
   @media (max-width: 768px) {
-    font-size: 8px;
+    font-size: 6px;
+    height: 40px;
   }
 
   > div {

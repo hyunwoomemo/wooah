@@ -4,25 +4,71 @@ import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 import dayjs from "dayjs";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
+import { AiOutlineCheck } from "react-icons/ai";
+import { useDispatch, useSelector } from "react-redux";
+import { DateContext } from "../../context/Context";
+import { select } from "../../slices/DateSlice";
+import { selectDate } from "../../slices/RecordModalSlice";
+import { postItem } from "../../slices/RecordSlice";
+import { selectDateSleep, selectEndDateSleep, timeChange } from "../../slices/SleepSlice";
 
 const Portal = (props) => {
   return createPortal(props.children, document.querySelector("#portal"));
 };
 
-const SleepModal = ({ openAction, hideAction, showAction }) => {
-  const [startTime, setStartTime] = useState(dayjs(new Date()));
+const SleepModal = () => {
+  const { now, setNow } = useContext(DateContext);
+  const { date, endDate } = useSelector((state) => state.RecordModalSlice);
   const [endTime, setEndTime] = useState();
+
+  const { openCategory } = useSelector((state) => state.RecordModalSlice);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    setNow(dayjs(new Date()));
+    dispatch(timeChange(dayjs(new Date()).format("YYYY-MM-DD HH:mm:ss")));
+  }, []);
+
+  const handleTimeChange = (e) => {
+    dispatch(selectDate(e));
+    setNow(e);
+  };
+
+  const handleEndTimeChange = (e) => {
+    console.log(e);
+    setEndTime(e);
+    dispatch(selectEndDateSleep(e));
+  };
+
+  const handleSleepSave = () => {
+    dispatch(
+      postItem({
+        category: "sleep",
+        date: date,
+        recorder: localStorage.getItem("parents"),
+        email: localStorage.getItem("email"),
+        groupName: localStorage.getItem("group"),
+        endDate: endTime ? dayjs(new Date(endTime)).format("YYYY-MM-DD") : null,
+        volume: null,
+      })
+    );
+    dispatch(select(new Date(date)));
+  };
 
   return (
     <Portal>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <Base openAction={openAction} hideAction={hideAction} showAction={showAction}>
+        <Base openCategory={openCategory}>
           <TimeWrapper>
-            <TimePicker label="잠든 시간" defaultValue={startTime || ""} value={startTime || ""} onChange={(newValue) => setStartTime(newValue)} />
-            <TimePicker label="잠깬 시간" value={endTime || ""} onChange={(newValue) => setEndTime(newValue)} />
+            <TimePicker label="잠든 시간" defaultValue={now || ""} value={now || ""} onChange={handleTimeChange} />
+            <TimePicker label="잠깬 시간" defaultValue={""} value={endTime || ""} onChange={handleEndTimeChange} />
           </TimeWrapper>
+          <SaveBtn>
+            <AiOutlineCheck onClick={handleSleepSave} />
+          </SaveBtn>
         </Base>
       </LocalizationProvider>
     </Portal>
@@ -51,8 +97,8 @@ const Base = styled.div`
   gap: 3rem;
   overflow: hidden;
 
-  ${({ openAction, hideAction, showAction }) =>
-    openAction === "sleep" && hideAction && showAction
+  ${({ openCategory }) =>
+    openCategory === "sleep"
       ? css`
           transform: translate(-50%, -50%) scale(1);
         `
@@ -65,5 +111,7 @@ const TimeWrapper = styled.div`
   display: flex;
   gap: 1rem;
 `;
+
+const SaveBtn = styled.div``;
 
 export default SleepModal;

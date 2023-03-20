@@ -3,7 +3,7 @@ import dayjs from "dayjs";
 const { createSlice } = require("@reduxjs/toolkit");
 
 const initialMonthState = {
-  selectValue: new Date()
+  selectValue: new Date(),
 }
 
 const DateSlice = createSlice({
@@ -14,7 +14,7 @@ const DateSlice = createSlice({
       const selectDateValue = action.payload;
 
       return { selectValue: selectDateValue }
-    }
+    },
   }
 });
 

@@ -1,39 +1,61 @@
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 import dayjs from "dayjs";
 import { useDispatch, useSelector } from "react-redux";
-import { plus, minus, timeChange } from "../../slices/MilkSlice";
+import { plus, minus } from "../../slices/RecordModalSlice";
+import { AiOutlineCheck } from "react-icons/ai";
+import { postItem } from "../../slices/RecordSlice";
+import { select } from "../../slices/DateSlice";
+import { onChange, open, selectDate } from "../../slices/RecordModalSlice";
+import { DateContext } from "../../context/Context";
 
 const Portal = (props) => {
   return createPortal(props.children, document.getElementById("portal"));
 };
 
-const MilkModal = ({ openAction, hideAction, showAction }) => {
-  const [value, setValue] = useState(dayjs(new Date()));
-
+const MilkModal = () => {
   useEffect(() => {
-    setValue(dayjs(new Date()));
-    dispatch(timeChange(dayjs(new Date()).format("YYYY-MM-DD hh:mm:ss")));
-  }, [openAction]);
+    dispatch(onChange(dayjs(new Date()).format("YYYY-MM-DD HH:mm:ss")));
+  }, []);
 
-  const { volume } = useSelector((state) => state.MilkSlice);
-
+  const { now, setNow } = useContext(DateContext);
   const dispatch = useDispatch();
 
+  const { volume, date, openCategory } = useSelector((state) => state.RecordModalSlice);
+
   const handleTimeChange = (e) => {
-    setValue(e);
-    dispatch(timeChange(e.format("YYYY-MM-DD hh:mm:ss")));
+    setNow(e);
+    dispatch(selectDate(e));
+  };
+
+  const handleMilkSave = () => {
+    dispatch(
+      postItem({
+        category: "milk",
+        date: date,
+        recorder: localStorage.getItem("parents"),
+        volume: volume,
+        email: localStorage.getItem("email"),
+        groupName: localStorage.getItem("group"),
+        endDate: null,
+      })
+    );
+
+    dispatch(select(new Date(date)));
+    dispatch(selectDate(new Date(date)));
+    window.scrollTo({ top: 10000, behavior: "smooth" });
+    dispatch(open(""));
   };
 
   return (
     <Portal>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <Base openAction={openAction} hideAction={hideAction} showAction={showAction}>
+        <Base openCategory={openCategory}>
           <MilkWrapper>
             <MilkHandler>
               <button onClick={(e) => dispatch(minus(5))}>-</button>
@@ -41,7 +63,10 @@ const MilkModal = ({ openAction, hideAction, showAction }) => {
               <button onClick={() => dispatch(plus(5))}>+</button>
             </MilkHandler>
           </MilkWrapper>
-          <TimePicker label="분유 먹은 시간" defaultValue={value || ""} value={value || ""} onChange={handleTimeChange} />
+          <TimePicker label="분유 먹은 시간" defaultValue={now || ""} value={now || ""} onChange={handleTimeChange} />
+          <SaveBtn>
+            <AiOutlineCheck onClick={handleMilkSave} />
+          </SaveBtn>
         </Base>
       </LocalizationProvider>
     </Portal>
@@ -52,7 +77,7 @@ const Base = styled.div`
   z-index: 999;
   max-width: 1200px;
   width: 90vw;
-  height: 50vh;
+  height: 90vh;
   background-color: #fff;
   border: 1px solid #f1f1f1;
   box-shadow: 0px 0px 5px #e1e1e1;
@@ -62,21 +87,20 @@ const Base = styled.div`
   position: absolute;
   top: 50%;
   left: 50%;
-  transition: all 0.2s;
+  transition: all 0.3s;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   gap: 3rem;
-  overflow: hidden;
 
-  ${({ openAction, hideAction, showAction }) =>
-    openAction === "milk" && hideAction && showAction
+  ${({ openCategory }) =>
+    openCategory === "milk"
       ? css`
           transform: translate(-50%, -50%) scale(1);
         `
       : css`
-          transform: translate(-50%, -50%) scale(0);
+          transform: translate(-50%, 50%) scale(0);
         `}
 `;
 
@@ -112,5 +136,7 @@ const MilkHandler = styled.div`
     }
   }
 `;
+
+const SaveBtn = styled.div``;
 
 export default MilkModal;
