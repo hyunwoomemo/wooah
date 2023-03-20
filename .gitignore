@@ -24,6 +24,8 @@ yarn-error.log*
 
 *.log
 
+*.gz
+
 
 # server
 .env.server.development
