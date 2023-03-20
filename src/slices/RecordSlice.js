@@ -3,21 +3,15 @@ import axios from "axios";
 import { pending, fulfilled, rejected } from '../helper/ReduxHelper'
 import { cloneDeep } from 'lodash';
 import Swal from "sweetalert2";
+import dayjs from "dayjs";
 
 
 const URL = "http://localhost:3001/record";
 // 다중행 데이터 조회
 export const getList = createAsyncThunk("RecordSlice/getList", async (payload, { rejectWithValue }) => {
   let result = null;
-
   try {
-    const response = await axios.get(URL, {
-      params: {
-        page: payload?.page || 1,
-        rows: payload?.rows || 30,
-        query: payload?.keyword || ''
-      }
-    });
+    const response = await axios.get(URL)
     result = response.data;
   } catch (err) {
     result = rejectWithValue(err.response);
@@ -28,8 +22,25 @@ export const getList = createAsyncThunk("RecordSlice/getList", async (payload, {
 export const getItem = createAsyncThunk("RecordSlice/getItem", async (payload, { rejectWithValue }) => {
   let result = null;
   try {
-    const response = await axios.get(`${URL}/${payload?.id}`);
+    const response = await axios.get(`${URL}/${payload}`);
+
     result = response.data;
+  } catch (err) {
+    console.log(err);
+    result = rejectWithValue(err.response);
+  }
+  return result;
+});
+
+// 마지막행 데이터 조회
+
+export const lastItem = createAsyncThunk("RecordSlice/lastItem", async (payload, { rejectWithValue }) => {
+  let result = null;
+  try {
+    const response = await axios.get(`${URL}/latest`);
+
+    result = response.data;
+    console.log(result)
   } catch (err) {
     console.log(err);
     result = rejectWithValue(err.response);
@@ -75,17 +86,20 @@ export const deleteItem = createAsyncThunk("RecordSlice/deleteItem", async (payl
     result = rejectWithValue(err.response);
   }
   return result;
+
 });
+
 
 /** Slice 정의   */
 const RecordSlice = createSlice({
   name: 'RecordSlice',
   initialState: {
     // backend 
+    allData: null,
     data: null,
     pagination: null,
     loading: false,
-    error: null
+    error: null,
   },
 
   //  외부 action 및 비동기 action (Ajax용)
@@ -101,14 +115,9 @@ const RecordSlice = createSlice({
     // 로딩중임을 표시
 
     [getList.pending]: pending,
-    [getList.fulfilled]: (state, { meta, payload }) => {
-      if (meta.page > 1) {
-        payload.item = state.data.concat(payload.item);
-      }
-
+    [getList.fulfilled]: (state, { payload }) => {
       return {
-        pagination: payload.pagination,
-        data: payload.item,
+        data: [...payload],
         loading: false,
         error: null,
       };
@@ -117,7 +126,13 @@ const RecordSlice = createSlice({
 
 
     [getItem.pending]: pending,
-    [getItem.fulfilled]: fulfilled,
+    [getItem.fulfilled]: (state, { payload }) => {
+      return {
+        data: [...payload],
+        loading: false,
+        error: null,
+      };
+    },
     [getItem.rejected]: rejected,
 
     [postItem.pending]: pending,
@@ -130,8 +145,7 @@ const RecordSlice = createSlice({
         timer: 1500,
       });
       return {
-        data: payload.item,
-        pagenation: payload.pagenation,
+        data: [...payload],
         loading: false,
         error: null
       }

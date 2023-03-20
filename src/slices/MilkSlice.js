@@ -4,7 +4,7 @@ const { createSlice } = require("@reduxjs/toolkit");
 
 const initialMilkState = {
   volume: 140,
-  date: dayjs(new Date()).format('YYYY-MM-DD hh:mm:ss'),
+  date: dayjs(new Date()).format('YYYY-MM-DD HH:mm:ss'),
 }
 
 const MilkSlice = createSlice({
@@ -22,14 +22,21 @@ const MilkSlice = createSlice({
       return { volume: volumeValue }
     },
     timeChange: (state, action) => {
-      const dateValue = dayjs(new Date(action.payload)).format('YYYY-MM-DD hh:mm:ss');
+      const dateValue = dayjs(new Date(action.payload)).format('YYYY-MM-DD HH:mm:ss');
       const volumeValue = state.volume
+
+      return { volume: volumeValue, date: dateValue }
+    },
+
+    selectDateMilk: (state, action) => {
+      const dateValue = dayjs(new Date(action.payload)).format('YYYY-MM-DD HH:mm:ss');
+      const volumeValue = state.volume;
 
       return { volume: volumeValue, date: dateValue }
     }
   }
 });
 
-export const { plus, minus, timeChange } = MilkSlice.actions;
+export const { plus, minus, timeChange, selectDateMilk } = MilkSlice.actions;
 
 export default MilkSlice.reducer;

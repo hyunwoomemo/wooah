@@ -16,6 +16,7 @@
             "hash": "a0993c5a70b3f09e6ba832f5b63c3cd1b67e01311ce5583febca7a6504132b7f"
         },
         {
+<<<<<<< HEAD
             "date": 1679143602009,
             "name": "log_230318.log",
             "hash": "ce146390ae36a04d986092cb5968f4684b6ea94c24bb5b89d6904241fde9150d"
@@ -24,6 +25,26 @@
             "date": 1679341383673,
             "name": "log_230321.log",
             "hash": "61fd9a340505f410d62aec3ec5cf71f7b4cf2465057fca75cd4d21c898243a7a"
+=======
+            "date": 1679080855545,
+            "name": "log_230318.log",
+            "hash": "c5fc3d9bdd66b7aacbdea9cf003fdde18c869894d359398174fa4d8052edaa9e"
+        },
+        {
+            "date": 1679155279833,
+            "name": "log_230319.log",
+            "hash": "9c834b97b8f3ebca274eceb9092f618f8b69f76e27d83d830078926aee4f41db"
+        },
+        {
+            "date": 1679245661238,
+            "name": "log_230320.log",
+            "hash": "aedfdce62cab3453a852b0e9adb13c38e76bffc21021cffb2e2e3ecc8b657a54"
+        },
+        {
+            "date": 1679326095825,
+            "name": "log_230321.log",
+            "hash": "07d4f34230d21d29aa054ab977c7e9575bf31cd8279e1d1f7ffd3294b6b72ae5"
+>>>>>>> version2
         }
     ],
     "hashType": "sha256"

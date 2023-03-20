@@ -13,6 +13,9 @@ import CalendarModal from "./Navigation/CalendarModal";
 import { useDispatch, useSelector } from "react-redux";
 import { postItem } from "../slices/RecordSlice";
 import Swal from "sweetalert2";
+import { toggleAction } from "../slices/ActionModalSlice";
+import { select } from "../slices/DateSlice";
+import dayjs from "dayjs";
 
 const NavigationBar = ({ main }) => {
   const activeStyle = {
@@ -22,18 +25,19 @@ const NavigationBar = ({ main }) => {
   };
 
   const { isOpen, setIsOpen } = useContext(ModalContext);
-  const { showAction, setShowAction } = useContext(ActionContext);
+  const { showAction } = useSelector((state) => state.ActionModalSlice);
   const [hideAction, setHideAction] = useState(false);
   const [openAction, setOpenAction] = useState("");
 
   const { volume, date } = useSelector((state) => state.MilkSlice);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (!showAction) setOpenAction("");
   }, [showAction]);
 
   const handleAction = () => {
-    setShowAction(!showAction);
+    dispatch(toggleAction());
     setHideAction(false);
   };
 
@@ -51,8 +55,6 @@ const NavigationBar = ({ main }) => {
     setOpenAction("calendar");
   };
 
-  const dispatch = useDispatch();
-
   const handleMilkSave = () => {
     dispatch(
       postItem({
@@ -65,6 +67,9 @@ const NavigationBar = ({ main }) => {
       })
     );
     setOpenAction("");
+
+    dispatch(select(new Date(date)));
+    window.scrollTo({ top: 1000, behavior: "smooth" });
   };
 
   const handleSleepSave = () => {
@@ -78,81 +83,39 @@ const NavigationBar = ({ main }) => {
   };
 
   return (
-    <Button showAction={showAction} isOpen={isOpen}>
-      <PlusBtn onClick={handleAction} showAction={showAction} main={main} hideAction={hideAction}>
-        {openAction === "milk" ? (
-          <AiOutlineCheck onClick={handleMilkSave} />
-        ) : openAction === "sleep" ? (
-          <AiOutlineCheck onClick={handleSleepSave} />
-        ) : openAction === "calendar" ? (
-          <AiOutlineCheck onClick={handleCalendarSave} />
-        ) : (
-          <span>+</span>
-        )}
-      </PlusBtn>
-      <ActionBtn showAction={showAction} onClick={handleRecordMilk} hideAction={hideAction}>
-        🍼
-      </ActionBtn>
-      <MilkModal openAction={openAction} hideAction={hideAction} showAction={showAction} />
-      <ActionBtn showAction={showAction} onClick={handleRecordSleep} hideAction={hideAction}>
-        💤
-      </ActionBtn>
-      <SleepModal openAction={openAction} hideAction={hideAction} showAction={showAction} />
-      <ActionBtn showAction={showAction} hideAction={hideAction} onClick={handleRecordCalendar}>
-        🗓️
-      </ActionBtn>
-      <CalendarModal openAction={openAction} hideAction={hideAction} showAction={showAction} />
-      <Base showAction={showAction}>
-        <Container>
-          <NavLink to="/" data-text="HOME" style={({ isActive }) => (isActive ? activeStyle : undefined)}>
-            <AiOutlineHome />
-          </NavLink>
-          <NavLink to="/memo" data-text="MEMO" style={({ isActive }) => (isActive ? activeStyle : undefined)}>
-            <HiOutlineChatBubbleBottomCenterText />
-          </NavLink>
-          <div></div>
-          <NavLink to="/chart" data-text="CHART" style={({ isActive }) => (isActive ? activeStyle : undefined)}>
-            <BsCalendarDate />
-          </NavLink>
-          <NavLink to="/user" data-text="USER" style={({ isActive }) => (isActive ? activeStyle : undefined)}>
-            <AiOutlineUser />
-          </NavLink>
-        </Container>
-        <OverLay showAction={showAction}></OverLay>
-      </Base>
-    </Button>
+    <>
+      {/*  <Button showAction={showAction} isOpen={isOpen}>
+        <PlusBtn onClick={handleAction} showAction={showAction} main={main} hideAction={hideAction}>
+          {openAction === "milk" ? (
+            <AiOutlineCheck onClick={handleMilkSave} />
+          ) : openAction === "sleep" ? (
+            <AiOutlineCheck onClick={handleSleepSave} />
+          ) : openAction === "calendar" ? (
+            <AiOutlineCheck onClick={handleCalendarSave} />
+          ) : (
+            <span>+</span>
+          )}
+        </PlusBtn>
+        <ActionBtn showAction={showAction} onClick={handleRecordMilk} hideAction={hideAction}>
+          🍼
+        </ActionBtn>
+        <MilkModal openAction={openAction} hideAction={hideAction} showAction={showAction} />
+        <ActionBtn showAction={showAction} onClick={handleRecordSleep} hideAction={hideAction}>
+          💤
+        </ActionBtn>
+        <SleepModal openAction={openAction} hideAction={hideAction} showAction={showAction} />
+        <ActionBtn showAction={showAction} hideAction={hideAction} onClick={handleRecordCalendar}>
+          🗓️
+        </ActionBtn>
+        <CalendarModal openAction={openAction} hideAction={hideAction} showAction={showAction} />
+      </Button> */}
+    </>
   );
 };
 
-const Base = styled.div`
-  position: fixed;
-  background-color: #f3f3f3;
-  max-width: 1200px;
-  width: 80vw;
-  margin: 0 auto;
-  border-radius: 80px;
-  transition: all 0.6s;
-  transform-origin: 50% 50%;
-  left: 50%;
-  transform: translateX(-50%);
-  padding: 14px;
-
-  @media (max-width: 768px) {
-    padding: 9px;
-  }
-
-  ${({ showAction }) =>
-    showAction
-      ? css`
-          transform: translateX(-50%) scale(0);
-        `
-      : css`
-          transform: translateX(-50%) scale(1);
-        `}
-`;
-
 const OverLay = styled.div`
   position: absolute;
+  background-color: red;
   width: 100%;
   height: 100%;
   border-radius: 80px;
