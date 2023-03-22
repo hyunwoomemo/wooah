@@ -19,7 +19,7 @@ const Join = () => {
   const passwordCheckRef = useRef();
   const [passwordCheck, setPasswordCheck] = useState("");
 
-  console.log(parents);
+
 
   const handleGroupName = () => {
     setGroupName(groupNameRef.current.value);

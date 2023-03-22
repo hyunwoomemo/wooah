@@ -9,17 +9,16 @@ import dayjs from "dayjs";
 import { useDispatch, useSelector } from "react-redux";
 import { plus, minus } from "../../slices/RecordModalSlice";
 import { AiOutlineCheck } from "react-icons/ai";
-import { getItem, getList, postItem, putItem } from "../../slices/RecordSlice";
+import { postItem } from "../../slices/RecordSlice";
 import { select } from "../../slices/DateSlice";
 import { onChange, open, selectDate } from "../../slices/RecordModalSlice";
 import { DateContext } from "../../context/Context";
-import Overlay from "../common/Overlay";
 
 const Portal = (props) => {
   return createPortal(props.children, document.getElementById("portal"));
 };
 
-const MilkModal = () => {
+const DiaperModal = () => {
   useEffect(() => {
     dispatch(onChange(dayjs(new Date()).format("YYYY-MM-DD HH:mm:ss")));
   }, []);
@@ -27,10 +26,7 @@ const MilkModal = () => {
   const { now, setNow } = useContext(DateContext);
   const dispatch = useDispatch();
 
-  const { volume, date, endDate, openCategory } = useSelector((state) => state.RecordModalSlice);
-  const { selectValue } = useSelector((state) => state.DateSlice);
-
-  const { selectData } = useSelector((state) => state.RecordSlice);
+  const { volume, date, openCategory } = useSelector((state) => state.RecordModalSlice);
 
   const handleTimeChange = (e) => {
     setNow(e);
@@ -53,23 +49,6 @@ const MilkModal = () => {
     dispatch(select(new Date(date)));
     dispatch(selectDate(new Date(date)));
     dispatch(open(""));
-    dispatch(getList());
-
-    if (selectData[selectData?.length - 1]?.category === "sleep" && selectData[selectData?.length - 1]?.endDate === null) {
-      dispatch(
-        putItem({
-          id: selectData[selectData?.length - 1]?.id,
-          category: "sleep",
-          date: dayjs(new Date(selectData[selectData?.length - 1]?.date)).format("YYYY-MM-DD HH:mm:ss"),
-          recorder: localStorage.getItem("parents"),
-          email: localStorage.getItem("email"),
-          groupName: localStorage.getItem("group"),
-          endDate: dayjs(new Date(now)).format("YYYY-MM-DD HH:mm:ss"),
-          volume: null,
-          big: null,
-        })
-      );
-    }
   };
 
   return (
@@ -89,7 +68,6 @@ const MilkModal = () => {
           </SaveBtn>
         </Base>
       </LocalizationProvider>
-      {openCategory ? <Overlay openCategpry={openCategory} select="open"></Overlay> : undefined}
     </Portal>
   );
 };
@@ -98,7 +76,7 @@ const Base = styled.div`
   z-index: 999;
   max-width: 1200px;
   width: 90vw;
-  height: 50vh;
+  height: 90vh;
   background-color: #fff;
   border: 1px solid #f1f1f1;
   box-shadow: 0px 0px 5px #e1e1e1;
@@ -121,7 +99,7 @@ const Base = styled.div`
           transform: translate(-50%, -50%) scale(1);
         `
       : css`
-          transform: translate(-50%, -50%) scale(0);
+          transform: translate(-50%, 50%) scale(0);
         `}
 `;
 
@@ -160,4 +138,4 @@ const MilkHandler = styled.div`
 
 const SaveBtn = styled.div``;
 
-export default MilkModal;
+export default DiaperModal;

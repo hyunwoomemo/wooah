@@ -14,14 +14,13 @@ const Layout = ({ children, main }) => {
   const [now, setNow] = useState(dayjs(new Date()));
   const dispatch = useDispatch();
 
-  const { openCategory } = useSelector((state) => state.RecordModalSlice);
+  const { openCategory, updateCategory } = useSelector((state) => state.RecordModalSlice);
 
   return (
     <MilkModalContext.Provider value={{}}>
       <DateContext.Provider value={{ now, setNow }}>
         <ModalContext.Provider value={{ isOpen, setIsOpen }}>
-          <Base openCategory={openCategory}>
-            <OverLay openCategory={openCategory} onClick={() => dispatch(open(""))}></OverLay>
+          <Base openCategory={openCategory} updateCategory={updateCategory}>
             <Header></Header>
             {children}
           </Base>
@@ -45,26 +44,13 @@ const Base = styled.div`
           overflow: hidden;
         `
       : css``}
-`;
 
-const OverLay = styled.div`
-  width: 100vw;
-  height: 100vh;
-  background-color: #d7d7d7;
-  position: absolute;
-  top: 0;
-  left: 0;
-  transition: all 0.3s;
-  ${({ openCategory }) =>
-    openCategory
+  ${({ updateCategory }) =>
+    updateCategory
       ? css`
-          z-index: 999;
-          opacity: 0.8;
+          overflow: hidden;
         `
-      : css`
-          opacity: 0;
-          pointer-events: none;
-        `}
+      : css``}
 `;
 
 export default Layout;

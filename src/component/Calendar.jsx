@@ -47,12 +47,12 @@ const Calendar = () => {
     }, 100); */
   };
 
-  const { data, loading, error } = useSelector((state) => state.RecordSlice);
+  const { data, selectData, loading, error } = useSelector((state) => state.RecordSlice);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getList());
-  }, [dispatch]);
+  }, [selectValue, dispatch]);
 
   const pad = () =>
     [...Array(firstDay.getDay()).keys()]?.map((p, i, arr) => (
@@ -213,6 +213,8 @@ const Table = styled.table`
   word-break: break-all;
   height: auto;
   transition: all 0.3s;
+  box-shadow: 0.3rem 0.3rem 0.6rem var(--greyLight-2), -0.2rem -0.2rem 0.5rem var(--white);
+  border-radius: 20px;
 
   ${({ moveLeft, moveRight }) =>
     moveLeft

@@ -10,26 +10,24 @@ import { AiOutlineCheck } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { DateContext } from "../../context/Context";
 import { select } from "../../slices/DateSlice";
-import { selectDate, open, selectEndDate } from "../../slices/RecordModalSlice";
-import { postItem } from "../../slices/RecordSlice";
+import { selectDate, open, update, selectEndDate } from "../../slices/RecordModalSlice";
+import { postItem, putItem } from "../../slices/RecordSlice";
 import Overlay from "../common/Overlay";
 
 const Portal = (props) => {
   return createPortal(props.children, document.querySelector("#portal"));
 };
 
-const SleepModal = () => {
+const UpdateSleep = ({ id }) => {
   const { now, setNow } = useContext(DateContext);
   const { date, endDate } = useSelector((state) => state.RecordModalSlice);
   const [endTime, setEndTime] = useState();
 
-  const { openCategory } = useSelector((state) => state.RecordModalSlice);
+  const { updateCategory } = useSelector((state) => state.RecordModalSlice);
 
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    setNow(dayjs(new Date()));
-  }, []);
+  useEffect(() => {}, []);
 
   const handleTimeChange = (e) => {
     dispatch(selectDate(e));
@@ -41,37 +39,42 @@ const SleepModal = () => {
     dispatch(selectEndDate(e));
   };
 
-  const handleSleepSave = () => {
+  console.log(date);
+
+  const handleSleepUpdate = () => {
     dispatch(
-      postItem({
+      putItem({
+        id: id,
         category: "sleep",
-        date: date,
+        date: dayjs(new Date(now)).format("YYYY-MM-DD HH:mm:ss"),
         recorder: localStorage.getItem("parents"),
         email: localStorage.getItem("email"),
         groupName: localStorage.getItem("group"),
         endDate: endTime ? dayjs(new Date(endTime)).format("YYYY-MM-DD HH:mm:ss") : null,
         volume: null,
+        big: null,
       })
     );
     dispatch(select(new Date(date)));
     dispatch(selectDate(new Date(date)));
-    dispatch(open(""));
+    dispatch(update(""));
   };
 
   return (
     <Portal>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <Base openCategory={openCategory}>
+        <Base updateCategory={updateCategory}>
           <TimeWrapper>
-            <TimePicker label="잠든 시간" defaultValue={now || ""} value={now || ""} onChange={handleTimeChange} />
-            <TimePicker label="잠깬 시간" defaultValue={""} value={endTime || ""} onChange={handleEndTimeChange} />
+            <TimePicker label="잠든 시간" defaultValue={dayjs(new Date(now)) || ""} value={dayjs(new Date(now)) || ""} onChange={handleTimeChange} />
+            <TimePicker label="잠깬 시간" defaultValue={dayjs(new Date(endDate)) || ""} value={dayjs(new Date(endDate)) || ""} onChange={handleEndTimeChange} />
           </TimeWrapper>
           <SaveBtn>
-            <AiOutlineCheck onClick={handleSleepSave} />
+            수정
+            <AiOutlineCheck onClick={handleSleepUpdate} />
           </SaveBtn>
         </Base>
       </LocalizationProvider>
-      {openCategory ? <Overlay openCategpry={openCategory} select="open"></Overlay> : undefined}
+      {updateCategory ? <Overlay updateCategory={updateCategory}></Overlay> : undefined}
     </Portal>
   );
 };
@@ -98,8 +101,8 @@ const Base = styled.div`
   gap: 3rem;
   overflow: hidden;
 
-  ${({ openCategory }) =>
-    openCategory === "sleep"
+  ${({ updateCategory }) =>
+    updateCategory === "sleep"
       ? css`
           transform: translate(-50%, -50%) scale(1);
         `
@@ -115,4 +118,4 @@ const TimeWrapper = styled.div`
 
 const SaveBtn = styled.div``;
 
-export default SleepModal;
+export default UpdateSleep;

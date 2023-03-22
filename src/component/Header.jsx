@@ -66,15 +66,15 @@ const Header = () => {
           <TodayBtn isToday={isSameDay(selectValue, new Date())} onClick={handleToday}>
             Today
           </TodayBtn>
+          <SubHeader>
+            <DisplayLatestWork>{lastWork === "milk" ? "🍼 분유" : lastWork === "sleep" ? "💤 잠자는 중" : undefined}</DisplayLatestWork>
+            {lastWork === "milk" ? <Moment fromNow>{lastWorkTime}</Moment> : lastWork === "sleep" ? <Moment interval={1000} date={lastWorkTime} durationFromNow></Moment> : undefined}
+          </SubHeader>
           <IconsItem>
             <AiOutlineSearch />
           </IconsItem>
         </IconsWrapper>
       </MainHeader>
-      <SubHeader>
-        <DisplayLatestWork>{lastWork === "milk" ? "🍼 분유" : lastWork === "sleep" ? "💤 잠자는 중" : undefined}</DisplayLatestWork>
-        {lastWork === "milk" ? <Moment fromNow>{lastWorkTime}</Moment> : lastWork === "sleep" ? <Moment interval={1000} date={lastWorkTime} durationFromNow></Moment> : undefined}
-      </SubHeader>
     </Base>
   );
 };
@@ -106,7 +106,7 @@ const MainHeader = styled.div`
 `;
 const SubHeader = styled.div`
   display: flex;
-  margin: 0 auto;
+  margin-left: auto;
   gap: 10px;
 `;
 

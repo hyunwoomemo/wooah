@@ -7,7 +7,6 @@ import { DateContext, ModalContext } from "../context/Context";
 import { select } from "../slices/DateSlice";
 import { selectDateMilk } from "../slices/MilkSlice";
 import { open, selectDate } from "../slices/RecordModalSlice";
-import { selectDateSleep } from "../slices/SleepSlice";
 import CalendarModal from "./Navigation/CalendarModal";
 import MilkModal from "./Navigation/MilkModal";
 import SleepModal from "./Navigation/SleepModal";

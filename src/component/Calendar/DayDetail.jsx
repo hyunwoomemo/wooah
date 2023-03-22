@@ -1,10 +1,16 @@
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import dayjs from "dayjs";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import DateSlice, { select } from "../../slices/DateSlice";
 import { getItem, getList } from "../../slices/RecordSlice";
+import Moment from "react-moment";
+import "moment/locale/ko";
+import SleepModal from "../Navigation/SleepModal";
+import { open, selectEndDate, update } from "../../slices/RecordModalSlice";
+import { DateContext } from "../../context/Context";
+import UpdateSleep from "../update/UpdateSleep";
 
 const day = ["일", "월", "화", "수", "목", "금", "토"];
 
@@ -12,41 +18,61 @@ const DayDetail = () => {
   const dispatch = useDispatch();
   const { selectValue } = useSelector((state) => state.DateSlice);
 
-  const { data, loading, error } = useSelector((state) => state.RecordSlice);
-
-  const isSameDay = (a, b) => {
-    return a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate();
-  };
-
-  const contents = data?.filter((v) => isSameDay(new Date(v.date), selectValue) && v.email === localStorage.getItem("email"))?.sort((a, b) => new Date(a.date) - new Date(b.date));
+  const { selectData, loading, error } = useSelector((state) => state.RecordSlice);
 
   useEffect(() => {
-    dispatch(getList());
-  }, [selectValue, dispatch]);
+    dispatch(getItem(dayjs(new Date(selectValue)).format("YYYY-MM-DD")));
+  }, [selectValue]);
 
   const [dataLength, setDataLength] = useState(0);
 
   useEffect(() => {
-    setDataLength(contents?.length);
+    setDataLength(selectData?.length);
 
     return () => {
       setDataLength(0);
     };
-  }, [contents]);
+  }, [selectData]);
+
+  const { now, setNow } = useContext(DateContext);
+
+  const [id, setId] = useState(0);
+
+  const handleUpdate = (id, category, time, endTime) => {
+    setId(id);
+    setNow(time);
+    dispatch(update(category));
+    dispatch(selectEndDate(endTime));
+  };
 
   return (
     <Base>
       <Title> {dayjs(new Date(selectValue)).format(`YYYY년 MM월 DD일 (${day[selectValue.getDay()]})`)}</Title>
       <Content dataLength={dataLength}>
+        <UpdateSleep id={id} />
         {error
           ? "조회된 데이터가 없습니다"
-          : contents?.map((item) => {
+          : selectData?.map((item, i, arr) => {
               return (
                 <>
-                  <Record key={item.date}>
+                  <Record key={item.date} onClick={() => handleUpdate(item.id, item.category, item.date, item.endDate, item.volume)}>
                     <RecordDate>{dayjs(new Date(item.date)).format("HH:mm")}</RecordDate>
                     <RecordCategory>{item.category === "milk" ? "분유" : item.category}</RecordCategory>
-                    <RecordDetail>{item.category === "milk" ? `${item.volume}ml` : undefined}</RecordDetail>
+                    <RecordDetail>
+                      {item.category === "milk" ? (
+                        `${item.volume}ml`
+                      ) : item.category === "sleep" ? (
+                        i === arr.length - 1 ? (
+                          item.endDate ? (
+                            `${dayjs(new Date(item.date)).format("HH:mm")} ~ ${item.endDate ? dayjs(new Date(item.endDate)).format("HH:mm") : ""}`
+                          ) : (
+                            <Moment interval={1000} date={item.date} durationFromNow></Moment>
+                          )
+                        ) : (
+                          `${dayjs(new Date(item.date)).format("HH:mm")} ~ ${item.endDate ? dayjs(new Date(item.endDate)).format("HH:mm") : ""}`
+                        )
+                      ) : undefined}
+                    </RecordDetail>
                   </Record>
                 </>
               );

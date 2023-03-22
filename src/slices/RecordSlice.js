@@ -12,6 +12,7 @@ export const getList = createAsyncThunk("RecordSlice/getList", async (payload, {
   let result = null;
   try {
     const response = await axios.get(URL)
+    console.log(response)
     result = response.data;
   } catch (err) {
     result = rejectWithValue(err.response);
@@ -24,6 +25,7 @@ export const getItem = createAsyncThunk("RecordSlice/getItem", async (payload, {
   try {
     const response = await axios.get(`${URL}/${payload}`);
 
+    console.log(response)
     result = response.data;
   } catch (err) {
     console.log(err);
@@ -65,10 +67,10 @@ export const postItem = createAsyncThunk("RecordSlice/postItem", async (payload,
 export const putItem = createAsyncThunk("RecordSlice/putItem", async (payload, { rejectWithValue }) => {
 
   let result = null;
-  const params = null;
 
   try {
     const response = await axios.put(`${URL}/${payload?.id}`, payload);
+    console.log(payload)
     result = response.data;
   } catch (err) {
     result = rejectWithValue(err.response);
@@ -100,6 +102,7 @@ const RecordSlice = createSlice({
     pagination: null,
     loading: false,
     error: null,
+    selectData: null,
   },
 
   //  외부 action 및 비동기 action (Ajax용)
@@ -118,6 +121,7 @@ const RecordSlice = createSlice({
     [getList.fulfilled]: (state, { payload }) => {
       return {
         data: [...payload],
+        selectData: state.data,
         loading: false,
         error: null,
       };
@@ -128,7 +132,8 @@ const RecordSlice = createSlice({
     [getItem.pending]: pending,
     [getItem.fulfilled]: (state, { payload }) => {
       return {
-        data: [...payload],
+        data: state.data,
+        selectData: [...payload],
         loading: false,
         error: null,
       };
@@ -138,9 +143,9 @@ const RecordSlice = createSlice({
     [postItem.pending]: pending,
     [postItem.fulfilled]: (state, { payload }) => {
       Swal.fire({
-        position: "top-end",
+        position: "center",
         icon: "success",
-        title: `분유 기록이 추가되었습니다 🍼`,
+        title: `기록이 추가되었습니다`,
         showConfirmButton: false,
         timer: 1500,
       });
@@ -177,7 +182,20 @@ const RecordSlice = createSlice({
 
 
     [putItem.pending]: pending,
-    [putItem.fulfilled]: fulfilled,
+    [putItem.fulfilled]: (state, { payload }) => {
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: `수정되었습니다`,
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      return {
+        data: [...payload],
+        loading: false,
+        error: null
+      }
+    },
     [putItem.rejected]: rejected,
 
 
