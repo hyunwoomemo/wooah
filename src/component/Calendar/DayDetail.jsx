@@ -4,13 +4,14 @@ import dayjs from "dayjs";
 import React, { useContext, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import DateSlice, { select } from "../../slices/DateSlice";
-import { getItem, getList } from "../../slices/RecordSlice";
+import { getItem, getList, lastItem } from "../../slices/RecordSlice";
 import Moment from "react-moment";
 import "moment/locale/ko";
 import SleepModal from "../Navigation/SleepModal";
-import { open, selectEndDate, update } from "../../slices/RecordModalSlice";
+import { open, selectEndDate, update, updateVolume } from "../../slices/RecordModalSlice";
 import { DateContext } from "../../context/Context";
 import UpdateSleep from "../update/UpdateSleep";
+import UpdateMilk from "../update/UpdateMilk";
 
 const day = ["일", "월", "화", "수", "목", "금", "토"];
 
@@ -18,7 +19,7 @@ const DayDetail = () => {
   const dispatch = useDispatch();
   const { selectValue } = useSelector((state) => state.DateSlice);
 
-  const { selectData, loading, error } = useSelector((state) => state.RecordSlice);
+  const { selectData, loading, error, lastData } = useSelector((state) => state.RecordSlice);
 
   useEffect(() => {
     dispatch(getItem(dayjs(new Date(selectValue)).format("YYYY-MM-DD")));
@@ -38,10 +39,13 @@ const DayDetail = () => {
 
   const [id, setId] = useState(0);
 
-  const handleUpdate = (id, category, time, endTime) => {
+  const handleUpdate = (id, category, time, endTime, volume) => {
+    console.log(time);
+    console.log(endTime);
     setId(id);
     setNow(time);
     dispatch(update(category));
+    dispatch(updateVolume(volume));
     dispatch(selectEndDate(endTime));
   };
 
@@ -50,6 +54,7 @@ const DayDetail = () => {
       <Title> {dayjs(new Date(selectValue)).format(`YYYY년 MM월 DD일 (${day[selectValue.getDay()]})`)}</Title>
       <Content dataLength={dataLength}>
         <UpdateSleep id={id} />
+        <UpdateMilk id={id} />
         {error
           ? "조회된 데이터가 없습니다"
           : selectData?.map((item, i, arr) => {

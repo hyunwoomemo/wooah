@@ -31,17 +31,28 @@ const RecordModalSlice = createSlice({
       return { openCategory: openCategoryValue, updateCategory: updateCategoryValue, date: dateValue, volume: volumeValue }
     },
 
+    updateVolume: (state, action) => {
+      const volumeValue = parseInt(action.payload);
+      const updateCategoryValue = state.updateCategory
+      const dateValue = dayjs(new Date()).format('YYYY-MM-DD HH:mm:ss');
+
+      return { volume: volumeValue, updateCategory: updateCategoryValue, date: dateValue }
+    },
+
     plus: (state, action) => {
-      const volumeValue = state.volume + action.payload;
+      const volumeValue = parseInt(state.volume) + action.payload;
       const openCategoryValue = state.openCategory
+      const updateCategoryValue = state.updateCategory
       const dateValue = dayjs(new Date(state.date)).format('YYYY-MM-DD HH:mm:ss');
-      return { date: dateValue, volume: volumeValue, openCategory: openCategoryValue }
+
+      return { date: dateValue, volume: volumeValue, updateCategory: updateCategoryValue, openCategory: openCategoryValue }
     },
     minus: (state, action) => {
-      const volumeValue = state.volume - action.payload;
+      const volumeValue = parseInt(state.volume) - action.payload;
       const openCategoryValue = state.openCategory
+      const updateCategoryValue = state.updateCategory
       const dateValue = dayjs(new Date(state.date)).format('YYYY-MM-DD HH:mm:ss');
-      return { date: dateValue, volume: volumeValue, openCategory: openCategoryValue }
+      return { date: dateValue, volume: volumeValue, openCategory: openCategoryValue, updateCategory: updateCategoryValue }
     },
     onChange: (state, action) => {
       const volumeValue = state.volume;
@@ -51,8 +62,8 @@ const RecordModalSlice = createSlice({
     },
     onEndDateChange: (state, action) => {
       const endDateValue = dayjs(new Date(action.payload)).format('YYYY-MM-DD HH:mm:ss');
-
-      return { endDate: endDateValue }
+      const volumeValue = state.volume;
+      return { endDate: endDateValue, volume: volumeValue }
     },
     selectDate: (state, action) => {
       const dateValue = dayjs(new Date(action.payload)).format('YYYY-MM-DD HH:mm:ss');
@@ -64,7 +75,7 @@ const RecordModalSlice = createSlice({
     },
 
     selectEndDate: (state, action) => {
-      const dateValue = dayjs(new Date()).format('YYYY-MM-DD HH:mm:ss');
+      const dateValue = state.date;
       const endDateValue = dayjs(new Date(action.payload)).format('YYYY-MM-DD HH:mm:ss');
       const openCategoryValue = state.openCategory;
       const volumeValue = state.volume;
@@ -76,6 +87,6 @@ const RecordModalSlice = createSlice({
 })
 
 
-export const { open, update, plus, minus, onChange, onEndDateChange, selectDate, selectEndDate } = RecordModalSlice.actions;
+export const { open, updateVolume, update, plus, minus, onChange, onEndDateChange, selectDate, selectEndDate } = RecordModalSlice.actions;
 
 export default RecordModalSlice.reducer;

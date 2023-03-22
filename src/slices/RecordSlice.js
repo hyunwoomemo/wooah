@@ -144,7 +144,7 @@ const RecordSlice = createSlice({
       return {
         data: state.data,
         selectData: state.data,
-        lastData: payload,
+        lastData: [...payload],
         loading: false,
         error: null,
       };
