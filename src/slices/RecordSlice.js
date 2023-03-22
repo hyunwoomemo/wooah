@@ -12,7 +12,7 @@ export const getList = createAsyncThunk("RecordSlice/getList", async (payload, {
   let result = null;
   try {
     const response = await axios.get(URL)
-    console.log(response)
+
     result = response.data;
   } catch (err) {
     result = rejectWithValue(err.response);
@@ -25,7 +25,6 @@ export const getItem = createAsyncThunk("RecordSlice/getItem", async (payload, {
   try {
     const response = await axios.get(`${URL}/${payload}`);
 
-    console.log(response)
     result = response.data;
   } catch (err) {
     console.log(err);
@@ -39,10 +38,8 @@ export const getItem = createAsyncThunk("RecordSlice/getItem", async (payload, {
 export const lastItem = createAsyncThunk("RecordSlice/lastItem", async (payload, { rejectWithValue }) => {
   let result = null;
   try {
-    const response = await axios.get(`${URL}/latest`);
-
+    const response = await axios.get(`${URL}/last`);
     result = response.data;
-    console.log(result)
   } catch (err) {
     console.log(err);
     result = rejectWithValue(err.response);
@@ -97,12 +94,12 @@ const RecordSlice = createSlice({
   name: 'RecordSlice',
   initialState: {
     // backend 
-    allData: null,
     data: null,
     pagination: null,
     loading: false,
     error: null,
     selectData: null,
+    lastData: null,
   },
 
   //  외부 action 및 비동기 action (Ajax용)
@@ -122,6 +119,7 @@ const RecordSlice = createSlice({
       return {
         data: [...payload],
         selectData: state.data,
+        lastData: state.data,
         loading: false,
         error: null,
       };
@@ -134,11 +132,24 @@ const RecordSlice = createSlice({
       return {
         data: state.data,
         selectData: [...payload],
+        lastData: state.data,
         loading: false,
         error: null,
       };
     },
     [getItem.rejected]: rejected,
+
+    [lastItem.pending]: pending,
+    [lastItem.fulfilled]: (state, { payload }) => {
+      return {
+        data: state.data,
+        selectData: state.data,
+        lastData: payload,
+        loading: false,
+        error: null,
+      };
+    },
+    [lastItem.rejected]: rejected,
 
     [postItem.pending]: pending,
     [postItem.fulfilled]: (state, { payload }) => {

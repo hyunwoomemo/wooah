@@ -133,9 +133,7 @@ const Record = styled.div`
   }
 `;
 
-const RecordDate = styled.div`
-  background-color: #fff;
-`;
+const RecordDate = styled.div``;
 
 const RecordCategory = styled.div``;
 

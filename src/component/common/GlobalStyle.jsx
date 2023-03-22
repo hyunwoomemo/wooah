@@ -14,6 +14,10 @@ const defaultStyle = css`
    License: none (public domain)
 */
 
+  :root {
+    color-scheme: light only;
+  }
+
   html,
   body,
   div,

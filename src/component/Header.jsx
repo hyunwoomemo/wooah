@@ -23,12 +23,18 @@ const Header = () => {
 
   const dispatch = useDispatch();
 
-  const { data, loading, error } = useSelector((state) => state.RecordSlice);
+  const { /* data, loading, error,  */ lastData } = useSelector((state) => state.RecordSlice);
+
+  useEffect(() => {
+    dispatch(lastItem());
+  }, [dispatch]);
+
+  console.log(lastData);
 
   const [lastWork, setLastWork] = useState("");
   const [lastWorkTime, setLastWorkTime] = useState("");
 
-  const contents =
+  /* const contents =
     data &&
     Object.entries(data)
       ?.sort((a, b) => new Date(a.date) - new Date(b.date))
@@ -39,7 +45,7 @@ const Header = () => {
       setLastWork(contents[0][1]?.category);
       setLastWorkTime(dayjs(new Date(contents[0][1]?.date)).$d);
     }
-  }, [data]);
+  }, [data]); */
 
   const [age, setAge] = useState(getDateDiff(birthDay) + 1);
 

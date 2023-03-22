@@ -39,8 +39,6 @@ const UpdateSleep = ({ id }) => {
     dispatch(selectEndDate(e));
   };
 
-  console.log(date);
-
   const handleSleepUpdate = () => {
     dispatch(
       putItem({
