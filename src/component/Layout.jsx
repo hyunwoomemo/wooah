@@ -15,6 +15,9 @@ const Layout = ({ children, main }) => {
   const dispatch = useDispatch();
 
   const { openCategory, updateCategory } = useSelector((state) => state.RecordModalSlice);
+  const { selectData } = useSelector((state) => state.RecordSlice);
+
+  console.log(selectData?.length);
 
   const [scrollY, setScrollY] = useState(0);
 
@@ -25,7 +28,7 @@ const Layout = ({ children, main }) => {
   });
 
   useEffect(() => {
-    if (updateCategory || openCategory) {
+    if (updateCategory || openCategory || !selectData?.length) {
       document.body.style.cssText = `
       position: fixed; 
       top: -${scrollY}px;
@@ -37,7 +40,7 @@ const Layout = ({ children, main }) => {
         window.scrollTo(0, parseInt(scrollY || "0", 10));
       };
     }
-  }, [updateCategory, openCategory]);
+  }, [updateCategory, openCategory, selectData]);
 
   return (
     <MilkModalContext.Provider value={{}}>
