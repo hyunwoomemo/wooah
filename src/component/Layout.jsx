@@ -66,6 +66,19 @@ const Base = styled.div`
   height: 100vh;
   transition: all 0.3s;
   overflow-y: scroll;
+
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+
+  overscroll-behavior: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+    width: 0;
+    height: 0;
+    background: transparent;
+    -webkit-appearance: none;
+  }
 `;
 
 export default Layout;

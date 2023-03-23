@@ -148,8 +148,14 @@ const defaultStyle = css`
     scrollbar-width: none;
     -ms-overflow-style: none;
 
+    overscroll-behavior: none;
+
     &::-webkit-scrollbar {
       display: none;
+      width: 0;
+      height: 0;
+      background: transparent;
+      -webkit-appearance: none;
     }
   }
 
