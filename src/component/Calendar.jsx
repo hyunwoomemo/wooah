@@ -85,13 +85,27 @@ const Calendar = () => {
       );
     });
 
+  const arrLength = [...pad(), ...range()].length;
+
+  const fillNum = Math.ceil(arrLength / 7) * 7 - arrLength;
+
+  const fill = () => {
+    [...Array(fillNum)]?.map((f, i) => {
+      return (
+        <TableData key={`fill${f}`}>
+          <FillData>{i + 1}</FillData>
+        </TableData>
+      );
+    });
+  };
+
   const render = () => {
     // table data 를 일주일 단위로 줄바꿈한다.
     const items = [...pad(), ...range()];
 
     const weeks = Math.ceil(items.length / 7);
 
-    return [...Array(weeks).keys()]?.map((week) => <tr key={`week_${week}`}>{items.slice(week * 7, week * 7 + 7)}</tr>);
+    return [...Array(weeks).keys()]?.map((week, i, arr) => <tr key={`week_${week}`}>{items.slice(week * 7, week * 7 + 7)}</tr>);
   };
 
   const [touchPosition, setTouchPosition] = useState({});
@@ -279,6 +293,13 @@ const TableData = styled.td`
 `;
 
 const PadData = styled.div`
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  color: #c1c1c1;
+`;
+
+const FillData = styled.div`
   display: flex;
   justify-content: center;
   width: 100%;
