@@ -5,7 +5,6 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 import dayjs from "dayjs";
 import React, { useEffect, useState } from "react";
-import { createPortal } from "react-dom";
 import PortalComponent from "../common/PortalComponent";
 
 const CalendarModal = ({ openAction, hideAction, showAction }) => {
