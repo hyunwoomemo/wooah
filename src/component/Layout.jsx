@@ -65,6 +65,7 @@ const Base = styled.div`
   margin: 0 auto;
   height: 100vh;
   transition: all 0.3s;
+  overflow-y: scroll;
 `;
 
 export default Layout;

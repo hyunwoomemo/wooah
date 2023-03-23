@@ -1,7 +1,6 @@
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import React, { useContext, useEffect, useState } from "react";
-import { createPortal } from "react-dom";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { TimePicker } from "@mui/x-date-pickers/TimePicker";
@@ -14,10 +13,6 @@ import { select } from "../../slices/DateSlice";
 import { onChange, open, selectDate } from "../../slices/RecordModalSlice";
 import { DateContext } from "../../context/Context";
 import PortalComponent from "../common/PortalComponent";
-
-const Portal = (props) => {
-  return createPortal(props.children, document.getElementById("portal"));
-};
 
 const DiaperModal = () => {
   useEffect(() => {
