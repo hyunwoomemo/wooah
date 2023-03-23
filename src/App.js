@@ -34,18 +34,15 @@ function App() {
   return (
     <Base>
       <GlobalStyle />
-      {loading ? <Loading /> :
-
-        <Routes>
-          <Route path='/' element={<Main />}></Route>
-          <Route path='/memo' element={<Memo />}></Route>
-          <Route path='/chart' element={<Chart />}></Route>
-          <Route path='/user' element={<User />}></Route>
-          <Route path='/login' element={<Login />}></Route>
-          <Route path='/join' element={<Join />}></Route>
-          <Route path='/*' element={<NotFound />}></Route>
-        </Routes>
-      }
+      <Routes>
+        <Route path='/' element={<Main />}></Route>
+        <Route path='/memo' element={<Memo />}></Route>
+        <Route path='/chart' element={<Chart />}></Route>
+        <Route path='/user' element={<User />}></Route>
+        <Route path='/login' element={<Login />}></Route>
+        <Route path='/join' element={<Join />}></Route>
+        <Route path='/*' element={<NotFound />}></Route>
+      </Routes>
     </Base>
   );
 }
