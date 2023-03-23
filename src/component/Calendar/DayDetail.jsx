@@ -92,7 +92,8 @@ const Base = styled.div`
   }
   transition: all 0.3s;
   z-index: 999;
-  background-color: #fff;
+  background-color: #e5e1b5;
+  height: 100vh;
 `;
 
 const Title = styled.h1`
