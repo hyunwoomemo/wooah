@@ -22,21 +22,6 @@ const Layout = ({ children, main }) => {
     });
   });
 
-  useEffect(() => {
-    if (updateCategory || openCategory || !selectData?.length) {
-      document.body.style.cssText = `
-      position: fixed; 
-      top: -${scrollY}px;
-      overflow-y: scroll;
-      width: 100%;`;
-
-      return () => {
-        document.body.style.cssText = "";
-        window.scrollTo(0, parseInt(scrollY || "0", 10));
-      };
-    }
-  }, [updateCategory, openCategory, selectData]);
-
   return (
     <MilkModalContext.Provider value={{}}>
       <DateContext.Provider value={{ now, setNow }}>

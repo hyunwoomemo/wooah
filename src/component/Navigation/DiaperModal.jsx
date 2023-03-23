@@ -13,6 +13,7 @@ import { postItem } from "../../slices/RecordSlice";
 import { select } from "../../slices/DateSlice";
 import { onChange, open, selectDate } from "../../slices/RecordModalSlice";
 import { DateContext } from "../../context/Context";
+import PortalComponent from "../common/PortalComponent";
 
 const Portal = (props) => {
   return createPortal(props.children, document.getElementById("portal"));
@@ -52,7 +53,7 @@ const DiaperModal = () => {
   };
 
   return (
-    <Portal>
+    <PortalComponent>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <Base openCategory={openCategory}>
           <MilkWrapper>
@@ -68,7 +69,7 @@ const DiaperModal = () => {
           </SaveBtn>
         </Base>
       </LocalizationProvider>
-    </Portal>
+    </PortalComponent>
   );
 };
 

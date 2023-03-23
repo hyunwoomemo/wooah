@@ -6,17 +6,14 @@ import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 import dayjs from "dayjs";
 import React, { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
-
-const Portal = (props) => {
-  return createPortal(props.children, document.querySelector("#portal"));
-};
+import PortalComponent from "../common/PortalComponent";
 
 const CalendarModal = ({ openAction, hideAction, showAction }) => {
   const [startTime, setStartTime] = useState(dayjs(new Date()));
   const [endTime, setEndTime] = useState();
 
   return (
-    <Portal>
+    <PortalComponent>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <Base openAction={openAction} hideAction={hideAction} showAction={showAction}>
           <TimeWrapper>
@@ -25,7 +22,7 @@ const CalendarModal = ({ openAction, hideAction, showAction }) => {
           </TimeWrapper>
         </Base>
       </LocalizationProvider>
-    </Portal>
+    </PortalComponent>
   );
 };
 
