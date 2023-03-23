@@ -281,8 +281,10 @@ const TableData = styled.td`
   }
   cursor: pointer;
 
-  &:hover {
-    background-color: #80808011;
+  @media (min-width: 769px) {
+    &:hover {
+      background-color: #80808011;
+    }
   }
 
   > div {

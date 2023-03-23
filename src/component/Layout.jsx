@@ -14,8 +14,6 @@ const Layout = ({ children, main }) => {
   const { openCategory, updateCategory } = useSelector((state) => state.RecordModalSlice);
   const { selectData } = useSelector((state) => state.RecordSlice);
 
-  console.log(selectData?.length);
-
   const [scrollY, setScrollY] = useState(0);
 
   useEffect(() => {
