@@ -16,8 +16,9 @@ const Base = styled.div`
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 998;
+  z-index: -1;
   overflow: hidden;
+  box-sizing: border-box;
 
   ${({ item }) =>
     item

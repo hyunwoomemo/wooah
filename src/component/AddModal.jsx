@@ -55,31 +55,29 @@ const AddModal = () => {
   }, [isOpen]);
 
   return (
-    <>
-      <Portal>
-        <Contents isOpen={isOpen}>
-          <Day>
-            <div>{`${targetDate} (${day[new Date(targetDate).getDay()]})`}</div>
-            <div onClick={() => setIsOpen(false)}>X</div>
-          </Day>
-          <Memo>등록된 일정이 없습니다.</Memo>
-          <FilterCateogry />
-          <ContentsWrapper id="ContentsWrapper">
-            {filterDb.map((v, i) => {
-              return (
-                <Record recorder={v.recorder}>
-                  <ContetnsRecord last={i === filterDb.length - 1}>
-                    <div>{v.time.slice(0, 5)}</div>
-                    <div>{v.category === "milk" ? "🍼 분유" : v.category === "sleep" ? "💤 잠" : v.category}</div>
-                    {v.volume ? <div>{`${v.volume}ml`}</div> : undefined}
-                  </ContetnsRecord>
-                </Record>
-              );
-            })}
-          </ContentsWrapper>
-        </Contents>
-      </Portal>
-    </>
+    <Portal>
+      <Contents isOpen={isOpen}>
+        <Day>
+          <div>{`${targetDate} (${day[new Date(targetDate).getDay()]})`}</div>
+          <div onClick={() => setIsOpen(false)}>X</div>
+        </Day>
+        <Memo>등록된 일정이 없습니다.</Memo>
+        <FilterCateogry />
+        <ContentsWrapper id="ContentsWrapper">
+          {filterDb.map((v, i) => {
+            return (
+              <Record recorder={v.recorder}>
+                <ContetnsRecord last={i === filterDb.length - 1}>
+                  <div>{v.time.slice(0, 5)}</div>
+                  <div>{v.category === "milk" ? "🍼 분유" : v.category === "sleep" ? "💤 잠" : v.category}</div>
+                  {v.volume ? <div>{`${v.volume}ml`}</div> : undefined}
+                </ContetnsRecord>
+              </Record>
+            );
+          })}
+        </ContentsWrapper>
+      </Contents>
+    </Portal>
   );
 };
 

@@ -146,7 +146,7 @@ const defaultStyle = css`
   body {
     font-family: "Dovemayo_wild";
     height: 100vh;
-    overflow: hidden;
+    overflow-x: hidden;
     box-sizing: border-box;
 
     scrollbar-width: none;
