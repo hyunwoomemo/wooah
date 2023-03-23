@@ -3,11 +3,8 @@ import styled from "@emotion/styled";
 import dayjs from "dayjs";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { ActionContext, DateContext, LatestWorkContext, MilkModalContext, ModalContext } from "../context/Context";
-import { toggleAction } from "../slices/ActionModalSlice";
-import { open } from "../slices/RecordModalSlice";
+import { DateContext, MilkModalContext } from "../context/Context";
 import Header from "./Header";
-import NavigationBar from "./Navigation";
 
 const Layout = ({ children, main }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -45,13 +42,10 @@ const Layout = ({ children, main }) => {
   return (
     <MilkModalContext.Provider value={{}}>
       <DateContext.Provider value={{ now, setNow }}>
-        <ModalContext.Provider value={{ isOpen, setIsOpen }}>
-          <Base openCategory={openCategory} updateCategory={updateCategory}>
-            <Header></Header>
-            {children}
-          </Base>
-          <NavigationBar main={main}></NavigationBar>
-        </ModalContext.Provider>
+        <Base openCategory={openCategory} updateCategory={updateCategory}>
+          <Header></Header>
+          {children}
+        </Base>
       </DateContext.Provider>
     </MilkModalContext.Provider>
   );
