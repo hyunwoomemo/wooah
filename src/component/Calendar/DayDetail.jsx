@@ -1,7 +1,7 @@
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import dayjs from "dayjs";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import DateSlice, { select } from "../../slices/DateSlice";
 import { getItem, getList, lastItem } from "../../slices/RecordSlice";
@@ -40,8 +40,6 @@ const DayDetail = () => {
   const [id, setId] = useState(0);
 
   const handleUpdate = (id, category, time, endTime, volume) => {
-    console.log(time);
-    console.log(endTime);
     setId(id);
     setNow(time);
     dispatch(update(category));
