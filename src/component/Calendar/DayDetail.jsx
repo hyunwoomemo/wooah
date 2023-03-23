@@ -43,12 +43,12 @@ const DayDetail = () => {
     setId(id);
     setNow(time);
     dispatch(update(category));
-    dispatch(updateVolume(volume));
-    dispatch(selectEndDate(endTime));
+    dispatch(updateVolume(volume || 140));
+    dispatch(selectEndDate(endTime || dayjs(new Date(time)).add(1, "hour")));
   };
 
   return (
-    <Base dataLength={dataLength}>
+    <Base>
       <Title> {dayjs(new Date(selectValue)).format(`YYYY년 MM월 DD일 (${day[selectValue.getDay()]})`)}</Title>
       <Content dataLength={dataLength}>
         <UpdateSleep id={id} />
@@ -93,15 +93,6 @@ const Base = styled.div`
   transition: all 0.3s;
   z-index: 999;
   background-color: #fff;
-
-  ${({ dataLength }) =>
-    dataLength > 0
-      ? css`
-          overflow: auto;
-        `
-      : css`
-          overflow: hidden;
-        `}
 `;
 
 const Title = styled.h1`

@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { DateContext, ModalContext } from "../context/Context";
 import { select } from "../slices/DateSlice";
 import { selectDateMilk } from "../slices/MilkSlice";
-import { open, selectDate, selectEndDate } from "../slices/RecordModalSlice";
+import { open, selectDate, selectEndDate, updateVolume } from "../slices/RecordModalSlice";
 import CalendarModal from "./Navigation/CalendarModal";
 import MilkModal from "./Navigation/MilkModal";
 import SleepModal from "./Navigation/SleepModal";
@@ -21,15 +21,14 @@ const RecordCategory = () => {
   const handleRecordMilk = () => {
     setNow(dayjs(new Date()));
     dispatch(selectDate());
+    dispatch(updateVolume(140));
     dispatch(open("milk"));
-    /* dispatch(selectDateMilk(dayjs(new Date()))); */
   };
   const handleRecordSleep = () => {
-    /*  dispatch(selectDate(dayjs(new Date()))); */
     setNow(dayjs(new Date()));
     dispatch(selectDate());
     dispatch(open("sleep"));
-    /* dispatch(selectDateSleep(dayjs(new Date()))); */
+    dispatch(selectEndDate(""));
   };
 
   return (

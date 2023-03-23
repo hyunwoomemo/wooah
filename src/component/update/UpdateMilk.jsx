@@ -24,8 +24,6 @@ const UpdateMilk = ({ id }) => {
 
   const dispatch = useDispatch();
 
-  useEffect(() => {}, []);
-
   const handleTimeChange = (e) => {
     dispatch(selectDate(e));
     setNow(e);
@@ -83,7 +81,7 @@ const Base = styled.div`
   padding: 1rem;
   box-sizing: border-box;
   border-radius: 10px;
-  position: absolute;
+  position: fixed;
   top: 50%;
   left: 50%;
   transition: all 0.3s;
@@ -97,9 +95,11 @@ const Base = styled.div`
     updateCategory === "milk"
       ? css`
           transform: translate(-50%, -50%) scale(1);
+          pointer-events: none;
         `
       : css`
           transform: translate(-50%, -50%) scale(0);
+          pointer-events: all;
         `}
 `;
 

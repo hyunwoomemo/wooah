@@ -1,7 +1,7 @@
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import dayjs from "dayjs";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ActionContext, DateContext, LatestWorkContext, MilkModalContext, ModalContext } from "../context/Context";
 import { toggleAction } from "../slices/ActionModalSlice";
@@ -15,6 +15,29 @@ const Layout = ({ children, main }) => {
   const dispatch = useDispatch();
 
   const { openCategory, updateCategory } = useSelector((state) => state.RecordModalSlice);
+
+  const [scrollY, setScrollY] = useState(0);
+
+  useEffect(() => {
+    window.addEventListener("scroll", () => {
+      setScrollY(window.scrollY);
+    });
+  });
+
+  useEffect(() => {
+    if (updateCategory || openCategory) {
+      document.body.style.cssText = `
+      position: fixed; 
+      top: -${scrollY}px;
+      overflow-y: scroll;
+      width: 100%;`;
+
+      return () => {
+        document.body.style.cssText = "";
+        window.scrollTo(0, parseInt(scrollY || "0", 10));
+      };
+    }
+  }, [updateCategory, openCategory]);
 
   return (
     <MilkModalContext.Provider value={{}}>
@@ -37,20 +60,6 @@ const Base = styled.div`
   margin: 0 auto;
   height: 100vh;
   transition: all 0.3s;
-
-  ${({ openCategory }) =>
-    openCategory
-      ? css`
-          overflow: hidden;
-        `
-      : css``}
-
-  ${({ updateCategory }) =>
-    updateCategory
-      ? css`
-          overflow: hidden;
-        `
-      : css``}
 `;
 
 export default Layout;

@@ -64,7 +64,7 @@ const SleepModal = () => {
         <Base openCategory={openCategory}>
           <TimeWrapper>
             <TimePicker label="잠든 시간" defaultValue={now || ""} value={now || ""} onChange={handleTimeChange} />
-            <TimePicker label="잠깬 시간" defaultValue={""} value={endTime || ""} onChange={handleEndTimeChange} />
+            <TimePicker label="잠깬 시간" defaultValue={""} value={endTime || ""} onChange={handleEndTimeChange} onClick={() => console.log("ab")} />
           </TimeWrapper>
           <SaveBtn>
             <AiOutlineCheck onClick={handleSleepSave} />
@@ -87,7 +87,7 @@ const Base = styled.div`
   padding: 1rem;
   box-sizing: border-box;
   border-radius: 10px;
-  position: absolute;
+  position: fixed;
   top: 50%;
   left: 50%;
   transition: all 0.2s;

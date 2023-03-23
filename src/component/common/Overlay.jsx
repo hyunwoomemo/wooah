@@ -13,7 +13,7 @@ const Base = styled.div`
   background-color: #d7d7d7;
   height: 100vh;
   width: 100vw;
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   z-index: 998;

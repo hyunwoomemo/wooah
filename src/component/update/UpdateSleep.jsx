@@ -21,9 +21,6 @@ const Portal = (props) => {
 const UpdateSleep = ({ id }) => {
   const { now, setNow } = useContext(DateContext);
   const { date, endDate, updateCategory } = useSelector((state) => state.RecordModalSlice);
-  const [endTime, setEndTime] = useState();
-
-  console.log(endDate);
 
   const dispatch = useDispatch();
 
@@ -35,7 +32,6 @@ const UpdateSleep = ({ id }) => {
   };
 
   const handleEndTimeChange = (e) => {
-    setEndTime(e);
     dispatch(selectEndDate(e));
   };
 
@@ -48,7 +44,7 @@ const UpdateSleep = ({ id }) => {
         recorder: localStorage.getItem("parents"),
         email: localStorage.getItem("email"),
         groupName: localStorage.getItem("group"),
-        endDate: endTime ? dayjs(new Date(endTime)).format("YYYY-MM-DD HH:mm:ss") : null,
+        endDate: dayjs(new Date(endDate)).format("YYYY-MM-DD HH:mm:ss"),
         volume: null,
         big: null,
       })
@@ -88,7 +84,7 @@ const Base = styled.div`
   padding: 1rem;
   box-sizing: border-box;
   border-radius: 10px;
-  position: absolute;
+  position: fixed;
   top: 50%;
   left: 50%;
   transition: all 0.2s;

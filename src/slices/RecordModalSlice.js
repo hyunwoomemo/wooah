@@ -40,7 +40,7 @@ const RecordModalSlice = createSlice({
     },
 
     plus: (state, action) => {
-      const volumeValue = parseInt(state.volume) + action.payload;
+      const volumeValue = state.volume + action.payload;
       const openCategoryValue = state.openCategory
       const updateCategoryValue = state.updateCategory
       const dateValue = dayjs(new Date(state.date)).format('YYYY-MM-DD HH:mm:ss');
@@ -48,7 +48,7 @@ const RecordModalSlice = createSlice({
       return { date: dateValue, volume: volumeValue, updateCategory: updateCategoryValue, openCategory: openCategoryValue }
     },
     minus: (state, action) => {
-      const volumeValue = parseInt(state.volume) - action.payload;
+      const volumeValue = state.volume - action.payload;
       const openCategoryValue = state.openCategory
       const updateCategoryValue = state.updateCategory
       const dateValue = dayjs(new Date(state.date)).format('YYYY-MM-DD HH:mm:ss');

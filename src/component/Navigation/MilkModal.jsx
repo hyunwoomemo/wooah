@@ -7,11 +7,10 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 import dayjs from "dayjs";
 import { useDispatch, useSelector } from "react-redux";
-import { plus, minus } from "../../slices/RecordModalSlice";
 import { AiOutlineCheck } from "react-icons/ai";
 import { getItem, getList, postItem, putItem } from "../../slices/RecordSlice";
 import { select } from "../../slices/DateSlice";
-import { onChange, open, selectDate } from "../../slices/RecordModalSlice";
+import { onChange, open, selectDate, plus, minus } from "../../slices/RecordModalSlice";
 import { DateContext } from "../../context/Context";
 import Overlay from "../common/Overlay";
 
@@ -105,7 +104,7 @@ const Base = styled.div`
   padding: 1rem;
   box-sizing: border-box;
   border-radius: 10px;
-  position: absolute;
+  position: fixed;
   top: 50%;
   left: 50%;
   transition: all 0.3s;
