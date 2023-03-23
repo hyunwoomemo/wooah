@@ -55,21 +55,7 @@ const Base = styled.div`
   flex-direction: column;
   max-width: 1200px;
   margin: 0 auto;
-  overflow-y: scroll;
-
-  scrollbar-width: none;
-    -ms-overflow-style: none;
-
-    &::-webkit-scrollbar {
-      display: none;
-    }
 `
 
-/* const OverLay = styled.div`
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background-color: red;
-` */
 
 export default App;
