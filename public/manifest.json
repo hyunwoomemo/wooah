@@ -22,10 +22,25 @@
       "src": "./icons/maskable_icon_x192.png",
       "type": "image/png",
       "sizes": "192x192"
+    },
+    {
+      "src": "./icons/apple-touch-icon-144x144.png",
+      "sizes": "144x144",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "./icons/apple-touch-icon-76x76.png",
+      "sizes": "76x76",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "./icons/apple-touch-icon-152x152.png",
+      "sizes": "152x152",
+      "type": "image/x-icon"
     }
   ],
-  "start_url": ".",
+  "start_url": "./",
   "display": "fullscreen",
-  "theme_color": "#fff",
+  "theme_color": "#317EFB",
   "background_color": "#fff"
 }
