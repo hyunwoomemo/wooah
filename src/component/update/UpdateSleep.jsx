@@ -5,7 +5,6 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 import dayjs from "dayjs";
 import React, { useContext, useEffect, useState } from "react";
-import { createPortal } from "react-dom";
 import { AiOutlineCheck } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { DateContext } from "../../context/Context";
@@ -14,10 +13,6 @@ import { selectDate, open, update, selectEndDate } from "../../slices/RecordModa
 import { postItem, putItem } from "../../slices/RecordSlice";
 import Overlay from "../common/Overlay";
 import PortalComponent from "../common/PortalComponent";
-
-const Portal = (props) => {
-  return createPortal(props.children, document.querySelector("#portal"));
-};
 
 const UpdateSleep = ({ id }) => {
   const { now, setNow } = useContext(DateContext);

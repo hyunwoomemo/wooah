@@ -70,8 +70,9 @@ const RecordModalSlice = createSlice({
       const openCategoryValue = state.openCategory;
       const volumeValue = state.volume;
       const updateCategoryValue = state.updateCategory;
+      const endDateValue = state.endDate;
 
-      return { date: dateValue, updateCategory: updateCategoryValue, openCategory: openCategoryValue, volume: volumeValue }
+      return { date: dateValue, endDate: endDateValue, updateCategory: updateCategoryValue, openCategory: openCategoryValue, volume: volumeValue }
     },
 
     selectEndDate: (state, action) => {
