@@ -92,6 +92,9 @@ const Base = styled.div`
   }
   transition: all 0.3s;
   z-index: 999;
+
+  padding-bottom: 0;
+  padding-bottom: env(safe-area-inset-bottom, 0);
 `;
 
 const Title = styled.h1`
