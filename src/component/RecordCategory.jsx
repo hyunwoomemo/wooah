@@ -45,9 +45,9 @@ const RecordCategory = () => {
 };
 
 const Base = styled.div`
-  padding: 1rem;
+  padding: 1rem 1rem 1rem 0;
   @media (max-width: 768px) {
-    padding: 10px;
+    padding: 10px 10px 10px 0;
   }
 
   gap: 1rem;

@@ -98,8 +98,6 @@ const Modal = ({ children, onClose, isOpen, selector = "#portal" }) => {
     });
   }, [screenWidth]);
 
-  console.log(isMobile);
-
   return (
     <CSSTransition in={isOpen} timeout={300} classNames="modal" unmountOnExit>
       <Portal selector={selector}>

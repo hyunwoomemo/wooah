@@ -12,6 +12,7 @@ import { open, selectEndDate, update, updateVolume } from "../../slices/RecordMo
 import { DateContext } from "../../context/Context";
 import UpdateSleep from "../update/UpdateSleep";
 import UpdateMilk from "../update/UpdateMilk";
+import RecordCategory from "../RecordCategory";
 
 const day = ["일", "월", "화", "수", "목", "금", "토"];
 
@@ -53,33 +54,42 @@ const DayDetail = () => {
       <Content dataLength={dataLength}>
         <UpdateSleep id={id} />
         <UpdateMilk id={id} />
-        {error
-          ? "조회된 데이터가 없습니다"
-          : selectData?.map((item, i, arr) => {
-              return (
-                <>
-                  <Record key={item.date} onClick={() => handleUpdate(item.id, item.category, item.date, item.endDate, item.volume)}>
+        {/* <NewEvent>새 이벤트 추가</NewEvent> */}
+        <RecordCategory />
+        <Data dataLength={dataLength}>
+          {selectData?.map((item, i, arr) => {
+            return (
+              <>
+                <Record key={item.date} onClick={() => handleUpdate(item.id, item.category, item.date, item.endDate, item.volume)}>
+                  {item.endDate ? (
+                    <RecordDateEndDate>
+                      <div>{dayjs(new Date(item.date)).format("HH:mm")}</div>
+                      <div>{dayjs(new Date(item.endDate)).format("HH:mm")}</div>
+                    </RecordDateEndDate>
+                  ) : (
                     <RecordDate>{dayjs(new Date(item.date)).format("HH:mm")}</RecordDate>
-                    <RecordCategory>{item.category === "milk" ? "분유" : item.category}</RecordCategory>
-                    <RecordDetail>
-                      {item.category === "milk" ? (
-                        `${item.volume}ml`
-                      ) : item.category === "sleep" ? (
-                        i === arr.length - 1 ? (
-                          item.endDate ? (
-                            `${dayjs(new Date(item.date)).format("HH:mm")} ~ ${item.endDate ? dayjs(new Date(item.endDate)).format("HH:mm") : ""}`
-                          ) : (
-                            <Moment interval={1000} date={item.date} durationFromNow></Moment>
-                          )
+                  )}
+                  <RecordCategoryItem>{item.category === "milk" ? "분유" : item.category}</RecordCategoryItem>
+                  <RecordDetail>
+                    {item.category === "milk" ? (
+                      `${item.volume}ml`
+                    ) : item.category === "sleep" ? (
+                      i === arr.length - 1 ? (
+                        item.endDate ? (
+                          `${dayjs(new Date(item.endDate)).diff(dayjs(new Date(item.date)), "minute")}`
                         ) : (
-                          `${dayjs(new Date(item.date)).format("HH:mm")} ~ ${item.endDate ? dayjs(new Date(item.endDate)).format("HH:mm") : ""}`
+                          <Moment interval={1000} date={item.date} durationFromNow></Moment>
                         )
-                      ) : undefined}
-                    </RecordDetail>
-                  </Record>
-                </>
-              );
-            })}
+                      ) : (
+                        `${dayjs(new Date(item.endDate)).diff(dayjs(new Date(item.date)), "minute")}`
+                      )
+                    ) : undefined}
+                  </RecordDetail>
+                </Record>
+              </>
+            );
+          })}
+        </Data>
       </Content>
     </Base>
   );
@@ -87,12 +97,12 @@ const DayDetail = () => {
 
 const Base = styled.div`
   padding: 1rem;
+  margin-bottom: 1rem;
   @media (max-width: 768px) {
     padding: 10px;
   }
   transition: all 0.3s;
 
-  padding-bottom: 0;
   padding-bottom: env(safe-area-inset-bottom, 0);
 `;
 
@@ -105,22 +115,25 @@ const Title = styled.h1`
   }
 `;
 
+const NewEvent = styled.div`
+  padding: 1rem 0;
+`;
+
 const Content = styled.div`
   margin-top: 15px;
-  transition: all 0.7s;
-  transform: scaleY(0);
-  transform-origin: top;
+`;
 
+const Data = styled.div`
+  transition: all 0.7s;
+  transform-origin: top;
   ${({ dataLength }) =>
     dataLength
       ? css`
           transform: scaleY(1);
         `
-      : css``}
-
-  @media (max-width: 768px) {
-    /* padding: 0.5rem; */
-  }
+      : css`
+          transform: scaleY(0);
+        `}
 `;
 
 const Record = styled.div`
@@ -130,6 +143,7 @@ const Record = styled.div`
   background-color: #f2f2f25e;
   padding: 10px;
   border-radius: 5px;
+  align-items: center;
 
   > div {
     padding: 5px;
@@ -139,7 +153,9 @@ const Record = styled.div`
 
 const RecordDate = styled.div``;
 
-const RecordCategory = styled.div``;
+const RecordDateEndDate = styled.div``;
+
+const RecordCategoryItem = styled.div``;
 
 const RecordDetail = styled.div`
   box-shadow: 0 0 2px gray;

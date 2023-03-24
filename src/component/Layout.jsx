@@ -43,9 +43,9 @@ const Base = styled.div`
   position: relative;
   max-width: 1200px;
   margin: 0 auto;
-  height: 100vh;
+  /* height: 100vh; */
   transition: all 0.3s;
-  overflow-y: scroll;
+  /* overflow: scroll; */
 
   ${({ open }) =>
     open

@@ -32,22 +32,29 @@ const UpdateSleep = ({ id }) => {
   };
 
   const handleSleepUpdate = () => {
-    dispatch(
-      putItem({
-        id: id,
-        category: "sleep",
-        date: dayjs(new Date(now)).format("YYYY-MM-DD HH:mm:ss"),
-        recorder: localStorage.getItem("parents"),
-        email: localStorage.getItem("email"),
-        groupName: localStorage.getItem("group"),
-        endDate: dayjs(new Date(endDate)).format("YYYY-MM-DD HH:mm:ss"),
-        volume: null,
-        big: null,
-      })
-    );
-    dispatch(select(new Date(date)));
-    dispatch(selectDate(new Date(date)));
-    dispatch(update(""));
+    if (dayjs(new Date(endDate)).diff(dayjs(new Date(now)), "minute") < 0) {
+      alert("종료 시간이 시작 시간보다 빨라요 😂");
+    } else {
+      dispatch(
+        putItem({
+          id: id,
+          category: "sleep",
+          date: dayjs(new Date(now)).format("YYYY-MM-DD HH:mm:ss"),
+          recorder: localStorage.getItem("parents"),
+          email: localStorage.getItem("email"),
+          groupName: localStorage.getItem("group"),
+          endDate:
+            dayjs(new Date(endDate)).diff(dayjs(new Date(date)), "minute") < 0
+              ? dayjs(new Date(endDate)).add(1, "day").format("YYYY-MM-DD HH:mm:ss")
+              : dayjs(new Date(endDate)).format("YYYY-MM-DD HH:mm:ss"),
+          volume: null,
+          big: null,
+        })
+      );
+      dispatch(select(new Date(date)));
+      dispatch(selectDate(new Date(date)));
+      dispatch(update(""));
+    }
   };
 
   return (
@@ -56,7 +63,7 @@ const UpdateSleep = ({ id }) => {
         <Base updateCategory={updateCategory}>
           <TimeWrapper>
             <TimePicker label="잠든 시간" defaultValue={dayjs(new Date(now)) || ""} value={dayjs(new Date(now)) || ""} onChange={handleTimeChange} />
-            <TimePicker label="잠깬 시간" defaultValue={dayjs(new Date(endDate)) || ""} value={dayjs(new Date(endDate)) || ""} onChange={handleEndTimeChange} />
+            <TimePicker label="잠깬 시간" defaultValue={dayjs(new Date(endDate)) || ""} value={dayjs(new Date(endDate)) || ""} onChange={handleEndTimeChange} minTime={dayjs(new Date(now))} />
           </TimeWrapper>
           <SaveBtn>
             수정

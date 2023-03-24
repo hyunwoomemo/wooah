@@ -9,7 +9,7 @@ const Main = () => {
   return (
     <Layout main="main">
       <Calendar />
-      <RecordCategory />
+      {/* <RecordCategory /> */}
       <DayDetail />
       <AddModal />
     </Layout>
