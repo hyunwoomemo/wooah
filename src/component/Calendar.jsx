@@ -191,6 +191,7 @@ const Base = styled.div`
   box-sizing: border-box;
   transition: all 0.3s;
   padding: 1rem;
+
   @media (max-width: 768px) {
     padding: 10px;
   }
@@ -297,7 +298,7 @@ const PadData = styled.div`
   display: flex;
   justify-content: center;
   width: 100%;
-  color: #c1c1c1;
+  color: #8a8a8a;
 `;
 
 const FillData = styled.div`
@@ -353,6 +354,7 @@ const DateItem = styled.div`
   display: flex;
   justify-content: center;
   width: 100%;
+  font-size: 16px;
 
   > div {
     width: 100%;

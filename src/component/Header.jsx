@@ -70,9 +70,9 @@ const Header = () => {
             <DisplayLatestWork>{lastWork === "milk" ? "🍼 분유" : lastWork === "sleep" ? "💤 잠자는 중" : undefined}</DisplayLatestWork>
             {lastWork === "milk" ? <Moment fromNow>{lastWorkTime}</Moment> : lastWork === "sleep" ? <Moment interval={1000} date={lastWorkTime} durationFromNow></Moment> : undefined}
           </SubHeader>
-          <IconsItem>
+          {/* <IconsItem>
             <AiOutlineSearch />
-          </IconsItem>
+          </IconsItem> */}
         </IconsWrapper>
       </MainHeader>
     </Base>
@@ -95,7 +95,7 @@ const Base = styled.div`
   }
 
   @media (max-width: 768px) {
-    font-size: 12px;
+    font-size: 14px;
   }
 `;
 
@@ -138,9 +138,7 @@ const BabyInfoWrapper = styled.div`
 
 const BabyName = styled.div``;
 
-const BabyAge = styled.div`
-  /* font-size: 14px; */
-`;
+const BabyAge = styled.div``;
 
 const DisplayLatestWork = styled.div``;
 
@@ -156,15 +154,14 @@ const IconsWrapper = styled.ul`
 
 const TodayBtn = styled.li`
   padding: 5px 10px;
-  background-color: #000;
-  color: #fff;
-  border-radius: 20px;
+  box-shadow: 0 0 3px gray;
+  border-radius: 5px;
   transition: all 0.3s;
   cursor: pointer;
   list-style: none;
 
   @media (max-width: 768px) {
-    padding: 4px 6px;
+    padding: 5px 10px;
   }
 
   ${({ isToday }) =>
