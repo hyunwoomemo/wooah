@@ -12,7 +12,7 @@ import { DateContext } from "../../context/Context";
 import { select } from "../../slices/DateSlice";
 import { selectDate, open, update, selectEndDate, minus, plus } from "../../slices/RecordModalSlice";
 import { postItem, putItem } from "../../slices/RecordSlice";
-import Overlay from "../common/Overlay";
+import Modal from "../common/Modal";
 import Portal from "../common/Portal";
 
 const UpdateMilk = ({ id }) => {
@@ -46,7 +46,7 @@ const UpdateMilk = ({ id }) => {
   };
 
   return (
-    <Portal>
+    <Modal isOpen={updateCategory === "milk"} onClose={() => dispatch(update(""))}>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <Base updateCategory={updateCategory}>
           <MilkWrapper>
@@ -62,8 +62,7 @@ const UpdateMilk = ({ id }) => {
           </SaveBtn>
         </Base>
       </LocalizationProvider>
-      {updateCategory ? <Overlay openCategpry={updateCategory}></Overlay> : undefined}
-    </Portal>
+    </Modal>
   );
 };
 

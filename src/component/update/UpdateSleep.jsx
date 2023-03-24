@@ -11,7 +11,7 @@ import { DateContext } from "../../context/Context";
 import { select } from "../../slices/DateSlice";
 import { selectDate, open, update, selectEndDate } from "../../slices/RecordModalSlice";
 import { postItem, putItem } from "../../slices/RecordSlice";
-import Overlay from "../common/Overlay";
+import Modal from "../common/Modal";
 import Portal from "../common/Portal";
 
 const UpdateSleep = ({ id }) => {
@@ -51,7 +51,7 @@ const UpdateSleep = ({ id }) => {
   };
 
   return (
-    <Portal>
+    <Modal isOpen={updateCategory === "sleep"} onClose={() => dispatch(update(""))}>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <Base updateCategory={updateCategory}>
           <TimeWrapper>
@@ -64,8 +64,7 @@ const UpdateSleep = ({ id }) => {
           </SaveBtn>
         </Base>
       </LocalizationProvider>
-      {updateCategory ? <Overlay updateCategory={updateCategory}></Overlay> : undefined}
-    </Portal>
+    </Modal>
   );
 };
 

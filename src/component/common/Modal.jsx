@@ -22,12 +22,13 @@ const Dim = styled.div`
   top: 0;
   right: 0;
   left: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.186);
 `;
 
 const Container = styled.div`
   width: 100vw;
-  height: 100vh;
+  height: 95vh;
   transform: translateY(7%);
   position: relative;
   background-color: #ffffff;
@@ -38,7 +39,7 @@ const Modal = ({ children, onClose, isOpen, selector = "#portal" }) => (
   <CSSTransition in={isOpen} timeout={300} classNames="modal" unmountOnExit>
     <Portal selector={selector}>
       <Overlay>
-        <Dim onClick={onClose} />
+        {/* <Dim onClick={onClose} /> */}
         <Container>{children}</Container>
       </Overlay>
     </Portal>

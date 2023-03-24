@@ -13,7 +13,6 @@ import { select } from "../../slices/DateSlice";
 import { selectDate, open, selectEndDate } from "../../slices/RecordModalSlice";
 import { postItem } from "../../slices/RecordSlice";
 import Modal from "../common/Modal";
-import Overlay from "../common/Overlay";
 import Portal from "../common/Portal";
 
 const SleepModal = () => {

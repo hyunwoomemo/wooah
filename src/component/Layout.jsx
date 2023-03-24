@@ -40,7 +40,7 @@ const Base = styled.div`
   max-width: 1200px;
   margin: 0 auto;
   height: 100vh;
-  transition: all 0.5s;
+  transition: all 0.3s;
   overflow-y: scroll;
 
   ${({ open }) =>
@@ -69,20 +69,21 @@ const Base = styled.div`
 const Overlay = styled.div`
   width: 100%;
   height: 100%;
-  background-color: #00000018;
+  background-color: #93939317;
   position: fixed;
   top: 0;
   left: 0;
   border-radius: 20px;
-  transition: all 0.5s;
+  transition: all 0.3s;
 
   ${({ open }) =>
     open
       ? css`
-          display: block;
+          opacity: 1;
         `
       : css`
-          display: none;
+          opacity: 0;
+          pointer-events: none;
         `}
 `;
 
