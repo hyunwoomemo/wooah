@@ -31,9 +31,11 @@ const Container = styled.div`
     distanceY
       ? css`
           transform: translateY(${distanceY}px);
+          will-change: transform;
         `
       : css`
           transform: translateY(5%);
+          will-change: auto;
         `}
 `;
 
@@ -79,8 +81,6 @@ const Modal = ({ children, onClose, isOpen, selector = "#portal" }) => {
       });
     }, 50);
   };
-
-  console.log(distanceY);
 
   return (
     <CSSTransition in={isOpen} timeout={300} classNames="modal" unmountOnExit>
