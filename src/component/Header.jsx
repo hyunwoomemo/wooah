@@ -53,14 +53,14 @@ const Header = () => {
     dispatch(select(new Date()));
   };
 
+  const baby = localStorage.getItem("baby");
+
   return (
     <Base>
       <MainHeader>
         <Month>{selectValue.getMonth() + 1}</Month>
         <ContentsWrapper>
-          <BabyInfoWrapper>
-            <BabyAge>{`${localStorage.getItem("baby")} ${age}일`}</BabyAge>
-          </BabyInfoWrapper>
+          <BabyInfoWrapper>{baby ? <BabyAge>{`${baby} ${age}일`}</BabyAge> : <LoginBtn to={"/login"}>로그인이 필요합니다</LoginBtn>}</BabyInfoWrapper>
         </ContentsWrapper>
         <IconsWrapper>
           <TodayBtn isToday={isSameDay(selectValue, new Date())} onClick={handleToday}>
@@ -97,6 +97,10 @@ const Base = styled.div`
   @media (max-width: 768px) {
     font-size: 12px;
   }
+`;
+
+const LoginBtn = styled(Link)`
+  cursor: pointer;
 `;
 
 const MainHeader = styled.div`

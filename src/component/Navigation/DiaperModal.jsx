@@ -52,6 +52,7 @@ const DiaperModal = () => {
     <Modal isOpen={openCategory === "diaper"} onClose={() => dispatch(open(""))}>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <Base openCategory={openCategory}>
+          <CloseBtn onClick={() => dispatch(open(""))}></CloseBtn>
           <MilkWrapper>
             <MilkHandler>
               <button onClick={(e) => dispatch(minus(5))}>-</button>
@@ -69,7 +70,24 @@ const DiaperModal = () => {
   );
 };
 
-const Base = styled.div``;
+const Base = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  gap: 3rem;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+`;
+
+const CloseBtn = styled.div`
+  width: 20%;
+  background-color: #000000b1;
+  height: 5px;
+  border-radius: 20px;
+  position: absolute;
+  top: 1rem;
+`;
 
 const MilkWrapper = styled.div``;
 

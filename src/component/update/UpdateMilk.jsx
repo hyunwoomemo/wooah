@@ -49,6 +49,7 @@ const UpdateMilk = ({ id }) => {
     <Modal isOpen={updateCategory === "milk"} onClose={() => dispatch(update(""))}>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <Base updateCategory={updateCategory}>
+          <CloseBtn onClick={() => dispatch(update(""))}></CloseBtn>
           <MilkWrapper>
             <MilkHandler>
               <button onClick={(e) => dispatch(minus(5))}>-</button>
@@ -67,36 +68,22 @@ const UpdateMilk = ({ id }) => {
 };
 
 const Base = styled.div`
-  z-index: 999;
-  max-width: 1200px;
-  width: 90vw;
-  height: 50vh;
-  background-color: #fff;
-  border: 1px solid #f1f1f1;
-  box-shadow: 0px 0px 5px #e1e1e1;
-  padding: 1rem;
-  box-sizing: border-box;
-  border-radius: 10px;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transition: all 0.3s;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  height: 100%;
   gap: 3rem;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+`;
 
-  ${({ updateCategory }) =>
-    updateCategory === "milk"
-      ? css`
-          transform: translate(-50%, -50%) scale(1);
-          pointer-events: none;
-        `
-      : css`
-          transform: translate(-50%, -50%) scale(0);
-          pointer-events: all;
-        `}
+const CloseBtn = styled.div`
+  width: 20%;
+  background-color: #000000b1;
+  height: 5px;
+  border-radius: 20px;
+  position: absolute;
+  top: 1rem;
 `;
 
 const MilkWrapper = styled.div``;

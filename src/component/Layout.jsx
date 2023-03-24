@@ -31,7 +31,6 @@ const Layout = ({ children, main }) => {
   return (
     <MilkModalContext.Provider value={{}}>
       <DateContext.Provider value={{ now, setNow }}>
-        <Background></Background>
         <Base open={openCategory || updateCategory}>
           <Header></Header>
           {children}
@@ -40,16 +39,6 @@ const Layout = ({ children, main }) => {
     </MilkModalContext.Provider>
   );
 };
-
-const Background = styled.div`
-  background-color: #1a1a1a;
-  height: 40px;
-  width: 100%;
-  left: 0;
-  position: absolute;
-  top: 0;
-  z-index: -1;
-`;
 
 const Base = styled.div`
   position: relative;

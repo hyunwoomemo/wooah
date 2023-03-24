@@ -15,6 +15,7 @@ const Overlay = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  background-color: #c2c2c2;
 `;
 
 const Dim = styled.div`

@@ -54,6 +54,7 @@ const UpdateSleep = ({ id }) => {
     <Modal isOpen={updateCategory === "sleep"} onClose={() => dispatch(update(""))}>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <Base updateCategory={updateCategory}>
+          <CloseBtn onClick={() => dispatch(open(""))}></CloseBtn>
           <TimeWrapper>
             <TimePicker label="잠든 시간" defaultValue={dayjs(new Date(now)) || ""} value={dayjs(new Date(now)) || ""} onChange={handleTimeChange} />
             <TimePicker label="잠깬 시간" defaultValue={dayjs(new Date(endDate)) || ""} value={dayjs(new Date(endDate)) || ""} onChange={handleEndTimeChange} />
@@ -69,35 +70,22 @@ const UpdateSleep = ({ id }) => {
 };
 
 const Base = styled.div`
-  z-index: 999;
-  max-width: 1200px;
-  width: 90vw;
-  height: 50vh;
-  background-color: #fff;
-  border: 1px solid #f1f1f1;
-  box-shadow: 0px 0px 5px #e1e1e1;
-  padding: 1rem;
-  box-sizing: border-box;
-  border-radius: 10px;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transition: all 0.2s;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  height: 100%;
   gap: 3rem;
-  overflow: hidden;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+`;
 
-  ${({ updateCategory }) =>
-    updateCategory === "sleep"
-      ? css`
-          transform: translate(-50%, -50%) scale(1);
-        `
-      : css`
-          transform: translate(-50%, -50%) scale(0);
-        `}
+const CloseBtn = styled.div`
+  width: 20%;
+  background-color: #000000b1;
+  height: 5px;
+  border-radius: 20px;
+  position: absolute;
+  top: 1rem;
 `;
 
 const TimeWrapper = styled.div`
