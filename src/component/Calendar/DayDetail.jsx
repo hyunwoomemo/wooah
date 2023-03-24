@@ -102,6 +102,7 @@ const Base = styled.div`
     padding: 10px;
   }
   transition: all 0.3s;
+  height: 100vh;
 
   padding-bottom: env(safe-area-inset-bottom, 0);
 `;
