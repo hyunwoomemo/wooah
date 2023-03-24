@@ -21,7 +21,6 @@ const CalendarModal = ({ openAction, hideAction, showAction }) => {
     <Modal isOpen={openCategory === "calendar"} onClose={() => dispatch(open(""))}>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <Base openAction={openAction} hideAction={hideAction} showAction={showAction}>
-          <CloseBtn onClick={() => dispatch(open(""))}></CloseBtn>
           <TimeWrapper>
             <TimePicker label="잠든 시간" defaultValue={startTime || ""} value={startTime || ""} onChange={(newValue) => setStartTime(newValue)} />
             <TimePicker label="잠깬 시간" value={endTime || ""} onChange={(newValue) => setEndTime(newValue)} />
@@ -40,15 +39,6 @@ const Base = styled.div`
   align-items: center;
   justify-content: center;
   padding: 1rem;
-`;
-
-const CloseBtn = styled.div`
-  width: 20%;
-  background-color: #000000b1;
-  height: 5px;
-  border-radius: 20px;
-  position: absolute;
-  top: 1rem;
 `;
 
 const TimeWrapper = styled.div`

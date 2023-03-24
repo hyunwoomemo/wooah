@@ -52,7 +52,7 @@ const Base = styled.div`
       ? css`
           transform: scaleY(0.95) scaleX(0.93);
           border-radius: 10px;
-          background-color: #d1d6e6;
+          background-color: #ecedf2;
         `
       : css`
           transform: scaleY(1) scaleX(1);
@@ -71,27 +71,6 @@ const Base = styled.div`
     background: transparent;
     -webkit-appearance: none;
   }
-`;
-
-const Overlay = styled.div`
-  width: 100%;
-  height: 100%;
-  background-color: #ebebeb43;
-  position: fixed;
-  top: 0;
-  left: 0;
-  border-radius: 10px;
-  transition: all 0.3s;
-
-  ${({ open }) =>
-    open
-      ? css`
-          opacity: 1;
-        `
-      : css`
-          opacity: 0;
-          pointer-events: none;
-        `}
 `;
 
 export default Layout;

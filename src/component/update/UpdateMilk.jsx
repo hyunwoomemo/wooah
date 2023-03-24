@@ -49,7 +49,6 @@ const UpdateMilk = ({ id }) => {
     <Modal isOpen={updateCategory === "milk"} onClose={() => dispatch(update(""))}>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <Base updateCategory={updateCategory}>
-          <CloseBtn onClick={() => dispatch(update(""))}></CloseBtn>
           <MilkWrapper>
             <MilkHandler>
               <button onClick={(e) => dispatch(minus(5))}>-</button>
@@ -75,15 +74,6 @@ const Base = styled.div`
   align-items: center;
   justify-content: center;
   padding: 1rem;
-`;
-
-const CloseBtn = styled.div`
-  width: 20%;
-  background-color: #000000b1;
-  height: 5px;
-  border-radius: 20px;
-  position: absolute;
-  top: 1rem;
 `;
 
 const MilkWrapper = styled.div``;

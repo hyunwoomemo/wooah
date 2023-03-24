@@ -71,7 +71,6 @@ const MilkModal = () => {
     <Modal isOpen={openCategory === "milk"} onClose={() => dispatch(open(""))}>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <Base openCategory={openCategory}>
-          <CloseBtn onClick={() => dispatch(open(""))}></CloseBtn>
           <MilkWrapper>
             <MilkHandler>
               <button onClick={(e) => dispatch(minus(5))}>-</button>
@@ -98,16 +97,6 @@ const Base = styled.div`
   justify-content: center;
   padding: 1rem;
 `;
-
-const CloseBtn = styled.div`
-  width: 20%;
-  background-color: #000000b1;
-  height: 5px;
-  border-radius: 20px;
-  position: absolute;
-  top: 1rem;
-`;
-
 const MilkWrapper = styled.div``;
 
 const MilkValue = styled.div`

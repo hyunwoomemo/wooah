@@ -59,7 +59,6 @@ const SleepModal = () => {
     <Modal isOpen={openCategory === "sleep"} onClose={() => dispatch(open(""))}>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <Base openCategory={openCategory}>
-          <CloseBtn onClick={() => dispatch(open(""))}></CloseBtn>
           <TimeWrapper>
             <TimePicker label="잠든 시간" defaultValue={now || ""} value={now || ""} onChange={handleTimeChange} />
             <TimePicker label="잠깬 시간" defaultValue={""} value={endTime || ""} onChange={handleEndTimeChange} onClick={() => console.log("ab")} />
@@ -81,15 +80,6 @@ const Base = styled.div`
   align-items: center;
   justify-content: center;
   padding: 1rem;
-`;
-
-const CloseBtn = styled.div`
-  width: 20%;
-  background-color: #000000b1;
-  height: 5px;
-  border-radius: 20px;
-  position: absolute;
-  top: 1rem;
 `;
 
 const TimeWrapper = styled.div`

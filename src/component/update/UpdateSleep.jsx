@@ -54,7 +54,6 @@ const UpdateSleep = ({ id }) => {
     <Modal isOpen={updateCategory === "sleep"} onClose={() => dispatch(update(""))}>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <Base updateCategory={updateCategory}>
-          <CloseBtn onClick={() => dispatch(open(""))}></CloseBtn>
           <TimeWrapper>
             <TimePicker label="잠든 시간" defaultValue={dayjs(new Date(now)) || ""} value={dayjs(new Date(now)) || ""} onChange={handleTimeChange} />
             <TimePicker label="잠깬 시간" defaultValue={dayjs(new Date(endDate)) || ""} value={dayjs(new Date(endDate)) || ""} onChange={handleEndTimeChange} />
@@ -77,15 +76,6 @@ const Base = styled.div`
   align-items: center;
   justify-content: center;
   padding: 1rem;
-`;
-
-const CloseBtn = styled.div`
-  width: 20%;
-  background-color: #000000b1;
-  height: 5px;
-  border-radius: 20px;
-  position: absolute;
-  top: 1rem;
 `;
 
 const TimeWrapper = styled.div`
