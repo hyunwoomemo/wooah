@@ -55,8 +55,10 @@ const Header = () => {
 
   const baby = localStorage.getItem("baby");
 
+  const { openCategory, updateCategory } = useSelector((state) => state.RecordModalSlice);
+
   return (
-    <Base>
+    <Base open={openCategory || updateCategory}>
       <MainHeader>
         <Month>{selectValue.getMonth() + 1}</Month>
         <ContentsWrapper>
@@ -87,7 +89,14 @@ const Base = styled.div`
   position: sticky;
   top: 0;
   color: var(--black-text-color);
-  backdrop-filter: blur(5px);
+  ${({ open }) =>
+    open
+      ? css`
+          backdrop-filter: unset;
+        `
+      : css`
+          backdrop-filter: blur(5px);
+        `}
   z-index: 2;
 
   @media (max-width: 768px) {

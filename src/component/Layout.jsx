@@ -12,20 +12,6 @@ const Layout = ({ children, main }) => {
   const dispatch = useDispatch();
 
   const { openCategory, updateCategory } = useSelector((state) => state.RecordModalSlice);
-  const { selectData } = useSelector((state) => state.RecordSlice);
-
-  const [scrollY, setScrollY] = useState(0);
-
-  const appleThemeColor = document.querySelector("meta[name=apple-mobile-web-app-status-bar-style]");
-
-  useEffect(() => {
-    if (openCategory || updateCategory) {
-      appleThemeColor.setAttribute("content", "#000");
-      console.log("a");
-    } else {
-      appleThemeColor.setAttribute("content", "#FFF");
-    }
-  });
 
   return (
     <MilkModalContext.Provider value={{}}>
@@ -50,12 +36,12 @@ const Base = styled.div`
   ${({ open }) =>
     open
       ? css`
-          transform: scaleY(0.95) scaleX(0.93);
+          transform: scale(0.95);
           border-radius: 10px;
           background-color: #ecedf2;
         `
       : css`
-          transform: scaleY(1) scaleX(1);
+          transform: scale(1);
           border-radius: 0;
         `}
 

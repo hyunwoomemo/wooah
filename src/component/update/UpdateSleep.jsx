@@ -63,7 +63,7 @@ const UpdateSleep = ({ id }) => {
         <Base updateCategory={updateCategory}>
           <TimeWrapper>
             <TimePicker label="잠든 시간" defaultValue={dayjs(new Date(now)) || ""} value={dayjs(new Date(now)) || ""} onChange={handleTimeChange} />
-            <TimePicker label="잠깬 시간" defaultValue={dayjs(new Date(endDate)) || ""} value={dayjs(new Date(endDate)) || ""} onChange={handleEndTimeChange} minTime={dayjs(new Date(now))} />
+            <TimePicker label="잠깬 시간" defaultValue={dayjs(new Date(endDate)) || ""} value={dayjs(new Date(endDate)) || ""} onChange={handleEndTimeChange} disablePast />
           </TimeWrapper>
           <SaveBtn>
             수정
