@@ -87,7 +87,7 @@ const Base = styled.div`
   position: sticky;
   top: 0;
   color: var(--black-text-color);
-  background-color: #ffffff;
+  /* background-color: #ffffff; */
   z-index: 2;
 
   @media (max-width: 768px) {

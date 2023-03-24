@@ -16,17 +16,16 @@ const Layout = ({ children, main }) => {
 
   const [scrollY, setScrollY] = useState(0);
 
-  /* useEffect(() => {
-    if (openCategory || updateCategory) {
-      document.querySelector("body").style.cssText = `
-        background-color: #131313;
-      `;
-    }
+  const appleThemeColor = document.querySelector("meta[name=apple-mobile-web-app-status-bar-style]");
 
-    return () => {
-      document.querySelector("body").style.cssText = ``;
-    };
-  }); */
+  useEffect(() => {
+    if (openCategory || updateCategory) {
+      appleThemeColor.setAttribute("content", "#000");
+      console.log("a");
+    } else {
+      appleThemeColor.setAttribute("content", "#FFF");
+    }
+  });
 
   return (
     <MilkModalContext.Provider value={{}}>
@@ -53,6 +52,7 @@ const Base = styled.div`
       ? css`
           transform: scaleY(0.95) scaleX(0.93);
           border-radius: 10px;
+          background-color: #d1d6e6;
         `
       : css`
           transform: scaleY(1) scaleX(1);

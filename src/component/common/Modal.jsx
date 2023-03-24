@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react";
+import React, { ReactNode, useRef } from "react";
 import { CSSTransition } from "react-transition-group";
 import styled from "@emotion/styled/macro";
 
@@ -15,16 +15,6 @@ const Overlay = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #c2c2c2;
-`;
-
-const Dim = styled.div`
-  position: absolute;
-  top: 0;
-  right: 0;
-  left: 0;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.186);
 `;
 
 const Container = styled.div`
@@ -32,19 +22,20 @@ const Container = styled.div`
   height: 100vh;
   transform: translateY(5%);
   position: relative;
-  background-color: #ffffff;
+  background-color: #fff;
   border-radius: 10px;
 `;
 
-const Modal = ({ children, onClose, isOpen, selector = "#portal" }) => (
-  <CSSTransition in={isOpen} timeout={300} classNames="modal" unmountOnExit>
-    <Portal selector={selector}>
-      <Overlay>
-        {/* <Dim onClick={onClose} /> */}
-        <Container>{children}</Container>
-      </Overlay>
-    </Portal>
-  </CSSTransition>
-);
+const Modal = ({ children, onClose, isOpen, selector = "#portal" }) => {
+  return (
+    <CSSTransition in={isOpen} timeout={300} classNames="modal" unmountOnExit>
+      <Portal selector={selector}>
+        <Overlay>
+          <Container>{children}</Container>
+        </Overlay>
+      </Portal>
+    </CSSTransition>
+  );
+};
 
 export default Modal;
