@@ -12,12 +12,9 @@ import { DateContext } from "../../context/Context";
 import { select } from "../../slices/DateSlice";
 import { selectDate, open, selectEndDate } from "../../slices/RecordModalSlice";
 import { postItem } from "../../slices/RecordSlice";
+import Modal from "../common/Modal";
 import Overlay from "../common/Overlay";
-import PortalComponent from "../common/PortalComponent";
-
-const Portal = (props) => {
-  return createPortal(props.children, document.querySelector("#portal"));
-};
+import Portal from "../common/Portal";
 
 const SleepModal = () => {
   const { now, setNow } = useContext(DateContext);
@@ -60,7 +57,7 @@ const SleepModal = () => {
   };
 
   return (
-    <PortalComponent>
+    <Modal isOpen={openCategory === "sleep"} onClose={() => dispatch(open(""))}>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <Base openCategory={openCategory}>
           <TimeWrapper>
@@ -72,41 +69,18 @@ const SleepModal = () => {
           </SaveBtn>
         </Base>
       </LocalizationProvider>
-      {openCategory ? <Overlay openCategpry={openCategory} select="open"></Overlay> : undefined}
-    </PortalComponent>
+    </Modal>
   );
 };
 
 const Base = styled.div`
-  z-index: 999;
-  max-width: 1200px;
-  width: 90vw;
-  height: 50vh;
-  background-color: #fff;
-  border: 1px solid #f1f1f1;
-  box-shadow: 0px 0px 5px #e1e1e1;
-  padding: 1rem;
-  box-sizing: border-box;
-  border-radius: 10px;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transition: all 0.2s;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  height: 100%;
   gap: 3rem;
-  overflow: hidden;
-
-  ${({ openCategory }) =>
-    openCategory === "sleep"
-      ? css`
-          transform: translate(-50%, -50%) scale(1);
-        `
-      : css`
-          transform: translate(-50%, -50%) scale(0);
-        `}
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
 `;
 
 const TimeWrapper = styled.div`

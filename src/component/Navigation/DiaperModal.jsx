@@ -12,7 +12,8 @@ import { postItem } from "../../slices/RecordSlice";
 import { select } from "../../slices/DateSlice";
 import { onChange, open, selectDate } from "../../slices/RecordModalSlice";
 import { DateContext } from "../../context/Context";
-import PortalComponent from "../common/PortalComponent";
+import Portal from "../common/Portal";
+import Modal from "../common/Modal";
 
 const DiaperModal = () => {
   useEffect(() => {
@@ -48,7 +49,7 @@ const DiaperModal = () => {
   };
 
   return (
-    <PortalComponent>
+    <Modal isOpen={openCategory === "diaper"} onClose={() => dispatch(open(""))}>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <Base openCategory={openCategory}>
           <MilkWrapper>
@@ -64,40 +65,11 @@ const DiaperModal = () => {
           </SaveBtn>
         </Base>
       </LocalizationProvider>
-    </PortalComponent>
+    </Modal>
   );
 };
 
-const Base = styled.div`
-  z-index: 999;
-  max-width: 1200px;
-  width: 90vw;
-  height: 90vh;
-  background-color: #fff;
-  border: 1px solid #f1f1f1;
-  box-shadow: 0px 0px 5px #e1e1e1;
-  padding: 1rem;
-  box-sizing: border-box;
-  border-radius: 10px;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transition: all 0.3s;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 3rem;
-
-  ${({ openCategory }) =>
-    openCategory === "milk"
-      ? css`
-          transform: translate(-50%, -50%) scale(1);
-        `
-      : css`
-          transform: translate(-50%, 50%) scale(0);
-        `}
-`;
+const Base = styled.div``;
 
 const MilkWrapper = styled.div``;
 

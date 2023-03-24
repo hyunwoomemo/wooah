@@ -10,7 +10,6 @@ import Slide from "react-reveal/Slide";
 import { transform } from "lodash";
 import dayjs from "dayjs";
 import { getCurrentData, getList } from "../slices/RecordSlice";
-import { selectDateMilk } from "../slices/MilkSlice";
 
 /* const DAYS = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"]; */ // 요일
 const DAYS = ["일", "월", "화", "수", "목", "금", "토"]; // 요일

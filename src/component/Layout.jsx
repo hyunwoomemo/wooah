@@ -25,9 +25,10 @@ const Layout = ({ children, main }) => {
   return (
     <MilkModalContext.Provider value={{}}>
       <DateContext.Provider value={{ now, setNow }}>
-        <Base openCategory={openCategory} updateCategory={updateCategory}>
+        <Base open={openCategory || updateCategory}>
           <Header></Header>
           {children}
+          <Overlay open={openCategory || updateCategory} />
         </Base>
       </DateContext.Provider>
     </MilkModalContext.Provider>
@@ -39,8 +40,17 @@ const Base = styled.div`
   max-width: 1200px;
   margin: 0 auto;
   height: 100vh;
-  transition: all 0.3s;
+  transition: all 0.5s;
   overflow-y: scroll;
+
+  ${({ open }) =>
+    open
+      ? css`
+          transform: scale(0.9);
+        `
+      : css`
+          transform: scale(1);
+        `}
 
   scrollbar-width: none;
   -ms-overflow-style: none;
@@ -54,6 +64,26 @@ const Base = styled.div`
     background: transparent;
     -webkit-appearance: none;
   }
+`;
+
+const Overlay = styled.div`
+  width: 100%;
+  height: 100%;
+  background-color: #00000018;
+  position: fixed;
+  top: 0;
+  left: 0;
+  border-radius: 20px;
+  transition: all 0.5s;
+
+  ${({ open }) =>
+    open
+      ? css`
+          display: block;
+        `
+      : css`
+          display: none;
+        `}
 `;
 
 export default Layout;

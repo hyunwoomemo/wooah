@@ -12,7 +12,7 @@ import { select } from "../../slices/DateSlice";
 import { selectDate, open, update, selectEndDate } from "../../slices/RecordModalSlice";
 import { postItem, putItem } from "../../slices/RecordSlice";
 import Overlay from "../common/Overlay";
-import PortalComponent from "../common/PortalComponent";
+import Portal from "../common/Portal";
 
 const UpdateSleep = ({ id }) => {
   const { now, setNow } = useContext(DateContext);
@@ -51,7 +51,7 @@ const UpdateSleep = ({ id }) => {
   };
 
   return (
-    <PortalComponent>
+    <Portal>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <Base updateCategory={updateCategory}>
           <TimeWrapper>
@@ -65,7 +65,7 @@ const UpdateSleep = ({ id }) => {
         </Base>
       </LocalizationProvider>
       {updateCategory ? <Overlay updateCategory={updateCategory}></Overlay> : undefined}
-    </PortalComponent>
+    </Portal>
   );
 };
 

@@ -13,11 +13,7 @@ import { select } from "../../slices/DateSlice";
 import { selectDate, open, update, selectEndDate, minus, plus } from "../../slices/RecordModalSlice";
 import { postItem, putItem } from "../../slices/RecordSlice";
 import Overlay from "../common/Overlay";
-import PortalComponent from "../common/PortalComponent";
-
-const Portal = (props) => {
-  return createPortal(props.children, document.querySelector("#portal"));
-};
+import Portal from "../common/Portal";
 
 const UpdateMilk = ({ id }) => {
   const { now, setNow } = useContext(DateContext);
@@ -50,7 +46,7 @@ const UpdateMilk = ({ id }) => {
   };
 
   return (
-    <PortalComponent>
+    <Portal>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <Base updateCategory={updateCategory}>
           <MilkWrapper>
@@ -67,7 +63,7 @@ const UpdateMilk = ({ id }) => {
         </Base>
       </LocalizationProvider>
       {updateCategory ? <Overlay openCategpry={updateCategory}></Overlay> : undefined}
-    </PortalComponent>
+    </Portal>
   );
 };
 

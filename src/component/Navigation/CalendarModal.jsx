@@ -5,14 +5,20 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 import dayjs from "dayjs";
 import React, { useEffect, useState } from "react";
-import PortalComponent from "../common/PortalComponent";
+import { useDispatch, useSelector } from "react-redux";
+import { open } from "../../slices/RecordModalSlice";
+import Modal from "../common/Modal";
+import Portal from "../common/Portal";
 
 const CalendarModal = ({ openAction, hideAction, showAction }) => {
   const [startTime, setStartTime] = useState(dayjs(new Date()));
   const [endTime, setEndTime] = useState();
 
+  const { openCategory } = useSelector((state) => state.RecordModalSlice);
+  const dispatch = useDispatch();
+
   return (
-    <PortalComponent>
+    <Modal isOpen={openCategory === "calendar"} onClose={() => dispatch(open(""))}>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <Base openAction={openAction} hideAction={hideAction} showAction={showAction}>
           <TimeWrapper>
@@ -21,41 +27,11 @@ const CalendarModal = ({ openAction, hideAction, showAction }) => {
           </TimeWrapper>
         </Base>
       </LocalizationProvider>
-    </PortalComponent>
+    </Modal>
   );
 };
 
-const Base = styled.div`
-  z-index: 999;
-  max-width: 1200px;
-  width: 90vw;
-  height: 50vh;
-  background-color: #fff;
-  border: 1px solid #f1f1f1;
-  box-shadow: 0px 0px 5px #e1e1e1;
-  padding: 1rem;
-  box-sizing: border-box;
-  border-radius: 10px;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transition: all 0.2s;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 3rem;
-  overflow: hidden;
-
-  ${({ openAction, hideAction, showAction }) =>
-    openAction === "calendar" && hideAction && showAction
-      ? css`
-          transform: translate(-50%, -50%) scale(1);
-        `
-      : css`
-          transform: translate(-50%, -50%) scale(0);
-        `}
-`;
+const Base = styled.div``;
 
 const TimeWrapper = styled.div`
   display: flex;

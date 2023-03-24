@@ -12,7 +12,8 @@ import { select } from "../../slices/DateSlice";
 import { onChange, open, selectDate, plus, minus } from "../../slices/RecordModalSlice";
 import { DateContext } from "../../context/Context";
 import Overlay from "../common/Overlay";
-import PortalComponent from "../common/PortalComponent";
+import Portal from "../common/Portal";
+import Modal from "../common/Modal";
 
 const MilkModal = () => {
   useEffect(() => {
@@ -68,7 +69,7 @@ const MilkModal = () => {
   };
 
   return (
-    <PortalComponent>
+    <Modal isOpen={openCategory === "milk"} onClose={() => dispatch(open(""))}>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <Base openCategory={openCategory}>
           <MilkWrapper>
@@ -84,40 +85,18 @@ const MilkModal = () => {
           </SaveBtn>
         </Base>
       </LocalizationProvider>
-      {openCategory ? <Overlay openCategpry={openCategory} select="open"></Overlay> : undefined}
-    </PortalComponent>
+    </Modal>
   );
 };
 
 const Base = styled.div`
-  z-index: 999;
-  max-width: 1200px;
-  width: 90vw;
-  height: 50vh;
-  background-color: #fff;
-  border: 1px solid #f1f1f1;
-  box-shadow: 0px 0px 5px #e1e1e1;
-  padding: 1rem;
-  box-sizing: border-box;
-  border-radius: 10px;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transition: all 0.3s;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  height: 100%;
   gap: 3rem;
-
-  ${({ openCategory }) =>
-    openCategory === "milk"
-      ? css`
-          transform: translate(-50%, -50%) scale(1);
-        `
-      : css`
-          transform: translate(-50%, -50%) scale(0);
-        `}
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
 `;
 
 const MilkWrapper = styled.div``;
