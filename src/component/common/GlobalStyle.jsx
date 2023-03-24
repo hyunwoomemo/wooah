@@ -141,7 +141,7 @@ const defaultStyle = css`
 
   body {
     font-family: "Dovemayo_wild";
-    min-height: calc(100% + env(safe-area-inset-top));
+    height: 100vh;
     padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
     overflow: hidden;
     box-sizing: border-box;
@@ -181,6 +181,19 @@ const defaultStyle = css`
 
     &:focus {
       outline: 0;
+    }
+
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+
+    overscroll-behavior: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+      width: 0;
+      height: 0;
+      background: transparent;
+      -webkit-appearance: none;
     }
   }
 `;
