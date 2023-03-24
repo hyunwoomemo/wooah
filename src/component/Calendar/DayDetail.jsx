@@ -48,8 +48,28 @@ const DayDetail = () => {
     dispatch(selectEndDate(endTime || dayjs(new Date(time)).add(1, "hour")));
   };
 
+  const baseRef = useRef();
+  const elementPosition = baseRef.current?.getBoundingClientRect().top;
+
+  /* if (window.scrollY > elementPosition) {
+    document.querySelector("#header").style.position = "relative";
+    console.log("sdf");
+  } */
+
+  const handleScroll = () => {
+    console.log("scrolling");
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll, true);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll, true);
+    };
+  });
+
   return (
-    <Base>
+    <Base ref={baseRef}>
       <Title> {dayjs(new Date(selectValue)).format(`YYYY년 MM월 DD일 (${day[selectValue.getDay()]})`)}</Title>
       <Content dataLength={dataLength}>
         <UpdateSleep id={id} />
@@ -110,8 +130,13 @@ const Base = styled.div`
 const Title = styled.h1`
   font-weight: bold;
   font-size: 24px;
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  padding: 1rem 0;
 
   @media (max-width: 768px) {
+    padding: 10px 0;
     font-size: 18px;
   }
 `;

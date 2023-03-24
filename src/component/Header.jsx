@@ -58,7 +58,7 @@ const Header = () => {
   const { openCategory, updateCategory } = useSelector((state) => state.RecordModalSlice);
 
   return (
-    <Base open={openCategory || updateCategory}>
+    <Base open={openCategory || updateCategory} id="header">
       <MainHeader>
         <Month>{selectValue.getMonth() + 1}</Month>
         <ContentsWrapper>
@@ -92,12 +92,13 @@ const Base = styled.div`
   ${({ open }) =>
     open
       ? css`
-          backdrop-filter: unset;
+          background: none;
         `
       : css`
-          backdrop-filter: blur(5px);
+          background: #fff;
         `}
   z-index: 2;
+  transition: all 0.3s;
 
   @media (max-width: 768px) {
     padding: 10px 10px 0;

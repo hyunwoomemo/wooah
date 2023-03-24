@@ -13,6 +13,18 @@ const Layout = ({ children, main }) => {
 
   const { openCategory, updateCategory } = useSelector((state) => state.RecordModalSlice);
 
+  const handleScroll = () => {
+    console.log("scrolling");
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  });
+
   return (
     <MilkModalContext.Provider value={{}}>
       <DateContext.Provider value={{ now, setNow }}>
@@ -40,6 +52,7 @@ const Base = styled.div`
           transform: scale(0.95);
           border-radius: 10px;
           background-color: #ecedf2;
+          opacity: 0.8;
         `
       : css`
           transform: scale(1);
