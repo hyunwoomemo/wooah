@@ -28,11 +28,11 @@ const Dim = styled.div`
 
 const Container = styled.div`
   width: 100vw;
-  height: 95vh;
+  height: 100vh;
   transform: translateY(5%);
   position: relative;
   background-color: #ffffff;
-  border-radius: 20px;
+  border-radius: 10px;
 `;
 
 const Modal = ({ children, onClose, isOpen, selector = "#portal" }) => (

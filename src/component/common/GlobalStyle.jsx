@@ -145,6 +145,7 @@ const defaultStyle = css`
     padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
     overflow: hidden;
     box-sizing: border-box;
+    transition: all 0.3s;
 
     scrollbar-width: none;
     -ms-overflow-style: none;

@@ -88,6 +88,7 @@ const Base = styled.div`
   top: 0;
   color: var(--black-text-color);
   background-color: #ffffff;
+  z-index: 2;
 
   @media (max-width: 768px) {
     padding: 10px 10px 0;

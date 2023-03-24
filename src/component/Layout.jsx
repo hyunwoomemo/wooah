@@ -16,32 +16,40 @@ const Layout = ({ children, main }) => {
 
   const [scrollY, setScrollY] = useState(0);
 
-  useEffect(() => {
-    window.addEventListener("scroll", () => {
-      setScrollY(window.scrollY);
-    });
-  });
-
-  useEffect(() => {
+  /* useEffect(() => {
     if (openCategory || updateCategory) {
       document.querySelector("body").style.cssText = `
-        background-color: #000000;
+        background-color: #131313;
       `;
     }
-  });
+
+    return () => {
+      document.querySelector("body").style.cssText = ``;
+    };
+  }); */
 
   return (
     <MilkModalContext.Provider value={{}}>
       <DateContext.Provider value={{ now, setNow }}>
+        <Background></Background>
         <Base open={openCategory || updateCategory}>
           <Header></Header>
           {children}
-          <Overlay open={openCategory || updateCategory} />
         </Base>
       </DateContext.Provider>
     </MilkModalContext.Provider>
   );
 };
+
+const Background = styled.div`
+  background-color: #1a1a1a;
+  height: 40px;
+  width: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  z-index: -1;
+`;
 
 const Base = styled.div`
   position: relative;
@@ -54,11 +62,12 @@ const Base = styled.div`
   ${({ open }) =>
     open
       ? css`
-          transform: scale(0.95);
-          border-radius: 20px;
+          transform: scaleY(0.95) scaleX(0.93);
+          border-radius: 10px;
         `
       : css`
-          transform: scale(1);
+          transform: scaleY(1) scaleX(1);
+          border-radius: 0;
         `}
 
   scrollbar-width: none;
@@ -82,7 +91,7 @@ const Overlay = styled.div`
   position: fixed;
   top: 0;
   left: 0;
-  border-radius: 20px;
+  border-radius: 10px;
   transition: all 0.3s;
 
   ${({ open }) =>
