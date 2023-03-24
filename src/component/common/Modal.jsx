@@ -1,4 +1,4 @@
-import React, { ReactNode, useRef, useState } from "react";
+import React, { ReactNode, useEffect, useRef, useState } from "react";
 import { CSSTransition } from "react-transition-group";
 import styled from "@emotion/styled/macro";
 
@@ -27,7 +27,6 @@ const Container = styled.div`
   box-shadow: 0 0 3px gray;
   display: flex;
   justify-content: center;
-  will-change: transform;
   ${({ distanceY }) =>
     distanceY
       ? css`
@@ -60,15 +59,16 @@ const CloseBtn = styled.div`
 const Modal = ({ children, onClose, isOpen, selector = "#portal" }) => {
   const [touchPosition, setTouchPosition] = useState({});
   const [distanceY, setDistanceY] = useState(0);
+  const containerRef = useRef();
 
   const touchMove = (e) => {
     setDistanceY(e.changedTouches[0].pageY);
+    containerRef.current.style.willChange = "transform";
   };
 
   const touchEnd = (e) => {
     const distanceX = Math.abs(touchPosition.x - e.changedTouches[0].pageX);
     const distanceY = Math.abs(touchPosition.y - e.changedTouches[0].pageY);
-
     if (distanceY + distanceX > 50 && distanceY > distanceX) {
       onClose();
     }
@@ -79,13 +79,32 @@ const Modal = ({ children, onClose, isOpen, selector = "#portal" }) => {
         y: 0,
       });
     }, 50);
+    containerRef.current.style.willChange = "auto";
   };
+
+  const [screenWidth, setScreenWidth] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    window.addEventListener("resize", (e) => {
+      setScreenWidth(e.target.innerWidth);
+    });
+
+    if (screenWidth < 769) setIsMobile(true);
+    else setIsMobile(false);
+
+    window.removeEventListener("resize", (e) => {
+      setScreenWidth(e.target.innerWidth);
+    });
+  }, [screenWidth]);
+
+  console.log(isMobile);
 
   return (
     <CSSTransition in={isOpen} timeout={300} classNames="modal" unmountOnExit>
       <Portal selector={selector}>
         <Overlay>
-          <Container distanceY={distanceY}>
+          <Container ref={containerRef} distanceY={distanceY}>
             <CloseWrapper
               onTouchStart={(e) => {
                 setTouchPosition({
@@ -95,6 +114,7 @@ const Modal = ({ children, onClose, isOpen, selector = "#portal" }) => {
               }}
               onTouchMove={touchMove}
               onTouchEnd={touchEnd}
+              onClick={() => (!isMobile ? onClose() : undefined)}
             >
               <CloseBtn></CloseBtn>
             </CloseWrapper>
