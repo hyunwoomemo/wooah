@@ -139,6 +139,12 @@ const defaultStyle = css`
     border-spacing: 0;
   }
 
+  html,
+  body {
+    position: fixed;
+    overflow: hidden;
+  }
+
   body {
     font-family: "Dovemayo_wild";
     padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
