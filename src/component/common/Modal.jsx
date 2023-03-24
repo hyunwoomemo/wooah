@@ -27,15 +27,14 @@ const Container = styled.div`
   box-shadow: 0 0 3px gray;
   display: flex;
   justify-content: center;
+  will-change: transform;
   ${({ distanceY }) =>
     distanceY
       ? css`
           transform: translateY(${distanceY}px);
-          will-change: transform;
         `
       : css`
           transform: translateY(5%);
-          will-change: auto;
         `}
 `;
 
