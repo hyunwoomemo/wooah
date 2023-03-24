@@ -29,7 +29,7 @@ const Dim = styled.div`
 const Container = styled.div`
   width: 100vw;
   height: 95vh;
-  transform: translateY(7%);
+  transform: translateY(5%);
   position: relative;
   background-color: #ffffff;
   border-radius: 20px;

@@ -22,6 +22,14 @@ const Layout = ({ children, main }) => {
     });
   });
 
+  useEffect(() => {
+    if (openCategory || updateCategory) {
+      document.querySelector("body").style.cssText = `
+        background-color: #000000;
+      `;
+    }
+  });
+
   return (
     <MilkModalContext.Provider value={{}}>
       <DateContext.Provider value={{ now, setNow }}>
@@ -46,7 +54,8 @@ const Base = styled.div`
   ${({ open }) =>
     open
       ? css`
-          transform: scale(0.9);
+          transform: scale(0.95);
+          border-radius: 20px;
         `
       : css`
           transform: scale(1);
@@ -69,7 +78,7 @@ const Base = styled.div`
 const Overlay = styled.div`
   width: 100%;
   height: 100%;
-  background-color: #93939317;
+  background-color: #ebebeb43;
   position: fixed;
   top: 0;
   left: 0;
