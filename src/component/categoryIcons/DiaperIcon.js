@@ -9,10 +9,10 @@ const DiaperIcon = (props) => (
     xmlnsXlink="http://www.w3.org/1999/xlink"
     {...props}
   >
-    <rect width={1080} height={1080} fill="url(#pattern0)" />
+    <rect width={1080} height={1080} fill="url(#pattern2)" />
     <defs>
       <pattern
-        id="pattern0"
+        id="pattern2"
         patternContentUnits="objectBoundingBox"
         width={1}
         height={1}

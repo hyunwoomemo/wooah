@@ -9,10 +9,10 @@ const SleepIcon = (props) => (
     xmlnsXlink="http://www.w3.org/1999/xlink"
     {...props}
   >
-    <rect width={1080} height={1080} fill="url(#pattern0)" />
+    <rect width={1080} height={1080} fill="url(#pattern4)" />
     <defs>
       <pattern
-        id="pattern0"
+        id="pattern4"
         patternContentUnits="objectBoundingBox"
         width={1}
         height={1}

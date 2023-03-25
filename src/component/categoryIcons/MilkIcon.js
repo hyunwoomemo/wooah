@@ -9,10 +9,10 @@ const MilkIcon = (props) => (
     xmlnsXlink="http://www.w3.org/1999/xlink"
     {...props}
   >
-    <rect width={1080} height={1080} fill="url(#pattern0)" />
+    <rect width={1080} height={1080} fill="url(#pattern3)" />
     <defs>
       <pattern
-        id="pattern0"
+        id="pattern3"
         patternContentUnits="objectBoundingBox"
         width={1}
         height={1}

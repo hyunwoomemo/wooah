@@ -39,18 +39,22 @@ const RecordCategory = () => {
     <Base>
       <CategoryItem onClick={handleRecordMilk}>
         <MilkIcon />
+        분유
       </CategoryItem>
       <CategoryItem onClick={handleRecordSleep}>
-        <SleepIcon />
+        <SleepIcon />잠
       </CategoryItem>
       <CategoryItem>
         <DiaperIcon />
+        기저귀
       </CategoryItem>
       <CategoryItem>
         <BathIcon />
+        목욕
       </CategoryItem>
       <CategoryItem>
         <CalendarIcon />
+        일정
       </CategoryItem>
       <MilkModal openCategory={openCategory} />
       <SleepModal />
@@ -68,19 +72,26 @@ const Base = styled.div`
   gap: 1rem;
 
   display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  justify-content: space-evenly;
 `;
 
 const CategoryItem = styled.div`
-  /* padding: 1rem;
-  @media (max-width: 768px) {
-    padding: 10px;
-  }
-  background-color: #eeeeee;
-  border-radius: 5px; */
-
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 14px;
   > svg {
     width: 100px;
     height: 100px;
+  }
+  @media (max-width: 768px) {
+    > svg {
+      width: 50px;
+      height: 50px;
+    }
+    font-size: 10px;
   }
 `;
 
