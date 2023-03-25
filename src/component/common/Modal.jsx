@@ -29,33 +29,6 @@ const Container = styled.div`
   box-shadow: 0 0 3px gray;
   display: flex;
   justify-content: center;
-  ${({ distanceY }) =>
-    distanceY
-      ? css`
-          transform: translateY(${distanceY}px);
-        `
-      : css`
-          transform: translateY(5%);
-        `}
-`;
-
-const CloseWrapper = styled.div`
-  position: absolute;
-  display: flex;
-  width: 100%;
-  justify-content: center;
-  align-items: center;
-  padding: 1rem;
-  height: 30px;
-`;
-
-const CloseBtn = styled.div`
-  width: 20%;
-  max-width: 60px;
-  background-color: #000000b1;
-  height: 5px;
-  border-radius: 20px;
-  top: 1rem;
 `;
 
 const Dim = styled.div`
@@ -117,19 +90,6 @@ const Modal = ({ children, onClose, isOpen, selector = "#portal" }) => {
         <Overlay>
           <Dim onClick={onClose} />
           <Container ref={containerRef} distanceY={distanceY}>
-            {/* <CloseWrapper
-              onTouchStart={(e) => {
-                setTouchPosition({
-                  x: e.changedTouches[0].pageX,
-                  y: e.changedTouches[0].pageY,
-                });
-              }}
-              onTouchMove={touchMove}
-              onTouchEnd={touchEnd}
-              onClick={() => (!isMobile ? onClose() : undefined)}
-            >
-              <CloseBtn></CloseBtn>
-            </CloseWrapper> */}
             {children}
           </Container>
         </Overlay>

@@ -158,8 +158,9 @@ const RecordSlice = createSlice({
         icon: "success",
         title: `기록이 추가되었습니다`,
         showConfirmButton: false,
-        timer: 1500,
+        timer: 1000,
       });
+
       return {
         data: [...payload],
         loading: false,
@@ -199,7 +200,7 @@ const RecordSlice = createSlice({
         icon: "success",
         title: `수정되었습니다`,
         showConfirmButton: false,
-        timer: 1500,
+        timer: 800,
       });
       return {
         data: [...payload],

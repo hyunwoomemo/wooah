@@ -51,19 +51,7 @@ const DiaperModal = () => {
   return (
     <Modal isOpen={openCategory === "diaper"} onClose={() => dispatch(open(""))}>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <Base openCategory={openCategory}>
-          <MilkWrapper>
-            <MilkHandler>
-              <button onClick={(e) => dispatch(minus(5))}>-</button>
-              <MilkValue>{`${volume}ml`}</MilkValue>
-              <button onClick={() => dispatch(plus(5))}>+</button>
-            </MilkHandler>
-          </MilkWrapper>
-          <TimePicker label="분유 먹은 시간" defaultValue={now || ""} value={now || ""} onChange={handleTimeChange} />
-          <SaveBtn>
-            <AiOutlineCheck onClick={handleMilkSave} />
-          </SaveBtn>
-        </Base>
+        <Base>sdfsdf</Base>
       </LocalizationProvider>
     </Modal>
   );

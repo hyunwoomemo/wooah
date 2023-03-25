@@ -40,10 +40,6 @@ const Calendar = () => {
 
   const selectDate = (date) => {
     dispatch(select(date));
-    /* dispatch(selectDateMilk()); */
-    /* setTimeout(() => {
-      window.scrollTo({ top: 1000, behavior: "smooth" });
-    }, 100); */
   };
 
   const { data, selectData, loading, error } = useSelector((state) => state.RecordSlice);
