@@ -12,6 +12,7 @@ const Overlay = styled.div`
   top: 0;
   right: 0;
   left: 0;
+  bottom: 0;
   overflow: hidden;
   display: flex;
   align-items: center;
@@ -19,8 +20,9 @@ const Overlay = styled.div`
 `;
 
 const Container = styled.div`
-  width: 100vw;
-  height: 100vh;
+  max-width: 1200px;
+  width: 90vw;
+  height: 50vh;
   position: relative;
   background-color: #fff;
   border-radius: 10px;
@@ -54,6 +56,17 @@ const CloseBtn = styled.div`
   height: 5px;
   border-radius: 20px;
   top: 1rem;
+`;
+
+const Dim = styled.div`
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.5);
 `;
 
 const Modal = ({ children, onClose, isOpen, selector = "#portal" }) => {
@@ -102,8 +115,9 @@ const Modal = ({ children, onClose, isOpen, selector = "#portal" }) => {
     <CSSTransition in={isOpen} timeout={300} classNames="modal" unmountOnExit>
       <Portal selector={selector}>
         <Overlay>
+          <Dim onClick={onClose} />
           <Container ref={containerRef} distanceY={distanceY}>
-            <CloseWrapper
+            {/* <CloseWrapper
               onTouchStart={(e) => {
                 setTouchPosition({
                   x: e.changedTouches[0].pageX,
@@ -115,7 +129,7 @@ const Modal = ({ children, onClose, isOpen, selector = "#portal" }) => {
               onClick={() => (!isMobile ? onClose() : undefined)}
             >
               <CloseBtn></CloseBtn>
-            </CloseWrapper>
+            </CloseWrapper> */}
             {children}
           </Container>
         </Overlay>

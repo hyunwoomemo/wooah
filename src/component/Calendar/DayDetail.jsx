@@ -36,6 +36,8 @@ const DayDetail = () => {
     };
   }, [selectData]);
 
+  const { openCategory, updateCategory } = useSelector((state) => state.RecordModalSlice);
+
   const { now, setNow } = useContext(DateContext);
 
   const [id, setId] = useState(0);
@@ -50,7 +52,7 @@ const DayDetail = () => {
 
   return (
     <Base>
-      <Title> {dayjs(new Date(selectValue)).format(`YYYY년 MM월 DD일 (${day[selectValue.getDay()]})`)}</Title>
+      <Title open={openCategory || updateCategory}> {dayjs(new Date(selectValue)).format(`YYYY년 MM월 DD일 (${day[selectValue.getDay()]})`)}</Title>
       <RecordCategory />
       <Content dataLength={dataLength}>
         <UpdateSleep id={id} />
@@ -112,7 +114,7 @@ const Title = styled.h1`
   position: sticky;
   top: 0;
   z-index: 3;
-  background-color: #fff;
+  background-color: ${({ open }) => (open ? "unset" : "#fff")};
   padding: 1rem 0;
 
   @media (max-width: 768px) {

@@ -143,12 +143,12 @@ const defaultStyle = css`
   body {
     position: fixed;
     overflow: hidden;
+    width: 100%;
   }
 
   body {
     font-family: "Dovemayo_wild";
     padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
-    overflow-x: hidden;
     box-sizing: border-box;
     transition: all 0.3s;
 

@@ -39,22 +39,18 @@ const RecordCategory = () => {
     <Base>
       <CategoryItem onClick={handleRecordMilk}>
         <MilkIcon />
-        분유
       </CategoryItem>
       <CategoryItem onClick={handleRecordSleep}>
-        <SleepIcon />잠
+        <SleepIcon />
       </CategoryItem>
       <CategoryItem>
         <DiaperIcon />
-        기저귀
       </CategoryItem>
       <CategoryItem>
         <BathIcon />
-        목욕
       </CategoryItem>
       <CategoryItem>
         <CalendarIcon />
-        일정
       </CategoryItem>
       <MilkModal openCategory={openCategory} />
       <SleepModal />
@@ -75,6 +71,24 @@ const Base = styled.div`
   flex-wrap: wrap;
   width: 100%;
   justify-content: space-evenly;
+
+  > div {
+    &:first-of-type {
+      background-color: #c2d8b6;
+    }
+    &:nth-of-type(2) {
+      background-color: #b6d6d8;
+    }
+    &:nth-of-type(3) {
+      background-color: #ceb6d8;
+    }
+    &:nth-of-type(4) {
+      background-color: #d8b6c3;
+    }
+    &:nth-of-type(5) {
+      background-color: #d8cdb6;
+    }
+  }
 `;
 
 const CategoryItem = styled.div`
@@ -82,15 +96,23 @@ const CategoryItem = styled.div`
   flex-direction: column;
   align-items: center;
   font-size: 14px;
+
+  border-radius: 40%;
+  width: 100px;
+  height: 100px;
+  justify-content: center;
+
   > svg {
-    width: 100px;
-    height: 100px;
+    width: 80%;
+    height: 80%;
   }
   @media (max-width: 768px) {
-    > svg {
+    width: 50px;
+    height: 50px;
+    /* > svg {
       width: 50px;
       height: 50px;
-    }
+    } */
     font-size: 10px;
   }
 `;
