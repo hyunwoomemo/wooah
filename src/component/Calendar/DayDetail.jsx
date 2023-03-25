@@ -48,34 +48,14 @@ const DayDetail = () => {
     dispatch(selectEndDate(endTime || dayjs(new Date(time)).add(1, "hour")));
   };
 
-  const baseRef = useRef();
-  const elementPosition = baseRef.current?.getBoundingClientRect().top;
-
-  /* if (window.scrollY > elementPosition) {
-    document.querySelector("#header").style.position = "relative";
-    console.log("sdf");
-  } */
-
-  const handleScroll = () => {
-    console.log("scrolling");
-  };
-
-  useEffect(() => {
-    window.addEventListener("scroll", handleScroll, true);
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll, true);
-    };
-  });
-
   return (
-    <Base ref={baseRef}>
+    <Base>
       <Title> {dayjs(new Date(selectValue)).format(`YYYY년 MM월 DD일 (${day[selectValue.getDay()]})`)}</Title>
+      <RecordCategory />
       <Content dataLength={dataLength}>
         <UpdateSleep id={id} />
         <UpdateMilk id={id} />
         {/* <NewEvent>새 이벤트 추가</NewEvent> */}
-        <RecordCategory />
         <Data dataLength={dataLength}>
           {selectData?.map((item, i, arr) => {
             return (
@@ -122,7 +102,6 @@ const Base = styled.div`
     padding: 10px;
   }
   transition: all 0.3s;
-  height: 100vh;
 
   padding-bottom: env(safe-area-inset-bottom, 0);
 `;
@@ -132,7 +111,8 @@ const Title = styled.h1`
   font-size: 24px;
   position: sticky;
   top: 0;
-  z-index: 999;
+  z-index: 3;
+  background-color: #fff;
   padding: 1rem 0;
 
   @media (max-width: 768px) {
@@ -146,7 +126,7 @@ const NewEvent = styled.div`
 `;
 
 const Content = styled.div`
-  margin-top: 15px;
+  /* margin-top: 15px; */
 `;
 
 const Data = styled.div`

@@ -6,6 +6,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { DateContext, ModalContext } from "../context/Context";
 import { select } from "../slices/DateSlice";
 import { open, selectDate, selectEndDate, updateVolume } from "../slices/RecordModalSlice";
+import BathIcon from "./categoryIcons/BathIcon";
+import CalendarIcon from "./categoryIcons/CalendarIcon";
+import DiaperIcon from "./categoryIcons/DiaperIcon";
+import MilkIcon from "./categoryIcons/MilkIcon";
+import SleepIcon from "./categoryIcons/SleepIcon";
 import CalendarModal from "./Navigation/CalendarModal";
 import MilkModal from "./Navigation/MilkModal";
 import SleepModal from "./Navigation/SleepModal";
@@ -32,11 +37,21 @@ const RecordCategory = () => {
 
   return (
     <Base>
-      <CategoryItem onClick={handleRecordMilk}>분유</CategoryItem>
-      <CategoryItem onClick={handleRecordSleep}>잠</CategoryItem>
-      <CategoryItem>기저귀</CategoryItem>
-      <CategoryItem>목욕</CategoryItem>
-      <CategoryItem>일정 추가</CategoryItem>
+      <CategoryItem onClick={handleRecordMilk}>
+        <MilkIcon />
+      </CategoryItem>
+      <CategoryItem onClick={handleRecordSleep}>
+        <SleepIcon />
+      </CategoryItem>
+      <CategoryItem>
+        <DiaperIcon />
+      </CategoryItem>
+      <CategoryItem>
+        <BathIcon />
+      </CategoryItem>
+      <CategoryItem>
+        <CalendarIcon />
+      </CategoryItem>
       <MilkModal openCategory={openCategory} />
       <SleepModal />
       <CalendarModal />
@@ -47,7 +62,7 @@ const RecordCategory = () => {
 const Base = styled.div`
   padding: 1rem 1rem 1rem 0;
   @media (max-width: 768px) {
-    padding: 10px 10px 10px 0;
+    padding: 1rem 0;
   }
 
   gap: 1rem;
@@ -56,12 +71,17 @@ const Base = styled.div`
 `;
 
 const CategoryItem = styled.div`
-  padding: 1rem;
+  /* padding: 1rem;
   @media (max-width: 768px) {
     padding: 10px;
   }
   background-color: #eeeeee;
-  border-radius: 5px;
+  border-radius: 5px; */
+
+  > svg {
+    width: 100px;
+    height: 100px;
+  }
 `;
 
 export default RecordCategory;
