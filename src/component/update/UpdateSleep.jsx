@@ -16,7 +16,7 @@ import Portal from "../common/Portal";
 
 const UpdateSleep = ({ id }) => {
   const { now, setNow } = useContext(DateContext);
-  const { date, endDate, updateCategory } = useSelector((state) => state.RecordModalSlice);
+  const { date, endDate, updateCategory, selectDate } = useSelector((state) => state.RecordModalSlice);
 
   const dispatch = useDispatch();
 
@@ -52,7 +52,7 @@ const UpdateSleep = ({ id }) => {
         })
       );
       dispatch(select(new Date(date)));
-      dispatch(selectDate(new Date(date)));
+      /* dispatch(selectDate(new Date(date))); */
       dispatch(update(""));
     }
   };
@@ -63,7 +63,7 @@ const UpdateSleep = ({ id }) => {
         <Base updateCategory={updateCategory}>
           <TimeWrapper>
             <TimePicker label="잠든 시간" defaultValue={dayjs(new Date(now)) || ""} value={dayjs(new Date(now)) || ""} onChange={handleTimeChange} />
-            <TimePicker label="잠깬 시간" defaultValue={dayjs(new Date(endDate)) || ""} value={dayjs(new Date(endDate)) || ""} onChange={handleEndTimeChange} disablePast />
+            <TimePicker label="잠깬 시간" defaultValue={dayjs(new Date(endDate)) || ""} value={dayjs(new Date(endDate)) || ""} onChange={handleEndTimeChange} minTime={dayjs(new Date(now))} />
           </TimeWrapper>
           <SaveBtn>
             수정

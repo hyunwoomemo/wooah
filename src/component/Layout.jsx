@@ -16,7 +16,7 @@ const Layout = ({ children, main }) => {
   return (
     <MilkModalContext.Provider value={{}}>
       <DateContext.Provider value={{ now, setNow }}>
-        <Base open={openCategory || updateCategory}>
+        <Base open={openCategory} update={updateCategory === "milk" || updateCategory === "sleep"}>
           <Header></Header>
           {children}
         </Base>
@@ -34,8 +34,8 @@ const Base = styled.div`
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch; /* enables “momentum” (smooth) scrolling */
 
-  ${({ open }) =>
-    open
+  ${({ open, update }) =>
+    open || update
       ? css`
           transform: scale(0.95);
         `

@@ -39,6 +39,7 @@ export const lastItem = createAsyncThunk("RecordSlice/lastItem", async (payload,
   let result = null;
   try {
     const response = await axios.get(`${URL}/last`);
+
     result = response.data;
   } catch (err) {
     console.log(err);
@@ -119,7 +120,7 @@ const RecordSlice = createSlice({
       return {
         data: [...payload],
         selectData: state.data,
-        lastData: state.data,
+        lastData: [...payload][[...payload].length - 1],
         loading: false,
         error: null,
       };
@@ -132,7 +133,7 @@ const RecordSlice = createSlice({
       return {
         data: state.data,
         selectData: [...payload],
-        lastData: state.data,
+        lastData: state.lastData,
         loading: false,
         error: null,
       };
@@ -141,6 +142,7 @@ const RecordSlice = createSlice({
 
     [lastItem.pending]: pending,
     [lastItem.fulfilled]: (state, { payload }) => {
+      console.log(payload)
       return {
         data: state.data,
         selectData: state.data,
@@ -163,6 +165,8 @@ const RecordSlice = createSlice({
 
       return {
         data: [...payload],
+        lastData: state.lastData,
+        selectData: state.data,
         loading: false,
         error: null
       }
@@ -204,6 +208,8 @@ const RecordSlice = createSlice({
       });
       return {
         data: [...payload],
+        selectData: state.data,
+        lastData: state.lastData,
         loading: false,
         error: null
       }

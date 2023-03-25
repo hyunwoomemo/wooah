@@ -27,6 +27,7 @@ const Header = () => {
 
   const [lastWork, setLastWork] = useState("");
   const [lastWorkTime, setLastWorkTime] = useState("");
+  const [lastWorkEndTime, setLastWorkEndTime] = useState("");
 
   const contents =
     data &&
@@ -69,12 +70,13 @@ const Header = () => {
             Today
           </TodayBtn>
           <SubHeader>
-            <DisplayLatestWork>{lastWork === "milk" ? "🍼 분유" : lastWork === "sleep" ? "💤 잠자는 중" : undefined}</DisplayLatestWork>
-            {lastWork === "milk" ? <Moment fromNow>{lastWorkTime}</Moment> : lastWork === "sleep" ? <Moment interval={1000} date={lastWorkTime} durationFromNow></Moment> : undefined}
+            <DisplayLatestWork>{lastWork === "milk" ? "🍼 분유" : lastWork === "sleep" && !lastWorkEndTime ? "💤 잠자는 중" : undefined}</DisplayLatestWork>
+            {lastWork === "milk" ? (
+              <Moment fromNow>{lastWorkTime}</Moment>
+            ) : lastWork === "sleep" && !lastWorkEndTime ? (
+              <Moment interval={1000} date={lastWorkTime} durationFromNow></Moment>
+            ) : undefined}
           </SubHeader>
-          {/* <IconsItem>
-            <AiOutlineSearch />
-          </IconsItem> */}
         </IconsWrapper>
       </MainHeader>
     </Base>

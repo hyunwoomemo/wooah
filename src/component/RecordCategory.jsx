@@ -12,22 +12,22 @@ import CalendarIcon from "./categoryIcons/CalendarIcon";
 import DiaperIcon from "./categoryIcons/DiaperIcon";
 import MilkIcon from "./categoryIcons/MilkIcon";
 import SleepIcon from "./categoryIcons/SleepIcon";
+import BathModal from "./Navigation/BathModal";
 import CalendarModal from "./Navigation/CalendarModal";
+import DiaperModal from "./Navigation/DiaperModal";
 import MilkModal from "./Navigation/MilkModal";
 import SleepModal from "./Navigation/SleepModal";
 
 const RecordCategory = () => {
-  const { openCategory, volume, date } = useSelector((state) => state.RecordModalSlice);
+  const { openCategory, volume } = useSelector((state) => state.RecordModalSlice);
   const { selectData } = useSelector((state) => state.RecordSlice);
 
   const dispatch = useDispatch();
 
-  const { now, setNow } = useContext(DateContext);
+  const { setNow } = useContext(DateContext);
 
+  console.log(selectData);
   const handleRecordMilk = () => {
-    setNow(dayjs(new Date()));
-    dispatch(select(new Date()));
-
     dispatch(
       postItem({
         category: "milk",
@@ -37,12 +37,12 @@ const RecordCategory = () => {
         email: localStorage.getItem("email"),
         groupName: localStorage.getItem("group"),
         endDate: null,
+        big: null,
       })
     );
 
-    setTimeout(() => {
-      window.scrollTo({ top: 1000, behavior: "smooth" });
-    }, 2);
+    dispatch(select(new Date()));
+    dispatch(selectDate(new Date()));
 
     dispatch(getList());
 
@@ -61,11 +61,8 @@ const RecordCategory = () => {
         })
       );
     }
-
-    dispatch(selectDate(new Date()));
   };
   const handleRecordSleep = () => {
-    setNow(dayjs(new Date()));
     dispatch(
       postItem({
         category: "sleep",
@@ -75,9 +72,9 @@ const RecordCategory = () => {
         groupName: localStorage.getItem("group"),
         endDate: null,
         volume: null,
+        big: null,
       })
     );
-
     dispatch(select(new Date()));
     dispatch(selectDate(new Date()));
 
@@ -99,15 +96,28 @@ const RecordCategory = () => {
   };
 
   const handleRecordDiaper = () => {
-    setNow(dayjs(new Date()));
-    dispatch(selectDate());
-    dispatch(open("sleep"));
-    dispatch(selectEndDate(""));
-
+    /* setNow(dayjs(new Date())); */
+    /* dispatch(selectDate()); */
     dispatch(open("diaper"));
+    /* dispatch(selectEndDate("")); */
   };
 
-  console.log(openCategory);
+  const handleRecordBath = () => {
+    dispatch(
+      postItem({
+        category: "bath",
+        date: dayjs(new Date()).format("YYYY-MM-DD HH:mm:ss"),
+        recorder: localStorage.getItem("parents"),
+        email: localStorage.getItem("email"),
+        groupName: localStorage.getItem("group"),
+        endDate: null,
+        volume: null,
+        big: null,
+      })
+    );
+
+    dispatch(select(new Date()));
+  };
 
   return (
     <Base>
@@ -120,14 +130,16 @@ const RecordCategory = () => {
       <CategoryItem onClick={handleRecordDiaper}>
         <DiaperIcon />
       </CategoryItem>
-      <CategoryItem>
+      <CategoryItem onClick={handleRecordBath}>
         <BathIcon />
       </CategoryItem>
       <CategoryItem>
         <CalendarIcon />
       </CategoryItem>
-      <MilkModal openCategory={openCategory} />
+      <MilkModal />
       <SleepModal />
+      <DiaperModal />
+      <BathModal />
       <CalendarModal />
     </Base>
   );
@@ -160,7 +172,7 @@ const Base = styled.div`
       background-color: #d8b6c3;
     }
     &:nth-of-type(5) {
-      background-color: #d8cdb6;
+      background-color: #d8b6c3;
     }
   }
 `;

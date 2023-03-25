@@ -62,7 +62,7 @@ const DayDetail = () => {
           {selectData?.map((item, i, arr) => {
             return (
               <>
-                <Record key={item.date} onClick={() => handleUpdate(item.id, item.category, item.date, item.endDate, item.volume)}>
+                <Record key={item.date} onClick={() => (item.category === "milk" || "sleep" ? handleUpdate(item.id, item.category, item.date, item.endDate, item.volume) : undefined)}>
                   {item.endDate ? (
                     <RecordDateEndDate>
                       <div>{dayjs(new Date(item.date)).format("HH:mm")}</div>
@@ -71,7 +71,21 @@ const DayDetail = () => {
                   ) : (
                     <RecordDate>{dayjs(new Date(item.date)).format("HH:mm")}</RecordDate>
                   )}
-                  <RecordCategoryItem>{item.category === "milk" ? "분유" : item.category}</RecordCategoryItem>
+                  <RecordCategoryItem>
+                    {item.category === "milk"
+                      ? "분유"
+                      : item.category === "sleep"
+                      ? "잠"
+                      : item.category === "diaper"
+                      ? item.big === "2"
+                        ? "대변/소변"
+                        : item.big === "1"
+                        ? "대변"
+                        : "소변"
+                      : item.category === "bath"
+                      ? "목욕"
+                      : item.category}
+                  </RecordCategoryItem>
                   <RecordDetail>
                     {item.category === "milk" ? (
                       `${item.volume}ml`
@@ -82,9 +96,15 @@ const DayDetail = () => {
                         ) : (
                           <Moment interval={1000} date={item.date} durationFromNow></Moment>
                         )
-                      ) : (
-                        `${dayjs(new Date(item.endDate)).diff(dayjs(new Date(item.date)), "minute")}`
-                      )
+                      ) : `${dayjs(new Date(item.endDate)).diff(dayjs(new Date(item.date)), "minute")}` > 60 ? (
+                        `${Math.floor(dayjs(new Date(item.endDate)).diff(dayjs(new Date(item.date)), "minute") / 60)}시간 ${
+                          Math.floor(dayjs(new Date(item.endDate)).diff(dayjs(new Date(item.date)), "minute")) -
+                          Math.floor(dayjs(new Date(item.endDate)).diff(dayjs(new Date(item.date)), "minute") / 60) * 60
+                        }분 잤어요!`
+                      ) : /*  */
+                      `${dayjs(new Date(item.endDate)).diff(dayjs(new Date(item.date)), "minute")}` > 0 ? (
+                        `${dayjs(new Date(item.endDate)).diff(dayjs(new Date(item.date)), "minute")}분 잤어요!`
+                      ) : undefined
                     ) : undefined}
                   </RecordDetail>
                 </Record>
@@ -148,7 +168,7 @@ const Record = styled.div`
   display: flex;
   margin-bottom: 7px;
   gap: 1rem;
-  background-color: #f2f2f25e;
+  border-bottom: 1px solid #f2f2f2;
   padding: 10px;
   border-radius: 5px;
   align-items: center;

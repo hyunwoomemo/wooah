@@ -9,7 +9,7 @@ import { minusMonth, plusMonth, select } from "../slices/DateSlice";
 import Slide from "react-reveal/Slide";
 import { transform } from "lodash";
 import dayjs from "dayjs";
-import { getCurrentData, getList } from "../slices/RecordSlice";
+import { getCurrentData, getList, lastItem } from "../slices/RecordSlice";
 
 /* const DAYS = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"]; */ // 요일
 const DAYS = ["일", "월", "화", "수", "목", "금", "토"]; // 요일
@@ -63,6 +63,7 @@ const Calendar = () => {
       const today = new Date();
       const contents = data?.filter((v) => isSameDay(new Date(v.date), thisDay) && v.email === localStorage.getItem("email"));
       const milkSum = contents?.reduce((acc, cur) => acc + Number(cur.volume), 0);
+      const sleepSum = contents?.filter((v) => v.endDate && v.date).reduce((acc, cur) => acc + dayjs(new Date(cur.endDate)).diff(dayjs(new Date(cur.date)), "minute"), 0);
 
       return (
         <TableData key={d} onClick={() => selectDate(thisDay)}>
@@ -71,6 +72,9 @@ const Calendar = () => {
               <DateItem>{new Date(year, month, d + 1).getDate()}</DateItem>
               <Contents>
                 {milkSum > 0 ? <MilkContents>{`🍼${milkSum}`}</MilkContents> : undefined}
+                {sleepSum > 0 ? (
+                  <SleepContents>{Math.floor(sleepSum / 60) > 0 ? `${Math.floor(sleepSum / 60)}h ${sleepSum - Math.floor(sleepSum / 60) * 60}m` : `${sleepSum}분`}</SleepContents>
+                ) : undefined}
                 {/* <CalendarItem>일정</CalendarItem>
                 <CalendarItem>일정</CalendarItem> */}
               </Contents>
@@ -333,6 +337,28 @@ const MilkContents = styled.div`
     width: 4px;
     margin-right: 4px;
     background-color: #bed790;
+    border-radius: 10px;
+
+    @media (max-width: 768px) {
+      width: 2px;
+    }
+  }
+`;
+
+const SleepContents = styled.div`
+  /* white-space: nowrap; */
+  display: flex;
+  align-items: center;
+  gap: 3px;
+
+  &::before {
+    content: ".";
+    text-indent: -99em;
+    display: block;
+    height: 100%;
+    width: 4px;
+    margin-right: 4px;
+    background-color: #d79790;
     border-radius: 10px;
 
     @media (max-width: 768px) {

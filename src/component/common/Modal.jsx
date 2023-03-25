@@ -43,31 +43,6 @@ const Dim = styled.div`
 `;
 
 const Modal = ({ children, onClose, isOpen, selector = "#portal" }) => {
-  const [touchPosition, setTouchPosition] = useState({});
-  const [distanceY, setDistanceY] = useState(0);
-  const containerRef = useRef();
-
-  const touchMove = (e) => {
-    setDistanceY(e.changedTouches[0].pageY);
-    containerRef.current.style.willChange = "transform";
-  };
-
-  const touchEnd = (e) => {
-    const distanceX = Math.abs(touchPosition.x - e.changedTouches[0].pageX);
-    const distanceY = Math.abs(touchPosition.y - e.changedTouches[0].pageY);
-    if (distanceY + distanceX > 50 && distanceY > distanceX) {
-      onClose();
-    }
-    setTimeout(() => {
-      setDistanceY(0);
-      setTouchPosition({
-        x: 0,
-        y: 0,
-      });
-    }, 50);
-    containerRef.current.style.willChange = "auto";
-  };
-
   const [screenWidth, setScreenWidth] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
 
@@ -89,9 +64,7 @@ const Modal = ({ children, onClose, isOpen, selector = "#portal" }) => {
       <Portal selector={selector}>
         <Overlay>
           <Dim onClick={onClose} />
-          <Container ref={containerRef} distanceY={distanceY}>
-            {children}
-          </Container>
+          <Container>{children}</Container>
         </Overlay>
       </Portal>
     </CSSTransition>
