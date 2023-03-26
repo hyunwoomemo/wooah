@@ -68,6 +68,11 @@ const DayDetail = () => {
         <UpdateDiaper id={id} />
         {/* <NewEvent>새 이벤트 추가</NewEvent> */}
         <Data dataLength={dataLength}>
+          <Record>
+            <RecordDateEndDate>16:45</RecordDateEndDate>
+            <RecordCategoryItem>분유</RecordCategoryItem>
+            <RecordDetail>테스트</RecordDetail>
+          </Record>
           {selectData?.map((item, i, arr) => {
             return (
               <>
