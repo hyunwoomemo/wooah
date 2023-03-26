@@ -70,10 +70,10 @@ const Header = () => {
             Today
           </TodayBtn>
           <SubHeader>
-            <DisplayLatestWork>{lastWork === "milk" ? "🍼 분유" : lastWork === "sleep" && !lastWorkEndTime ? "💤 잠자는 중" : undefined}</DisplayLatestWork>
+            <DisplayLatestWork>{lastWork === "milk" ? "🍼 분유" : lastWork === "sleep" && lastWorkEndTime ? "💤 잠자는 중" : undefined}</DisplayLatestWork>
             {lastWork === "milk" ? (
               <Moment fromNow>{lastWorkTime}</Moment>
-            ) : lastWork === "sleep" && !lastWorkEndTime ? (
+            ) : lastWork === "sleep" && lastWorkEndTime ? (
               <Moment interval={1000} date={lastWorkTime} durationFromNow></Moment>
             ) : undefined}
           </SubHeader>

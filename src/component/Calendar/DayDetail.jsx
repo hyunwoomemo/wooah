@@ -13,6 +13,7 @@ import { DateContext } from "../../context/Context";
 import UpdateSleep from "../update/UpdateSleep";
 import UpdateMilk from "../update/UpdateMilk";
 import RecordCategory from "../RecordCategory";
+import UpdateDiaper from "../update/UpdateDiaper";
 
 const day = ["일", "월", "화", "수", "목", "금", "토"];
 
@@ -47,7 +48,14 @@ const DayDetail = () => {
     setNow(time);
     dispatch(update(category));
     dispatch(updateVolume(volume || 140));
-    dispatch(selectEndDate(endTime || dayjs(new Date(time)).add(1, "hour")));
+    dispatch(selectEndDate(endTime || dayjs(new Date(time))));
+  };
+
+  const [rightClickModal, setRightClickModal] = useState(false);
+
+  const handleRightClick = (e) => {
+    e.preventDefault();
+    setRightClickModal(!rightClickModal);
   };
 
   return (
@@ -57,12 +65,17 @@ const DayDetail = () => {
       <Content dataLength={dataLength}>
         <UpdateSleep id={id} />
         <UpdateMilk id={id} />
+        <UpdateDiaper id={id} />
         {/* <NewEvent>새 이벤트 추가</NewEvent> */}
         <Data dataLength={dataLength}>
           {selectData?.map((item, i, arr) => {
             return (
               <>
-                <Record key={item.date} onClick={() => (item.category === "milk" || "sleep" ? handleUpdate(item.id, item.category, item.date, item.endDate, item.volume) : undefined)}>
+                <Record
+                  key={item.date}
+                  onClick={() => (item.category === "milk" || "sleep" || "diaper" ? handleUpdate(item.id, item.category, item.date, item.endDate, item.volume) : undefined)}
+                  onContextMenu={handleRightClick}
+                >
                   {item.endDate ? (
                     <RecordDateEndDate>
                       <div>{dayjs(new Date(item.date)).format("HH:mm")}</div>
@@ -86,27 +99,37 @@ const DayDetail = () => {
                       ? "목욕"
                       : item.category}
                   </RecordCategoryItem>
-                  <RecordDetail>
+                  <RecordDetail rightClickModal={rightClickModal}>
                     {item.category === "milk" ? (
                       `${item.volume}ml`
                     ) : item.category === "sleep" ? (
                       i === arr.length - 1 ? (
                         item.endDate ? (
-                          `${dayjs(new Date(item.endDate)).diff(dayjs(new Date(item.date)), "minute")}`
+                          `${dayjs(new Date(item.endDate)).diff(dayjs(new Date(item.date)), "minute")}` >= 60 ? (
+                            `${Math.floor(dayjs(new Date(item.endDate)).diff(dayjs(new Date(item.date)), "minute") / 60)}시간 ${
+                              Math.floor(dayjs(new Date(item.endDate)).diff(dayjs(new Date(item.date)), "minute")) -
+                              Math.floor(dayjs(new Date(item.endDate)).diff(dayjs(new Date(item.date)), "minute") / 60) * 60
+                            }분 잤어요!`
+                          ) : `${dayjs(new Date(item.endDate)).diff(dayjs(new Date(item.date)), "minute")}` > 0 ? (
+                            `${dayjs(new Date(item.endDate)).diff(dayjs(new Date(item.date)), "minute")}분 잤어요!`
+                          ) : undefined
                         ) : (
                           <Moment interval={1000} date={item.date} durationFromNow></Moment>
                         )
-                      ) : `${dayjs(new Date(item.endDate)).diff(dayjs(new Date(item.date)), "minute")}` > 60 ? (
+                      ) : `${dayjs(new Date(item.endDate)).diff(dayjs(new Date(item.date)), "minute")}` >= 60 ? (
                         `${Math.floor(dayjs(new Date(item.endDate)).diff(dayjs(new Date(item.date)), "minute") / 60)}시간 ${
                           Math.floor(dayjs(new Date(item.endDate)).diff(dayjs(new Date(item.date)), "minute")) -
                           Math.floor(dayjs(new Date(item.endDate)).diff(dayjs(new Date(item.date)), "minute") / 60) * 60
                         }분 잤어요!`
-                      ) : /*  */
-                      `${dayjs(new Date(item.endDate)).diff(dayjs(new Date(item.date)), "minute")}` > 0 ? (
+                      ) : `${dayjs(new Date(item.endDate)).diff(dayjs(new Date(item.date)), "minute")}` > 0 ? (
                         `${dayjs(new Date(item.endDate)).diff(dayjs(new Date(item.date)), "minute")}분 잤어요!`
                       ) : undefined
                     ) : undefined}
                   </RecordDetail>
+                  <RecordRightClickModal rightClickModal={rightClickModal}>
+                    <RecordRightClickModalItem>수정</RecordRightClickModalItem>
+                    <RecordRightClickModalItem>삭제</RecordRightClickModalItem>
+                  </RecordRightClickModal>
                 </Record>
               </>
             );
@@ -177,6 +200,51 @@ const Record = styled.div`
     padding: 5px;
     border-radius: 5px;
   }
+
+  &:hover {
+    border: 1px solid #f2f2f2;
+  }
+`;
+
+const RecordRightClickModal = styled.div`
+  display: flex;
+  gap: 1rem;
+  position: absolute;
+  transition: all 0.3s;
+
+  ${({ rightClickModal }) =>
+    rightClickModal
+      ? css`
+          transform: translateX(1050%);
+        `
+      : css`
+          transform: translateX(1200%);
+        `}
+
+  @media (max-width: 768px) {
+    ${({ rightClickModal }) =>
+      rightClickModal
+        ? css`
+            transform: translateX(250%);
+          `
+        : css`
+            transform: translateX(400%);
+          `}
+  }
+`;
+
+const RecordRightClickModalItem = styled.div`
+  padding: 5px;
+  border-radius: 5px;
+  color: #fff;
+
+  &:first-of-type {
+    background-color: #7474ee;
+  }
+
+  &:last-of-type {
+    background-color: #ee7474;
+  }
 `;
 
 const RecordDate = styled.div``;
@@ -188,6 +256,16 @@ const RecordCategoryItem = styled.div``;
 const RecordDetail = styled.div`
   box-shadow: 0 0 2px gray;
   margin-left: auto;
+  transition: all 0.3s;
+
+  ${({ rightClickModal }) =>
+    rightClickModal
+      ? css`
+          opacity: 0;
+        `
+      : css`
+          opacity: 1;
+        `}
 `;
 
 export default DayDetail;

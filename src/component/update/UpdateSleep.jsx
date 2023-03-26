@@ -23,8 +23,8 @@ const UpdateSleep = ({ id }) => {
   useEffect(() => {}, []);
 
   const handleTimeChange = (e) => {
-    dispatch(selectDate(e));
     setNow(e);
+    dispatch(selectDate(e));
   };
 
   const handleEndTimeChange = (e) => {
@@ -43,16 +43,16 @@ const UpdateSleep = ({ id }) => {
           recorder: localStorage.getItem("parents"),
           email: localStorage.getItem("email"),
           groupName: localStorage.getItem("group"),
-          endDate:
-            dayjs(new Date(endDate)).diff(dayjs(new Date(date)), "minute") < 0
+          endDate: endDate
+            ? dayjs(new Date(endDate)).diff(dayjs(new Date(now)), "minute") < 0
               ? dayjs(new Date(endDate)).add(1, "day").format("YYYY-MM-DD HH:mm:ss")
-              : dayjs(new Date(endDate)).format("YYYY-MM-DD HH:mm:ss"),
+              : dayjs(new Date(endDate)).format("YYYY-MM-DD HH:mm:ss")
+            : null,
           volume: null,
           big: null,
         })
       );
-      dispatch(select(new Date(date)));
-      /* dispatch(selectDate(new Date(date))); */
+      dispatch(select(new Date(now)));
       dispatch(update(""));
     }
   };
@@ -63,7 +63,7 @@ const UpdateSleep = ({ id }) => {
         <Base updateCategory={updateCategory}>
           <TimeWrapper>
             <TimePicker label="잠든 시간" defaultValue={dayjs(new Date(now)) || ""} value={dayjs(new Date(now)) || ""} onChange={handleTimeChange} />
-            <TimePicker label="잠깬 시간" defaultValue={dayjs(new Date(endDate)) || ""} value={dayjs(new Date(endDate)) || ""} onChange={handleEndTimeChange} minTime={dayjs(new Date(now))} />
+            <TimePicker label="잠깬 시간" defaultValue={dayjs(new Date(endDate)) || ""} value={dayjs(new Date(endDate)) || ""} onChange={handleEndTimeChange} /* minTime={dayjs(new Date(date))} */ />
           </TimeWrapper>
           <SaveBtn>
             수정

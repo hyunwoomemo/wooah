@@ -5,61 +5,75 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 import dayjs from "dayjs";
 import React, { useContext, useEffect, useState } from "react";
-import { createPortal } from "react-dom";
 import { AiOutlineCheck } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { DateContext } from "../../context/Context";
 import { select } from "../../slices/DateSlice";
-import { selectDate, open, update, selectEndDate, minus, plus } from "../../slices/RecordModalSlice";
+import { selectDate, open, update, selectEndDate } from "../../slices/RecordModalSlice";
 import { postItem, putItem } from "../../slices/RecordSlice";
 import Modal from "../common/Modal";
 import Portal from "../common/Portal";
 
-const UpdateMilk = ({ id }) => {
+const UpdateDiaper = ({ id }) => {
   const { now, setNow } = useContext(DateContext);
-  const { volume, date, endDate, updateCategory } = useSelector((state) => state.RecordModalSlice);
+  const { date, endDate, updateCategory, selectDate } = useSelector((state) => state.RecordModalSlice);
 
   const dispatch = useDispatch();
 
+  useEffect(() => {}, []);
+
   const handleTimeChange = (e) => {
-    dispatch(selectDate(e));
     setNow(e);
   };
 
-  const handleMilkUpdate = () => {
+  const [big, setBig] = useState(0);
+
+  const handleDiaperUpdate = () => {
     dispatch(
       putItem({
         id: id,
-        category: "milk",
+        category: "diaper",
         date: dayjs(new Date(now)).format("YYYY-MM-DD HH:mm:ss"),
         recorder: localStorage.getItem("parents"),
         email: localStorage.getItem("email"),
         groupName: localStorage.getItem("group"),
         endDate: null,
-        endDate: null,
-        volume: volume,
-        big: null,
+        volume: null,
+        big: big,
       })
     );
     dispatch(select(new Date(date)));
-    dispatch(selectDate(new Date(date)));
+
     dispatch(update(""));
   };
 
+  const handleSmall = () => {
+    setBig(0);
+  };
+
+  const handleBig = () => {
+    setBig(1);
+  };
+
+  const handleBoth = () => {
+    setBig(2);
+  };
+
   return (
-    <Modal isOpen={updateCategory === "milk"} onClose={() => dispatch(update(""))}>
+    <Modal isOpen={updateCategory === "diaper"} onClose={() => dispatch(update(""))}>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <Base updateCategory={updateCategory}>
-          <MilkWrapper>
-            <MilkHandler>
-              <button onClick={(e) => dispatch(minus(5))}>-</button>
-              <MilkValue>{`${volume}ml`}</MilkValue>
-              <button onClick={() => dispatch(plus(5))}>+</button>
-            </MilkHandler>
-          </MilkWrapper>
-          <TimePicker label="분유 먹은 시간" defaultValue={dayjs(new Date(now)) || ""} value={dayjs(new Date(now)) || ""} onChange={handleTimeChange} />
+          <TimeWrapper>
+            <TimePicker label="시간" defaultValue={dayjs(new Date(now)) || ""} value={dayjs(new Date(now)) || ""} onChange={handleTimeChange} />
+          </TimeWrapper>
+          <DiaperWrapper big={big}>
+            <DiaperItem onClick={handleSmall}>소변</DiaperItem>
+            <DiaperItem onClick={handleBig}>대변</DiaperItem>
+            <DiaperItem onClick={handleBoth}>대변 + 소변</DiaperItem>
+          </DiaperWrapper>
           <SaveBtn>
-            <AiOutlineCheck onClick={handleMilkUpdate} />
+            수정
+            <AiOutlineCheck onClick={handleDiaperUpdate} />
           </SaveBtn>
         </Base>
       </LocalizationProvider>
@@ -77,39 +91,33 @@ const Base = styled.div`
   padding: 1rem;
 `;
 
-const MilkWrapper = styled.div``;
-
-const MilkValue = styled.div`
+const TimeWrapper = styled.div`
   display: flex;
-  justify-content: center;
+  gap: 1rem;
 `;
 
-const MilkHandler = styled.div`
+const DiaperWrapper = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: space-evenly;
+  gap: 1rem;
+
+  > div:nth-of-type(${({ big }) => (big > -1 ? big + 1 : undefined)}) {
+    background-color: #a0a0cc;
+  }
+`;
+
+const DiaperItem = styled.div`
   display: flex;
   justify-content: center;
+  width: 50%;
+  height: 50px;
   align-items: center;
-  gap: 2rem;
-  font-size: 24px;
-
-  > button {
-    background: none;
-    border: 0;
-    font-size: 24px;
-    border: 1px solid #f1f1f1;
-    border-radius: 50%;
-    width: 48px;
-    height: 48px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-
-    &:hover {
-      box-shadow: 0 0 2px black;
-    }
-  }
+  background-color: #eeeeee;
+  border-radius: 15px;
+  box-shadow: 0 0 5px #eee;
 `;
 
 const SaveBtn = styled.div``;
 
-export default UpdateMilk;
+export default UpdateDiaper;

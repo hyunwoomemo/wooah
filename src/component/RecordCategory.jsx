@@ -40,11 +40,8 @@ const RecordCategory = () => {
         big: null,
       })
     );
-
     dispatch(select(new Date()));
     dispatch(selectDate(new Date()));
-
-    dispatch(getList());
 
     if (selectData[selectData?.length - 1]?.category === "sleep" && selectData[selectData?.length - 1]?.endDate === null) {
       dispatch(
@@ -96,10 +93,7 @@ const RecordCategory = () => {
   };
 
   const handleRecordDiaper = () => {
-    /* setNow(dayjs(new Date())); */
-    /* dispatch(selectDate()); */
     dispatch(open("diaper"));
-    /* dispatch(selectEndDate("")); */
   };
 
   const handleRecordBath = () => {
@@ -117,6 +111,22 @@ const RecordCategory = () => {
     );
 
     dispatch(select(new Date()));
+
+    if (selectData[selectData?.length - 1]?.category === "sleep" && selectData[selectData?.length - 1]?.endDate === null) {
+      dispatch(
+        putItem({
+          id: selectData[selectData?.length - 1]?.id,
+          category: "sleep",
+          date: dayjs(new Date(selectData[selectData?.length - 1]?.date)).format("YYYY-MM-DD HH:mm:ss"),
+          recorder: localStorage.getItem("parents"),
+          email: localStorage.getItem("email"),
+          groupName: localStorage.getItem("group"),
+          endDate: dayjs(new Date()).format("YYYY-MM-DD HH:mm:ss"),
+          volume: null,
+          big: null,
+        })
+      );
+    }
   };
 
   return (
