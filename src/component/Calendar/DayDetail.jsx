@@ -205,6 +205,7 @@ const Content = styled.div`
 const Data = styled.div`
   transition: all 0.7s;
   transform-origin: top;
+  margin-top: 1rem;
   ${({ dataLength }) =>
     dataLength
       ? css`
@@ -217,7 +218,7 @@ const Data = styled.div`
 
 const Record = styled.div`
   display: flex;
-  margin-bottom: 7px;
+  margin-bottom: 1rem;
   gap: 1rem;
   border-bottom: 1px solid #f2f2f2;
   padding: 10px;
