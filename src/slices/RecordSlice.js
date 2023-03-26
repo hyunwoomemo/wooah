@@ -86,8 +86,8 @@ export const deleteItem = createAsyncThunk("RecordSlice/deleteItem", async (payl
     result = rejectWithValue(err.response);
   }
   return result;
-
 });
+
 
 
 /** Slice 정의   */
@@ -218,7 +218,22 @@ const RecordSlice = createSlice({
 
 
     [deleteItem.pending]: pending,
-    [deleteItem.fulfilled]: fulfilled,
+    [deleteItem.fulfilled]: (state, { payload }) => {
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: `삭제되었습니다`,
+        showConfirmButton: false,
+        timer: 800,
+      });
+      return {
+        data: [...payload],
+        selectData: state.data,
+        lastData: state.lastData,
+        loading: false,
+        error: null
+      }
+    },
     [deleteItem.rejected]: rejected
   },
 });

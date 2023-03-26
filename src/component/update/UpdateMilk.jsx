@@ -36,7 +36,6 @@ const UpdateMilk = ({ id }) => {
         email: localStorage.getItem("email"),
         groupName: localStorage.getItem("group"),
         endDate: null,
-        endDate: null,
         volume: volume,
         big: null,
       })

@@ -4,7 +4,7 @@ import dayjs from "dayjs";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import DateSlice, { select } from "../../slices/DateSlice";
-import { getItem, getList, lastItem } from "../../slices/RecordSlice";
+import { deleteItem, getItem, getList, lastItem } from "../../slices/RecordSlice";
 import Moment from "react-moment";
 import "moment/locale/ko";
 import SleepModal from "../Navigation/SleepModal";
@@ -58,6 +58,33 @@ const DayDetail = () => {
     setRightClickModal(!rightClickModal);
   };
 
+  let recordLi = document.querySelectorAll(".record");
+
+  recordLi.forEach((item) => {
+    item.addEventListener("contextmenu", () => {
+      recordLi.forEach((e) => {
+        e.classList.remove("active");
+      });
+      item.classList.add("active");
+    });
+
+    item.addEventListener("click", (e) => {
+      recordLi.forEach((e) => {
+        e.classList.remove("active");
+      });
+    });
+  });
+
+  const handleDelete = (id, date) => {
+    dispatch(
+      deleteItem({
+        id: id,
+      })
+    );
+    dispatch(open(""));
+    dispatch(select(new Date(date)));
+  };
+
   return (
     <Base>
       <Title open={openCategory || updateCategory}> {dayjs(new Date(selectValue)).format(`YYYY년 MM월 DD일 (${day[selectValue.getDay()]})`)}</Title>
@@ -68,19 +95,10 @@ const DayDetail = () => {
         <UpdateDiaper id={id} />
         {/* <NewEvent>새 이벤트 추가</NewEvent> */}
         <Data dataLength={dataLength}>
-          <Record>
-            <RecordDateEndDate>16:45</RecordDateEndDate>
-            <RecordCategoryItem>분유</RecordCategoryItem>
-            <RecordDetail>테스트</RecordDetail>
-          </Record>
           {selectData?.map((item, i, arr) => {
             return (
               <>
-                <Record
-                  key={item.date}
-                  onClick={() => (item.category === "milk" || "sleep" || "diaper" ? handleUpdate(item.id, item.category, item.date, item.endDate, item.volume) : undefined)}
-                  onContextMenu={handleRightClick}
-                >
+                <Record key={item.date} onContextMenu={handleRightClick} className="record">
                   {item.endDate ? (
                     <RecordDateEndDate>
                       <div>{dayjs(new Date(item.date)).format("HH:mm")}</div>
@@ -104,7 +122,7 @@ const DayDetail = () => {
                       ? "목욕"
                       : item.category}
                   </RecordCategoryItem>
-                  <RecordDetail rightClickModal={rightClickModal}>
+                  <RecordDetail rightClickModal={rightClickModal} className="detail">
                     {item.category === "milk" ? (
                       `${item.volume}ml`
                     ) : item.category === "sleep" ? (
@@ -131,9 +149,13 @@ const DayDetail = () => {
                       ) : undefined
                     ) : undefined}
                   </RecordDetail>
-                  <RecordRightClickModal rightClickModal={rightClickModal}>
-                    <RecordRightClickModalItem>수정</RecordRightClickModalItem>
-                    <RecordRightClickModalItem>삭제</RecordRightClickModalItem>
+                  <RecordRightClickModal rightClickModal={rightClickModal} className="clickModal">
+                    <RecordRightClickModalItem
+                      onClick={() => (item.category === "milk" || "sleep" || "diaper" ? handleUpdate(item.id, item.category, item.date, item.endDate, item.volume) : undefined)}
+                    >
+                      수정
+                    </RecordRightClickModalItem>
+                    <RecordRightClickModalItem onClick={() => handleDelete(item.id, item.date)}>삭제</RecordRightClickModalItem>
                   </RecordRightClickModal>
                 </Record>
               </>
@@ -148,6 +170,7 @@ const DayDetail = () => {
 const Base = styled.div`
   padding: 1rem;
   margin-bottom: 1rem;
+  overflow: hidden;
   @media (max-width: 768px) {
     padding: 10px;
   }
@@ -206,8 +229,33 @@ const Record = styled.div`
     border-radius: 5px;
   }
 
-  &:hover {
-    border: 1px solid #f2f2f2;
+  .clickModal {
+    transform: translateX(1200%);
+
+    @media (max-width: 768px) {
+      transform: translateX(400%);
+    }
+  }
+
+  &.active {
+    .detail {
+      opacity: 0;
+    }
+
+    .clickModal {
+      > div:first-of-type {
+        background-color: #7474ee;
+      }
+
+      > div:last-of-type {
+        background-color: #ee7474;
+      }
+      transform: translateX(1050%);
+
+      @media (max-width: 768px) {
+        transform: translateX(250%);
+      }
+    }
   }
 `;
 
@@ -216,40 +264,12 @@ const RecordRightClickModal = styled.div`
   gap: 1rem;
   position: absolute;
   transition: all 0.3s;
-
-  ${({ rightClickModal }) =>
-    rightClickModal
-      ? css`
-          transform: translateX(1050%);
-        `
-      : css`
-          transform: translateX(1200%);
-        `}
-
-  @media (max-width: 768px) {
-    ${({ rightClickModal }) =>
-      rightClickModal
-        ? css`
-            transform: translateX(250%);
-          `
-        : css`
-            transform: translateX(400%);
-          `}
-  }
 `;
 
 const RecordRightClickModalItem = styled.div`
   padding: 5px;
   border-radius: 5px;
   color: #fff;
-
-  &:first-of-type {
-    background-color: #7474ee;
-  }
-
-  &:last-of-type {
-    background-color: #ee7474;
-  }
 `;
 
 const RecordDate = styled.div``;
@@ -262,15 +282,6 @@ const RecordDetail = styled.div`
   box-shadow: 0 0 2px gray;
   margin-left: auto;
   transition: all 0.3s;
-
-  ${({ rightClickModal }) =>
-    rightClickModal
-      ? css`
-          opacity: 0;
-        `
-      : css`
-          opacity: 1;
-        `}
 `;
 
 export default DayDetail;
