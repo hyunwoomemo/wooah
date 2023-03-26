@@ -26,7 +26,6 @@ const RecordCategory = () => {
 
   const { setNow } = useContext(DateContext);
 
-  console.log(selectData);
   const handleRecordMilk = () => {
     dispatch(
       postItem({
