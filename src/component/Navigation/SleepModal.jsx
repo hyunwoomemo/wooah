@@ -51,6 +51,12 @@ const SleepModal = () => {
           groupName: localStorage.getItem("group"),
           endDate: endTime ? dayjs(new Date(endTime)).format("YYYY-MM-DD HH:mm:ss") : null,
           volume: null,
+          calendarTitle: null,
+          calendarLocation: null,
+          calendarUrl: null,
+          calendarMemo: null,
+          vitamin: null,
+          lactobacillus: null,
         })
       );
       dispatch(select(new Date(date)));

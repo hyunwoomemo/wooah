@@ -142,7 +142,6 @@ const RecordSlice = createSlice({
 
     [lastItem.pending]: pending,
     [lastItem.fulfilled]: (state, { payload }) => {
-      console.log(payload)
       return {
         data: state.data,
         selectData: state.data,

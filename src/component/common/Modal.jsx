@@ -22,13 +22,14 @@ const Overlay = styled.div`
 const Container = styled.div`
   max-width: 1200px;
   width: 90vw;
-  height: 50vh;
+  min-height: 50vh;
   position: relative;
   background-color: #fff;
   border-radius: 10px;
   box-shadow: 0 0 3px gray;
   display: flex;
   justify-content: center;
+  align-items: center;
 `;
 
 const Dim = styled.div`

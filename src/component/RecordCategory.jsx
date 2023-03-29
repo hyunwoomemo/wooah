@@ -37,6 +37,12 @@ const RecordCategory = () => {
         groupName: localStorage.getItem("group"),
         endDate: null,
         big: null,
+        calendarTitle: null,
+        calendarLocation: null,
+        calendarUrl: null,
+        calendarMemo: null,
+        vitamin: null,
+        lactobacillus: null,
       })
     );
     dispatch(select(new Date()));
@@ -54,6 +60,12 @@ const RecordCategory = () => {
           endDate: dayjs(new Date()).format("YYYY-MM-DD HH:mm:ss"),
           volume: null,
           big: null,
+          calendarTitle: null,
+          calendarLocation: null,
+          calendarUrl: null,
+          calendarMemo: null,
+          vitamin: null,
+          lactobacillus: null,
         })
       );
     }
@@ -69,6 +81,12 @@ const RecordCategory = () => {
         endDate: null,
         volume: null,
         big: null,
+        calendarTitle: null,
+        calendarLocation: null,
+        calendarUrl: null,
+        calendarMemo: null,
+        vitamin: null,
+        lactobacillus: null,
       })
     );
     dispatch(select(new Date()));
@@ -86,6 +104,12 @@ const RecordCategory = () => {
           endDate: dayjs(new Date()).format("YYYY-MM-DD HH:mm:ss"),
           volume: null,
           big: null,
+          calendarTitle: null,
+          calendarLocation: null,
+          calendarUrl: null,
+          calendarMemo: null,
+          vitamin: null,
+          lactobacillus: null,
         })
       );
     }
@@ -106,6 +130,12 @@ const RecordCategory = () => {
         endDate: null,
         volume: null,
         big: null,
+        calendarTitle: null,
+        calendarLocation: null,
+        calendarUrl: null,
+        calendarMemo: null,
+        vitamin: null,
+        lactobacillus: null,
       })
     );
 
@@ -123,9 +153,21 @@ const RecordCategory = () => {
           endDate: dayjs(new Date()).format("YYYY-MM-DD HH:mm:ss"),
           volume: null,
           big: null,
+          calendarTitle: null,
+          calendarLocation: null,
+          calendarUrl: null,
+          calendarMemo: null,
+          vitamin: null,
+          lactobacillus: null,
         })
       );
     }
+  };
+
+  const handleRecordCalendar = () => {
+    dispatch(open("calendar"));
+    dispatch(selectDate(dayjs(new Date()).set("hour", 9).set("minute", 0).set("second", 0)));
+    dispatch(selectEndDate(dayjs(new Date()).set("hour", 10).set("minute", 0).set("second", 0)));
   };
 
   return (
@@ -142,7 +184,7 @@ const RecordCategory = () => {
       <CategoryItem onClick={handleRecordBath}>
         <BathIcon />
       </CategoryItem>
-      <CategoryItem>
+      <CategoryItem onClick={handleRecordCalendar}>
         <CalendarIcon />
       </CategoryItem>
       <MilkModal />

@@ -42,6 +42,12 @@ const MilkModal = () => {
         email: localStorage.getItem("email"),
         groupName: localStorage.getItem("group"),
         endDate: null,
+        calendarTitle: null,
+        calendarLocation: null,
+        calendarUrl: null,
+        calendarMemo: null,
+        vitamin: null,
+        lactobacillus: null,
       })
     );
 

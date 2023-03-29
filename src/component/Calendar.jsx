@@ -56,14 +56,34 @@ const Calendar = () => {
       </TableData>
     )); // 해당 월의 첫째 날 전 pad
 
+  const comparisonDate = (a, b) => {
+    if (isSameDay(a, b)) {
+      return dayjs(new Date(a)).diff(dayjs(new Date(b)), "minute");
+    } else {
+      return dayjs(new Date(a))
+        .set("date", new Date(b).getDate())
+        .set("hour", 23)
+        .set("minute", 59)
+        .set("second", 59)
+        .diff(dayjs(new Date(b)), "minute");
+    }
+  };
+
   const range = () =>
     [...Array(lastDay.getDate()).keys()]?.map((d) => {
       // 1일 부터 마지막 날까지 날짜 표기
       const thisDay = new Date(year, month, d + 1);
       const today = new Date();
       const contents = data?.filter((v) => isSameDay(new Date(v.date), thisDay) && v.email === localStorage.getItem("email"));
+      console.log(contents);
+      const otherDateContents = data?.filter((v) => isSameDay(new Date(v.endDate), thisDay) && v.email === localStorage.getItem("email") && !isSameDay(new Date(v.date), thisDay));
       const milkSum = contents?.reduce((acc, cur) => acc + Number(cur.volume), 0);
-      const sleepSum = contents?.filter((v) => v.endDate && v.date).reduce((acc, cur) => acc + dayjs(new Date(cur.endDate)).diff(dayjs(new Date(cur.date)), "minute"), 0);
+      const sleepSum =
+        contents?.filter((v) => v.endDate && v.date).reduce((acc, cur) => acc + comparisonDate(new Date(cur.endDate), new Date(cur.date)), 0) +
+        otherDateContents?.filter((v) => v.endDate && v.date).reduce((acc, cur) => acc + comparisonDate(new Date(cur.endDate), new Date(cur.date)), 0);
+      const otherSum = otherDateContents?.filter((v) => v.endDate && v.date).reduce((acc, cur) => acc + comparisonDate(new Date(cur.endDate), new Date(cur.date)), 0);
+      const calendarItem = contents?.filter((v) => v.category === "calendar");
+      console.log(calendarItem);
 
       return (
         <TableData key={d} onClick={() => selectDate(thisDay)}>
@@ -71,9 +91,12 @@ const Calendar = () => {
             <DisplayDate>
               <DateItem>{new Date(year, month, d + 1).getDate()}</DateItem>
               <Contents>
+                {calendarItem?.map((v) => {
+                  return <CalendarContents>{v.calendarTitle}</CalendarContents>;
+                })}
                 {milkSum > 0 ? <MilkContents>{`🍼${milkSum}`}</MilkContents> : undefined}
                 {sleepSum > 0 ? (
-                  <SleepContents>{Math.floor(sleepSum / 60) > 0 ? `${Math.floor(sleepSum / 60)}h ${sleepSum - Math.floor(sleepSum / 60) * 60}m` : `${sleepSum}분`}</SleepContents>
+                  <SleepContents>{Math.floor(sleepSum / 60) > 0 ? `🌙 ${Math.floor(sleepSum / 60)}h ${sleepSum - Math.floor(sleepSum / 60) * 60}m` : `${sleepSum}분`}</SleepContents>
                 ) : undefined}
                 {/* <CalendarItem>일정</CalendarItem>
                 <CalendarItem>일정</CalendarItem> */}
@@ -229,22 +252,6 @@ const Table = styled.table`
   transition: all 0.3s;
   box-shadow: 0.3rem 0.3rem 0.6rem var(--greyLight-2), -0.2rem -0.2rem 0.5rem var(--white);
   border-radius: 20px;
-
-  ${({ moveLeft, moveRight }) =>
-    moveLeft
-      ? css`
-          transform: translateX(-5%);
-          opacity: 0;
-        `
-      : moveRight
-      ? css`
-          transform: translateX(5%);
-          opacity: 0;
-        `
-      : css`
-          transform: translateX(0);
-          opacity: 1;
-        `}
 `;
 
 const TableHeader = styled.thead`
@@ -367,6 +374,28 @@ const SleepContents = styled.div`
   }
 `;
 
+const CalendarContents = styled.div`
+  /* white-space: nowrap; */
+  display: flex;
+  align-items: center;
+  gap: 3px;
+
+  &::before {
+    content: ".";
+    text-indent: -99em;
+    display: block;
+    height: 100%;
+    width: 4px;
+    margin-right: 4px;
+    background-color: #90cad7;
+    border-radius: 10px;
+
+    @media (max-width: 768px) {
+      width: 2px;
+    }
+  }
+`;
+
 const DisplayDate = styled.div`
   @media (max-width: 768px) {
   }
@@ -393,7 +422,7 @@ const Contents = styled.div`
   align-items: center;
   height: 50px;
   box-sizing: border-box;
-  overflow-y: hidden;
+  overflow-y: scroll;
 
   @media (max-width: 768px) {
     font-size: 6px;

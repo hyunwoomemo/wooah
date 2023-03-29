@@ -4,8 +4,8 @@ import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 import dayjs from "dayjs";
-import React, { useContext, useEffect, useState } from "react";
-import { AiOutlineCheck } from "react-icons/ai";
+import React, { useContext, useEffect, useRef, useState } from "react";
+import { AiFillCloseCircle, AiOutlineCheck } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { DateContext } from "../../context/Context";
 import { select } from "../../slices/DateSlice";
@@ -13,6 +13,11 @@ import { selectDate, open, update, selectEndDate } from "../../slices/RecordModa
 import { postItem, putItem } from "../../slices/RecordSlice";
 import Modal from "../common/Modal";
 import Portal from "../common/Portal";
+import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import FormControl from "@mui/material/FormControl";
+import FormLabel from "@mui/material/FormLabel";
 
 const UpdateSleep = ({ id }) => {
   const { now, setNow } = useContext(DateContext);
@@ -24,7 +29,7 @@ const UpdateSleep = ({ id }) => {
 
   const handleTimeChange = (e) => {
     setNow(e);
-    dispatch(selectDate(e));
+    /* dispatch(selectDate(e)); */
   };
 
   const handleEndTimeChange = (e) => {
@@ -32,38 +37,80 @@ const UpdateSleep = ({ id }) => {
   };
 
   const handleSleepUpdate = () => {
-    if (dayjs(new Date(endDate)).diff(dayjs(new Date(now)), "minute") < 0) {
+    /* if (dayjs(new Date(endDate)).diff(dayjs(new Date(now)), "minute") < 0) {
       alert("종료 시간이 시작 시간보다 빨라요 😂");
+    } else { */
+    dispatch(
+      putItem({
+        id: id,
+        category: "sleep",
+        date: dayjs(new Date(now)).add(updateDate, "day").format("YYYY-MM-DD HH:mm:ss"),
+        recorder: localStorage.getItem("parents"),
+        email: localStorage.getItem("email"),
+        groupName: localStorage.getItem("group"),
+        endDate: endState
+          ? null
+          : endDate
+          ? dayjs(new Date(endDate)).diff(dayjs(new Date(now)), "minute") < 0
+            ? dayjs(new Date(endDate)).add(1, "day").add(updateDate, "day").format("YYYY-MM-DD HH:mm:ss")
+            : dayjs(new Date(endDate)).add(updateDate, "day").format("YYYY-MM-DD HH:mm:ss")
+          : null,
+        volume: null,
+        big: null,
+        vitamin: null,
+        lactobacillus: null,
+        calendarTitle: null,
+        calendarLocation: null,
+        calendarUrl: null,
+        calendarMemo: null,
+      })
+    );
+    dispatch(select(new Date(now)));
+    dispatch(update(""));
+    setEndState(false);
+  };
+
+  const [updateDate, setUpdateDate] = useState(0);
+  const [checked, setChecked] = useState(true);
+
+  const handleChange = (e) => {
+    setUpdateDate(e.target.value);
+    if (parseInt(e.target.value) !== 0) {
+      setChecked(false);
     } else {
-      dispatch(
-        putItem({
-          id: id,
-          category: "sleep",
-          date: dayjs(new Date(now)).format("YYYY-MM-DD HH:mm:ss"),
-          recorder: localStorage.getItem("parents"),
-          email: localStorage.getItem("email"),
-          groupName: localStorage.getItem("group"),
-          endDate: endDate
-            ? dayjs(new Date(endDate)).diff(dayjs(new Date(now)), "minute") < 0
-              ? dayjs(new Date(endDate)).add(1, "day").format("YYYY-MM-DD HH:mm:ss")
-              : dayjs(new Date(endDate)).format("YYYY-MM-DD HH:mm:ss")
-            : null,
-          volume: null,
-          big: null,
-        })
-      );
-      dispatch(select(new Date(now)));
-      dispatch(update(""));
+      setChecked(true);
     }
   };
+
+  const isSameDay = (a, b) => {
+    return a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate();
+  };
+
+  const [endState, setEndState] = useState(false);
 
   return (
     <Modal isOpen={updateCategory === "sleep"} onClose={() => dispatch(update(""))}>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <Base updateCategory={updateCategory}>
+          <FormControl>
+            <FormLabel id="demo-row-radio-buttons-group-label">날짜</FormLabel>
+            <RadioGroup row aria-labelledby="demo-row-radio-buttons-group-label" name="row-radio-buttons-group" onChange={handleChange}>
+              <FormControlLabel value="-2" control={<Radio />} label={dayjs(new Date(now)).add(-2, "day").format("MM-DD")} />
+              <FormControlLabel value="-1" control={<Radio />} label={dayjs(new Date(now)).subtract(1, "day").format("MM-DD")} />
+              <FormControlLabel value="0" control={<Radio />} label={isSameDay(new Date(), new Date(now)) ? "오늘" : dayjs(new Date(now)).format("MM-DD")} checked={checked} />
+            </RadioGroup>
+          </FormControl>
           <TimeWrapper>
             <TimePicker label="잠든 시간" defaultValue={dayjs(new Date(now)) || ""} value={dayjs(new Date(now)) || ""} onChange={handleTimeChange} />
-            <TimePicker label="잠깬 시간" defaultValue={dayjs(new Date(endDate)) || ""} value={dayjs(new Date(endDate)) || ""} onChange={handleEndTimeChange} /* minTime={dayjs(new Date(date))} */ />
+            <EndWrapper>
+              <TimePicker
+                label="잠깬 시간"
+                defaultValue={dayjs(new Date(endDate)) || ""}
+                value={endState ? "" : dayjs(new Date(endDate)) || ""}
+                onChange={handleEndTimeChange} /* minTime={dayjs(new Date(date))} */
+              />
+              <AiFillCloseCircle onClick={() => setEndState(true)}></AiFillCloseCircle>
+            </EndWrapper>
           </TimeWrapper>
           <SaveBtn>
             수정
@@ -91,5 +138,20 @@ const TimeWrapper = styled.div`
 `;
 
 const SaveBtn = styled.div``;
+
+const EndWrapper = styled.div`
+  position: relative;
+  > svg {
+    padding: 10px;
+    font-size: 30px;
+    position: absolute;
+    top: -25px;
+    right: -20px;
+    background-color: #fff;
+    &:hover {
+      color: #c05454;
+    }
+  }
+`;
 
 export default UpdateSleep;

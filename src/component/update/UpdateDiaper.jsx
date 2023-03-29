@@ -40,6 +40,12 @@ const UpdateDiaper = ({ id }) => {
         endDate: null,
         volume: null,
         big: big,
+        calendarTitle: null,
+        calendarLocation: null,
+        calendarUrl: null,
+        calendarMemo: null,
+        vitamin: null,
+        lactobacillus: null,
       })
     );
     dispatch(select(new Date(date)));

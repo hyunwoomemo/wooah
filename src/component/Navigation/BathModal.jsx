@@ -69,6 +69,12 @@ const BathModal = () => {
             endDate: dayjs(new Date(now)).format("YYYY-MM-DD HH:mm:ss"),
             volume: null,
             big: null,
+            calendarTitle: null,
+            calendarLocation: null,
+            calendarUrl: null,
+            calendarMemo: null,
+            vitamin: null,
+            lactobacillus: null,
           })
         );
       }

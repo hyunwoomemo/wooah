@@ -6,7 +6,7 @@ import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 import dayjs from "dayjs";
 import React, { useContext, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
-import { AiOutlineCheck } from "react-icons/ai";
+import { AiFillCheckCircle, AiOutlineCheck } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { DateContext } from "../../context/Context";
 import { select } from "../../slices/DateSlice";
@@ -38,11 +38,27 @@ const UpdateMilk = ({ id }) => {
         endDate: null,
         volume: volume,
         big: null,
+        calendarTitle: null,
+        calendarLocation: null,
+        calendarUrl: null,
+        calendarMemo: null,
+        vitamin: vitamin ? 1 : null,
+        lactobacillus: lactobacillus ? 1 : null,
       })
     );
     dispatch(select(new Date(date)));
     dispatch(selectDate(new Date(date)));
     dispatch(update(""));
+  };
+
+  const [vitamin, setVitamin] = useState(false);
+  const [lactobacillus, setLactobacillus] = useState(false);
+
+  const handleOption1 = () => {
+    setVitamin(!vitamin);
+  };
+  const handleOption2 = () => {
+    setLactobacillus(!lactobacillus);
   };
 
   return (
@@ -57,8 +73,16 @@ const UpdateMilk = ({ id }) => {
             </MilkHandler>
           </MilkWrapper>
           <TimePicker label="분유 먹은 시간" defaultValue={dayjs(new Date(now)) || ""} value={dayjs(new Date(now)) || ""} onChange={handleTimeChange} />
+          <AddOptionWrapper>
+            <AddOption onClick={handleOption1} active={vitamin}>
+              비타민
+            </AddOption>
+            <AddOption onClick={handleOption2} active={lactobacillus}>
+              유산균
+            </AddOption>
+          </AddOptionWrapper>
           <SaveBtn>
-            <AiOutlineCheck onClick={handleMilkUpdate} />
+            <AiFillCheckCircle onClick={handleMilkUpdate} />
           </SaveBtn>
         </Base>
       </LocalizationProvider>
@@ -109,6 +133,32 @@ const MilkHandler = styled.div`
   }
 `;
 
-const SaveBtn = styled.div``;
+const AddOptionWrapper = styled.div`
+  display: flex;
+  width: 100%;
+  gap: 1rem;
+`;
+
+const AddOption = styled.div`
+  padding: 1rem;
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+
+  ${({ active }) =>
+    active
+      ? css`
+          box-shadow: 0 0 1px 3px #bed45e;
+        `
+      : css`
+          box-shadow: 0 0 1px 1px gray;
+        `}
+`;
+
+const SaveBtn = styled.div`
+  font-size: 40px;
+`;
 
 export default UpdateMilk;

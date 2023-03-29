@@ -34,10 +34,38 @@ const DiaperModal = () => {
         email: localStorage.getItem("email"),
         groupName: localStorage.getItem("group"),
         endDate: null,
+        calendarTitle: null,
+        calendarLocation: null,
+        calendarUrl: null,
+        calendarMemo: null,
+        vitamin: null,
+        lactobacillus: null,
       })
     );
     dispatch(open(""));
     dispatch(select(new Date()));
+
+    if (selectData[selectData?.length - 1]?.category === "sleep" && selectData[selectData?.length - 1]?.endDate === null) {
+      dispatch(
+        putItem({
+          id: selectData[selectData?.length - 1]?.id,
+          category: "sleep",
+          date: dayjs(new Date(selectData[selectData?.length - 1]?.date)).format("YYYY-MM-DD HH:mm:ss"),
+          recorder: localStorage.getItem("parents"),
+          email: localStorage.getItem("email"),
+          groupName: localStorage.getItem("group"),
+          endDate: dayjs(new Date(now)).format("YYYY-MM-DD HH:mm:ss"),
+          volume: null,
+          big: null,
+          calendarTitle: null,
+          calendarLocation: null,
+          calendarUrl: null,
+          calendarMemo: null,
+          vitamin: null,
+          lactobacillus: null,
+        })
+      );
+    }
   };
 
   const handleBig = () => {
@@ -51,11 +79,39 @@ const DiaperModal = () => {
         email: localStorage.getItem("email"),
         groupName: localStorage.getItem("group"),
         endDate: null,
+        calendarTitle: null,
+        calendarLocation: null,
+        calendarUrl: null,
+        calendarMemo: null,
+        vitamin: null,
+        lactobacillus: null,
       })
     );
 
     dispatch(open(""));
     dispatch(select(new Date()));
+
+    if (selectData[selectData?.length - 1]?.category === "sleep" && selectData[selectData?.length - 1]?.endDate === null) {
+      dispatch(
+        putItem({
+          id: selectData[selectData?.length - 1]?.id,
+          category: "sleep",
+          date: dayjs(new Date(selectData[selectData?.length - 1]?.date)).format("YYYY-MM-DD HH:mm:ss"),
+          recorder: localStorage.getItem("parents"),
+          email: localStorage.getItem("email"),
+          groupName: localStorage.getItem("group"),
+          endDate: dayjs(new Date(now)).format("YYYY-MM-DD HH:mm:ss"),
+          volume: null,
+          big: null,
+          calendarTitle: null,
+          calendarLocation: null,
+          calendarUrl: null,
+          calendarMemo: null,
+          vitamin: null,
+          lactobacillus: null,
+        })
+      );
+    }
   };
 
   const handleBoth = () => {
@@ -69,11 +125,39 @@ const DiaperModal = () => {
         email: localStorage.getItem("email"),
         groupName: localStorage.getItem("group"),
         endDate: null,
+        calendarTitle: null,
+        calendarLocation: null,
+        calendarUrl: null,
+        calendarMemo: null,
+        vitamin: null,
+        lactobacillus: null,
       })
     );
 
     dispatch(open(""));
     dispatch(select(new Date()));
+
+    if (selectData[selectData?.length - 1]?.category === "sleep" && selectData[selectData?.length - 1]?.endDate === null) {
+      dispatch(
+        putItem({
+          id: selectData[selectData?.length - 1]?.id,
+          category: "sleep",
+          date: dayjs(new Date(selectData[selectData?.length - 1]?.date)).format("YYYY-MM-DD HH:mm:ss"),
+          recorder: localStorage.getItem("parents"),
+          email: localStorage.getItem("email"),
+          groupName: localStorage.getItem("group"),
+          endDate: dayjs(new Date(now)).format("YYYY-MM-DD HH:mm:ss"),
+          volume: null,
+          big: null,
+          calendarTitle: null,
+          calendarLocation: null,
+          calendarUrl: null,
+          calendarMemo: null,
+          vitamin: null,
+          lactobacillus: null,
+        })
+      );
+    }
   };
 
   return (
