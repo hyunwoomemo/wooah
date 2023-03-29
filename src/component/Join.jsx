@@ -19,8 +19,6 @@ const Join = () => {
   const passwordCheckRef = useRef();
   const [passwordCheck, setPasswordCheck] = useState("");
 
-
-
   const handleGroupName = () => {
     setGroupName(groupNameRef.current.value);
   };
@@ -49,7 +47,7 @@ const Join = () => {
     e.preventDefault();
 
     axios
-      .post("http://localhost:3001/join", {
+      .post("http://43.207.185.152", {
         groupName: groupName,
         userEmail: email,
         userBaby: baby,

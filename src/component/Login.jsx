@@ -34,7 +34,7 @@ const Login = () => {
     }
 
     axios
-      .post("http://localhost:3001/login", {
+      .post("http://http://43.207.185.152/login", {
         groupName: group,
         password: password,
       })
