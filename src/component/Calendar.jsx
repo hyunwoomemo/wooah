@@ -75,7 +75,6 @@ const Calendar = () => {
       const thisDay = new Date(year, month, d + 1);
       const today = new Date();
       const contents = data?.filter((v) => isSameDay(new Date(v.date), thisDay) && v.email === localStorage.getItem("email"));
-      console.log(contents);
       const otherDateContents = data?.filter((v) => isSameDay(new Date(v.endDate), thisDay) && v.email === localStorage.getItem("email") && !isSameDay(new Date(v.date), thisDay));
       const milkSum = contents?.reduce((acc, cur) => acc + Number(cur.volume), 0);
       const sleepSum =
@@ -83,7 +82,6 @@ const Calendar = () => {
         otherDateContents?.filter((v) => v.endDate && v.date).reduce((acc, cur) => acc + comparisonDate(new Date(cur.endDate), new Date(cur.date)), 0);
       const otherSum = otherDateContents?.filter((v) => v.endDate && v.date).reduce((acc, cur) => acc + comparisonDate(new Date(cur.endDate), new Date(cur.date)), 0);
       const calendarItem = contents?.filter((v) => v.category === "calendar");
-      console.log(calendarItem);
 
       return (
         <TableData key={d} onClick={() => selectDate(thisDay)}>

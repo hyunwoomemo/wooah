@@ -19,17 +19,18 @@ const day = ["일", "월", "화", "수", "목", "금", "토"];
 
 const DayDetail = () => {
   const dispatch = useDispatch();
+  const { openCategory, updateCategory } = useSelector((state) => state.RecordModalSlice);
   const { selectValue } = useSelector((state) => state.DateSlice);
-
-  const { selectData, loading, error, lastData } = useSelector((state) => state.RecordSlice);
 
   useEffect(() => {
     dispatch(getItem(dayjs(new Date(selectValue)).format("YYYY-MM-DD")));
   }, [selectValue]);
 
-  const [dataLength, setDataLength] = useState(0);
+  const { selectData } = useSelector((state) => state.RecordSlice);
 
   console.log(selectData);
+
+  const [dataLength, setDataLength] = useState(0);
 
   useEffect(() => {
     setDataLength(selectData?.length);
@@ -38,8 +39,6 @@ const DayDetail = () => {
       setDataLength(0);
     };
   }, [selectData]);
-
-  const { openCategory, updateCategory } = useSelector((state) => state.RecordModalSlice);
 
   const { now, setNow } = useContext(DateContext);
 

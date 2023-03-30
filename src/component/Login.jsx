@@ -14,11 +14,9 @@ const Login = () => {
 
   const handleGroup = () => {
     setGroup(groupRef.current.value);
-    console.log(groupRef.current.value);
   };
   const handlePassword = () => {
     setPassword(passwordRef.current.value);
-    console.log(passwordRef.current.value);
   };
   const handleLogin = (e) => {
     e.preventDefault();
@@ -34,13 +32,11 @@ const Login = () => {
     }
 
     axios
-      .post("http://http://43.207.185.152/login", {
+      .post("http://localhost:8000/login", {
         groupName: group,
         password: password,
       })
       .then((res) => {
-        console.log(res.data.length > 0);
-        console.log(res.data[0]);
         if (res.data.length > 0) {
           alert("로그인에 성공했습니다.");
           localStorage.setItem("baby", res.data[0].user_baby);

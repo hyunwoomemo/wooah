@@ -47,7 +47,7 @@ const Join = () => {
     e.preventDefault();
 
     axios
-      .post("http://43.207.185.152", {
+      .post("http://localhost:8000/join", {
         groupName: groupName,
         userEmail: email,
         userBaby: baby,
