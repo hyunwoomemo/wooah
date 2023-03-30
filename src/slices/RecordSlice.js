@@ -6,7 +6,7 @@ import Swal from "sweetalert2";
 import dayjs from "dayjs";
 
 
-const URL = "http://localhost:8080/record";
+const URL = "http://13.115.96.189:8080/record";
 // 다중행 데이터 조회
 export const getList = createAsyncThunk("RecordSlice/getList", async (payload, { rejectWithValue }) => {
   let result = null;
