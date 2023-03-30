@@ -1,11 +1,9 @@
-import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 import dayjs from "dayjs";
 import React, { useContext, useEffect, useState } from "react";
-import { createPortal } from "react-dom";
 import { AiOutlineCheck } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { DateContext } from "../../context/Context";
@@ -13,7 +11,6 @@ import { select } from "../../slices/DateSlice";
 import { selectDate, open, selectEndDate } from "../../slices/RecordModalSlice";
 import { postItem, putItem } from "../../slices/RecordSlice";
 import Modal from "../common/Modal";
-import Portal from "../common/Portal";
 
 const BathModal = () => {
   const { now, setNow } = useContext(DateContext);

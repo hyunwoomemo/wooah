@@ -1,4 +1,3 @@
-import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import React, { useContext, useEffect, useState } from "react";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -11,7 +10,6 @@ import { getItem, getList, postItem, putItem } from "../../slices/RecordSlice";
 import { select } from "../../slices/DateSlice";
 import { onChange, open, selectDate, plus, minus } from "../../slices/RecordModalSlice";
 import { DateContext } from "../../context/Context";
-import Portal from "../common/Portal";
 import Modal from "../common/Modal";
 
 const MilkModal = () => {
@@ -51,10 +49,8 @@ const MilkModal = () => {
       })
     );
 
-    dispatch(select(new Date(date)));
-    dispatch(selectDate(new Date(date)));
     dispatch(open(""));
-    dispatch(getList());
+    dispatch(select(new Date(date)));
 
     if (selectData[selectData?.length - 1]?.category === "sleep" && selectData[selectData?.length - 1]?.endDate === null) {
       dispatch(
@@ -70,6 +66,8 @@ const MilkModal = () => {
           big: null,
         })
       );
+
+      dispatch(select(new Date(date)));
     }
   };
 

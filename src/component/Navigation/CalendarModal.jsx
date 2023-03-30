@@ -2,7 +2,6 @@ import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 import dayjs from "dayjs";
 import React, { useEffect, useState } from "react";
 import { AiFillCheckCircle } from "react-icons/ai";
@@ -11,11 +10,9 @@ import { select } from "../../slices/DateSlice";
 import { open, selectDate, selectEndDate } from "../../slices/RecordModalSlice";
 import { postItem } from "../../slices/RecordSlice";
 import Modal from "../common/Modal";
-import Portal from "../common/Portal";
 
 const CalendarModal = ({ openAction, hideAction, showAction }) => {
   const { date, endDate } = useSelector((state) => state.RecordModalSlice);
-  const [endTime, setEndTime] = useState();
 
   const { openCategory } = useSelector((state) => state.RecordModalSlice);
   const dispatch = useDispatch();

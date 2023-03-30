@@ -5,7 +5,6 @@ import { AiOutlineReload, AiOutlineSearch } from "react-icons/ai";
 import { css } from "@emotion/react";
 import { LatestWorkContext } from "../context/Context";
 
-import db from "../data/record.json";
 import dayjs from "dayjs";
 import { useDispatch, useSelector } from "react-redux";
 import { select } from "../slices/DateSlice";

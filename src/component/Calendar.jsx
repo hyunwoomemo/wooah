@@ -3,11 +3,7 @@ import { css, display } from "@mui/system";
 import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
 import { BiChevronLeft, BiChevronRight } from "react-icons/bi";
 import { useDispatch, useSelector } from "react-redux";
-import { ActionContext, DateContext, ModalContext } from "../context/Context";
-import db from "../data/record.json";
 import { minusMonth, plusMonth, select } from "../slices/DateSlice";
-import Slide from "react-reveal/Slide";
-import { transform } from "lodash";
 import dayjs from "dayjs";
 import { getCurrentData, getList, lastItem } from "../slices/RecordSlice";
 
