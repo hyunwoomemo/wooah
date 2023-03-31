@@ -2,8 +2,8 @@
   "name": "wooah1",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://wooah.site/",
-  "homepage": "http://wooah.site/",
+  "proxy": "http://13.115.96.189/",
+  "homepage": "http://13.115.96.189/",
   "dependencies": {
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
