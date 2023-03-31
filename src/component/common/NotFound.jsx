@@ -23,7 +23,7 @@ const NotFound = () => {
 
   return (
     <Base>
-      <svg id="ufo-image" viewBox="0 0 2303 1630" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <svg id="ufo-image" viewBox="0 0 2303 1630" fill="none" xmlns="//www.w3.org/2000/svg">
         <g id="gogo_UFO">
           <path
             id="cloud"

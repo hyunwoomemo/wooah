@@ -5,8 +5,8 @@ const SleepIcon = (props) => (
     height={354}
     viewBox="-30 -20 300 300"
     fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-    xmlnsXlink="http://www.w3.org/1999/xlink"
+    xmlns="//www.w3.org/2000/svg"
+    xmlnsXlink="//www.w3.org/1999/xlink"
     {...props}
   >
     <rect width={354} height={354} fill="url(#pattern1)" />

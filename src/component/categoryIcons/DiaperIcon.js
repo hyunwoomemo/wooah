@@ -5,8 +5,8 @@ const SVGComponent = (props) => (
     height={300}
     viewBox="-55 -60 300 300"
     fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-    xmlnsXlink="http://www.w3.org/1999/xlink"
+    xmlns="//www.w3.org/2000/svg"
+    xmlnsXlink="//www.w3.org/1999/xlink"
     {...props}
   >
     <rect width={300} height={300} fill="url(#pattern2)" />

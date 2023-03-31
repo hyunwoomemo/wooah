@@ -9,7 +9,7 @@ const defaultStyle = css`
     font-style: normal;
   }
 
-  /* http://meyerweb.com/eric/tools/css/reset/ 
+  /* //meyerweb.com/eric/tools/css/reset/ 
    v2.0 | 20110126
    License: none (public domain)
 */
