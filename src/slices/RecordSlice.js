@@ -106,11 +106,7 @@ const RecordSlice = createSlice({
   //  외부 action 및 비동기 action (Ajax용)
   //  동기 : reducers
   //  비동기: extraReducers
-  reducers: {
-    getCurrentData: (state, action) => {
-      return state;
-    }
-  },
+
   extraReducers: {
 
     // 로딩중임을 표시
@@ -119,8 +115,8 @@ const RecordSlice = createSlice({
     [getList.fulfilled]: (state, { payload }) => {
       return {
         data: [...payload],
-        selectData: state.data,
-        lastData: [...payload][[...payload].length - 1],
+        selectData: state.selectData,
+        lastData: state.lastData,
         loading: false,
         error: null,
       };
@@ -144,8 +140,8 @@ const RecordSlice = createSlice({
     [lastItem.fulfilled]: (state, { payload }) => {
       return {
         data: state.data,
-        selectData: state.data,
-        lastData: [...payload],
+        selectData: state.selectData,
+        lastData: payload,
         loading: false,
         error: null,
       };
@@ -163,9 +159,9 @@ const RecordSlice = createSlice({
       });
 
       return {
-        data: [...payload],
+        data: state.data,
         lastData: state.lastData,
-        selectData: state.data,
+        selectData: state.selectData,
         loading: false,
         error: null
       }
@@ -207,7 +203,7 @@ const RecordSlice = createSlice({
       });
       return {
         data: [...payload],
-        selectData: state.data,
+        selectData: state.selectData,
         lastData: state.lastData,
         loading: false,
         error: null
@@ -227,7 +223,7 @@ const RecordSlice = createSlice({
       });
       return {
         data: [...payload],
-        selectData: state.data,
+        selectData: state.selectData,
         lastData: state.lastData,
         loading: false,
         error: null

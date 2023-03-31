@@ -21,14 +21,12 @@ const DayDetail = () => {
   const dispatch = useDispatch();
   const { openCategory, updateCategory } = useSelector((state) => state.RecordModalSlice);
   const { selectValue } = useSelector((state) => state.DateSlice);
+  const { selectData } = useSelector((state) => state.RecordSlice);
+  console.log(selectData);
 
   useEffect(() => {
     dispatch(getItem(dayjs(new Date(selectValue)).format("YYYY-MM-DD")));
   }, [selectValue]);
-
-  const { selectData } = useSelector((state) => state.RecordSlice);
-
-  console.log(selectData);
 
   const [dataLength, setDataLength] = useState(0);
 

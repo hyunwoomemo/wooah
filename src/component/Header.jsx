@@ -28,9 +28,11 @@ const Header = () => {
   const [lastWorkTime, setLastWorkTime] = useState("");
   const [lastWorkEndTime, setLastWorkEndTime] = useState("");
 
+  const filterData = data?.filter((v) => v.category !== "calendar");
+
   const contents =
-    data &&
-    Object.entries(data)
+    filterData &&
+    Object.entries(filterData)
       ?.sort((a, b) => new Date(a[1].date) - new Date(b[1].date))
       ?.filter((v, i, arr) => i === arr.length - 1);
 
@@ -43,6 +45,7 @@ const Header = () => {
 
   const [age, setAge] = useState(getDateDiff(birthDay) + 1);
 
+  console.log(contents);
   const { selectValue } = useSelector((state) => state.DateSlice);
 
   const isSameDay = (a, b) => {

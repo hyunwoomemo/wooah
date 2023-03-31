@@ -5,7 +5,7 @@ import { BiChevronLeft, BiChevronRight } from "react-icons/bi";
 import { useDispatch, useSelector } from "react-redux";
 import { minusMonth, plusMonth, select } from "../slices/DateSlice";
 import dayjs from "dayjs";
-import { getCurrentData, getList, lastItem } from "../slices/RecordSlice";
+import { getList, lastItem } from "../slices/RecordSlice";
 
 /* const DAYS = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"]; */ // 요일
 const DAYS = ["일", "월", "화", "수", "목", "금", "토"]; // 요일
@@ -38,12 +38,12 @@ const Calendar = () => {
     dispatch(select(date));
   };
 
-  const { data, selectData, loading, error } = useSelector((state) => state.RecordSlice);
+  const { data } = useSelector((state) => state.RecordSlice);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getList());
-  }, [selectValue, dispatch]);
+  }, [selectValue]);
 
   const pad = () =>
     [...Array(firstDay.getDay()).keys()]?.map((p, i, arr) => (
