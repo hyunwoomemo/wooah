@@ -2,8 +2,6 @@
   "name": "wooah1",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://ec2-13-115-96-189.ap-northeast-1.compute.amazonaws.com/",
-  "homepage": "http://ec2-13-115-96-189.ap-northeast-1.compute.amazonaws.com/",
   "dependencies": {
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
@@ -35,6 +33,7 @@
     "node-schedule": "^2.1.1",
     "node-thumbnail": "^0.15.0",
     "nodemailer": "^6.9.1",
+    "nodemon": "^2.0.22",
     "react": "^18.2.0",
     "react-cookie": "^4.1.1",
     "react-dom": "^18.2.0",
