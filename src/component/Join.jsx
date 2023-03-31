@@ -47,7 +47,7 @@ const Join = () => {
     e.preventDefault();
 
     axios
-      .post("http://localhost:8080/join", {
+      .post("http://wooah.site:8080/join", {
         groupName: groupName,
         userEmail: email,
         userBaby: baby,
