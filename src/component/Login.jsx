@@ -32,7 +32,7 @@ const Login = () => {
     }
 
     axios
-      .post("http://wooah.site:8080/login", {
+      .post("http://13.115.96.189:8080/login", {
         groupName: group,
         password: password,
       })
