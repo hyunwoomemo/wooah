@@ -32,7 +32,7 @@ const Login = () => {
     }
 
     axios
-      .post("/api/login", {
+      .post("http://localhost:8080/login", {
         groupName: group,
         password: password,
       })
