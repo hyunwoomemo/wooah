@@ -14,7 +14,7 @@ const Memo = () => {
   /* const handleSubmit = (e) => {
     e.preventDefault();
     axois
-      .post("//54.180.196.81:8080/create", {
+      .post("//localhost:8080/create", {
         contents: contents,
       })
       .then(() => {
@@ -29,7 +29,7 @@ const Memo = () => {
   }; */
   /* 
   useEffect(() => {
-    axois.get("//54.180.196.81:8080/todos").then((response) => {
+    axois.get("//localhost:8080/todos").then((response) => {
       setTodolist(response.data);
     });
   }, []); */
