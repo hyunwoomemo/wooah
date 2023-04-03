@@ -140,7 +140,7 @@ module.exports = (() => {
 
     // 유효성 검사
     try {
-      regexHelper.value(id, "해당하는 책이 없습니다.");
+      regexHelper.value(id, "해당하는 id가 없습니다.");
     } catch (err) {
       return next(err);
     }
