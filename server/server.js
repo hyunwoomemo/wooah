@@ -21,7 +21,7 @@ app.use(cors({
 }))
 
 // redirect HTTP to HTTPS
-app.all('*', (req, res, next) => {
+/* app.all('*', (req, res, next) => {
   let protocol = req.headers['x-forwarded-proto'] || req.protocol;
 
   if (protocol == 'http') {
@@ -35,7 +35,7 @@ app.all('*', (req, res, next) => {
     console.log(`[${req.method}]: ${from} -> ${to}`);
     res.redirect(to);
   }
-});
+}); */
 
 app.use(express.json())
 

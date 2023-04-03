@@ -2,8 +2,6 @@
   "name": "wooah1",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://Wooahbackend-env.eba-w2ykm82a.ap-northeast-2.elasticbeanstalk.com/",
-  "homepage": "http://Wooahbackend-env.eba-w2ykm82a.ap-northeast-2.elasticbeanstalk.com/",
   "dependencies": {
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
