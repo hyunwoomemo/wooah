@@ -37,7 +37,7 @@ class RecordService {
     return data;
   }
 
-  /** 단일 데이터를 조회한다 */
+  /** 단일 데이터를 조회한다 *
   async getItem(params) {
     let dbcon = null;
     let selectData = null;
