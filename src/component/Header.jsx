@@ -1,14 +1,11 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "@emotion/styled";
 import { Link } from "react-router-dom";
-import { AiOutlineReload, AiOutlineSearch } from "react-icons/ai";
 import { css } from "@emotion/react";
-import { LatestWorkContext } from "../context/Context";
 
 import dayjs from "dayjs";
 import { useDispatch, useSelector } from "react-redux";
 import { select } from "../slices/DateSlice";
-import { getList, lastItem } from "../slices/RecordSlice";
 
 import Moment from "react-moment";
 import "moment/locale/ko";
@@ -28,7 +25,7 @@ const Header = () => {
   const [lastWorkTime, setLastWorkTime] = useState("");
   const [lastWorkEndTime, setLastWorkEndTime] = useState("");
 
-  const filterData = data?.filter((v) => v.category !== "calendar");
+  const filterData = data?.filter((v) => v.category !== "calendar" && v.email === localStorage.getItem("email"));
 
   const contents =
     filterData &&
@@ -45,7 +42,6 @@ const Header = () => {
 
   const [age, setAge] = useState(getDateDiff(birthDay) + 1);
 
-  console.log(contents);
   const { selectValue } = useSelector((state) => state.DateSlice);
 
   const isSameDay = (a, b) => {
@@ -92,7 +88,8 @@ const Base = styled.div`
   padding: 1rem 1rem 0;
   position: sticky;
   top: 0;
-  color: var(--black-text-color);
+  left: 0;
+  right: 0;
   ${({ open }) =>
     open
       ? css`
@@ -150,13 +147,9 @@ const BabyInfoWrapper = styled.div`
   align-items: center;
 `;
 
-const BabyName = styled.div``;
-
 const BabyAge = styled.div``;
 
 const DisplayLatestWork = styled.div``;
-
-const DisplayLatestTime = styled.div``;
 
 const IconsWrapper = styled.ul`
   display: flex;
@@ -188,10 +181,6 @@ const TodayBtn = styled.li`
           opacity: 1;
           pointer-events: all;
         `}
-`;
-
-const IconsItem = styled.li`
-  font-size: 24px;
 `;
 
 export default Header;

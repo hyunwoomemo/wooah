@@ -9,29 +9,16 @@
         SELECT id, category, date, endDate, recorder, volume, big, email, calendarTitle, calendarLocation, calendarUrl, calendarMemo, vitamin, lactobacillus FROM record WHERE DATE_FORMAT(date, '%Y-%m-%d') = DATE_FORMAT(#{date}, '%Y-%m-%d') order by date ;
     </select>
 
-    <!-- 마지막행 조회를 위한 기능 정의 -->
-    <select id="selectLastItem">
-        SELECT category, date, endDate, recorder, volume, big, email, calendarTitle, calendarLocation, calendarUrl, calendarMemo, vitamin, lactobacillus  FROM record ORDER BY date DESC LIMIT 1;
-    </select>
-
     <!-- 다중행 조회를 위한 기능 정의 -->
     <select id="selectList">
-        SELECT category, date, endDate, recorder, volume, big, email, calendarTitle, calendarLocation, calendarUrl, calendarMemo, vitamin, lactobacillus  FROM record;
+        SELECT id, category, date, endDate, recorder, volume, big, email, calendarTitle, calendarLocation, calendarUrl, calendarMemo, vitamin, lactobacillus  FROM record;
         <where>
           <if test="category != null and category != ''">
             category LIKE concat('%', #{category}, '%')
           </if>
         </where>
-
-        <!-- 페이지 구현을 위한 LIMIT절 추가 -->
-        <if test="listCount > 0">
-            LIMIT ${offset}, ${listCount}
-        </if>
-
         
     </select>
-
-
 
     <!-- 데이터 저장을 위한 기능 정의 -->
     <insert id="insertItem">

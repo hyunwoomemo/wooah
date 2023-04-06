@@ -139,16 +139,17 @@ const defaultStyle = css`
     border-spacing: 0;
   }
 
-  html,
-  body {
+  html {
     position: fixed;
     overflow: hidden;
     width: 100%;
+    min-height: calc(100% + env(safe-area-inset-top));
+    padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
   }
 
   body {
     font-family: "Dovemayo_wild";
-    padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+
     box-sizing: border-box;
     transition: all 0.3s;
 

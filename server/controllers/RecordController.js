@@ -9,12 +9,6 @@ module.exports = (() => {
 
   /** 전체 목록 조회 --> Read(SELECT) */
   router.get(url, async (req, res, next) => {
-    /*  // 파라미터 받기
-     const { date } = req.query;
-     const params = {};
-     if (date) {
-       params.date = date;
-     } */
 
     // 데이터 조회
     let json = null;
@@ -45,21 +39,6 @@ module.exports = (() => {
 
     res.send(json);
   });
-
-  /** 마지막행 조회 --> Read(SELECT) */
-  router.get(`${url}/last`, async (req, res, next) => {
-
-    // 데이터 조회
-    let json = null;
-    try {
-      json = await RecordService.lastItem();
-    } catch (err) {
-      return next(err);
-    }
-
-    res.send(json);
-  });
-
 
   /** 데이터 추가 --> Create(INSERT) */
   router.post(url, async (req, res, next) => {

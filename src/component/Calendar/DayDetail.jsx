@@ -8,12 +8,14 @@ import { deleteItem, getItem, getList, lastItem } from "../../slices/RecordSlice
 import Moment from "react-moment";
 import "moment/locale/ko";
 import SleepModal from "../Navigation/SleepModal";
-import { open, selectEndDate, update, updateVolume } from "../../slices/RecordModalSlice";
+import { open, selectDate, selectEndDate, update, updateVolume } from "../../slices/RecordModalSlice";
 import { DateContext } from "../../context/Context";
 import UpdateSleep from "../update/UpdateSleep";
 import UpdateMilk from "../update/UpdateMilk";
 import RecordCategory from "../RecordCategory";
 import UpdateDiaper from "../update/UpdateDiaper";
+import { isSameDay } from "../Calendar";
+import UpdateCalendar from "../update/UpdateCalendar";
 
 const day = ["일", "월", "화", "수", "목", "금", "토"];
 
@@ -21,56 +23,54 @@ const DayDetail = () => {
   const dispatch = useDispatch();
   const { openCategory, updateCategory } = useSelector((state) => state.RecordModalSlice);
   const { selectValue } = useSelector((state) => state.DateSlice);
-  const { selectData } = useSelector((state) => state.RecordSlice);
-  console.log(selectData);
+  const { data } = useSelector((state) => state.RecordSlice);
+  const selectData = data?.filter((v) => isSameDay(new Date(v.date), selectValue) && v.email === localStorage.getItem("email") && v.category !== "calendar");
+  const calendarData = data?.filter((v) => isSameDay(new Date(v.date), selectValue) && v.email === localStorage.getItem("email") && v.category === "calendar");
+  console.log(calendarData);
 
   useEffect(() => {
-    dispatch(getItem(dayjs(new Date(selectValue)).format("YYYY-MM-DD")));
+    dispatch(getList());
   }, [selectValue]);
 
   const [dataLength, setDataLength] = useState(0);
 
   useEffect(() => {
-    setDataLength(selectData?.length);
+    setDataLength(selectData?.length + calendarData?.length);
 
     return () => {
       setDataLength(0);
     };
-  }, [selectData]);
+  }, [selectData, calendarData]);
 
   const { now, setNow } = useContext(DateContext);
 
   const [id, setId] = useState(0);
 
-  const handleUpdate = (id, category, time, endTime, volume) => {
+  const [calendarTitle, setCalendarTitle] = useState("");
+  const [calendarLocation, setCalendarLocation] = useState("");
+  const [calendarMemo, setCalendarMemo] = useState("");
+
+  const handleUpdate = (id, category, time, endTime, volume, ct, cl, cm) => {
+    console.log(time);
     setId(id);
     setNow(time);
     dispatch(update(category));
     dispatch(updateVolume(volume || 140));
+    dispatch(selectDate(time));
     dispatch(selectEndDate(endTime || dayjs(new Date(time))));
+    setCalendarTitle(ct);
+    setCalendarLocation(cl);
+    setCalendarMemo(cm);
   };
 
-  const [rightClickModal, setRightClickModal] = useState(false);
-
-  const handleRightClick = (e) => {
-    e.preventDefault();
-    setRightClickModal(!rightClickModal);
-  };
-
-  let recordLi = document.querySelectorAll(".record");
+  const recordLi = document.querySelectorAll(".record");
 
   recordLi.forEach((item) => {
-    item.addEventListener("contextmenu", () => {
+    item.addEventListener("click" || "touchend", () => {
       recordLi.forEach((e) => {
-        e.classList.remove("active");
+        e.classList.remove("activeUtil");
       });
-      item.classList.add("active");
-    });
-
-    item.addEventListener("click", (e) => {
-      recordLi.forEach((e) => {
-        e.classList.remove("active");
-      });
+      item.classList.toggle("activeUtil");
     });
   });
 
@@ -82,22 +82,51 @@ const DayDetail = () => {
     );
     dispatch(open(""));
     dispatch(select(new Date(date)));
+    dispatch(getList());
   };
 
   return (
-    <Base>
-      <Title open={openCategory || updateCategory}> {dayjs(new Date(selectValue)).format(`YYYY년 MM월 DD일 (${day[selectValue.getDay()]})`)}</Title>
+    <Base dataLength={dataLength}>
       <RecordCategory />
+      <Title open={openCategory || updateCategory}> {dayjs(new Date(selectValue)).format(`YYYY년 MM월 DD일 (${day[selectValue.getDay()]})`)}</Title>
       <Content dataLength={dataLength}>
         <UpdateSleep id={id} />
         <UpdateMilk id={id} />
         <UpdateDiaper id={id} />
+        <UpdateCalendar id={id} time={now} ct={calendarTitle} cl={calendarLocation} cm={calendarMemo} />
         {/* <NewEvent>새 이벤트 추가</NewEvent> */}
         <Data dataLength={dataLength}>
+          {calendarData?.map((item, i, arr) => {
+            return (
+              <>
+                <Record key={item.date} className="record">
+                  <RecordDate>{dayjs(new Date(item.date)).format("HH:mm")}</RecordDate>
+                  <RecordCategoryItem>{item.calendarTitle}</RecordCategoryItem>
+                  <RecordCalendarDetail className="detail" active={item.category === "sleep" && i === arr.length - 1 && !item.endDate}>
+                    <div length={item.calendarLocation}>{item.calendarLocation}</div>
+                    {item.calendarMemo ? <div>🔸</div> : null}
+                    <div length={item.calendarMemo}>{item.calendarMemo}</div>
+                  </RecordCalendarDetail>
+                  <RecordClickModal className="clickModal">
+                    <RecordClickModalItem
+                      onClick={() =>
+                        item.category === "milk" || "sleep" || "diaper" || "calendar"
+                          ? handleUpdate(item.id, item.category, item.date, item.endDate, item.volume, item.calendarTitle, item.calendarLocation, item.calendarMemo)
+                          : undefined
+                      }
+                    >
+                      수정
+                    </RecordClickModalItem>
+                    <RecordClickModalItem onClick={() => handleDelete(item.id, item.date)}>삭제</RecordClickModalItem>
+                  </RecordClickModal>
+                </Record>
+              </>
+            );
+          })}
           {selectData?.map((item, i, arr) => {
             return (
               <>
-                <Record key={item.date} onContextMenu={handleRightClick} className="record">
+                <Record key={item.date} className="record">
                   {item.endDate ? (
                     <RecordDateEndDate>
                       <div>{dayjs(new Date(item.date)).format("HH:mm")}</div>
@@ -111,7 +140,7 @@ const DayDetail = () => {
                   </RecordCategoryItem>
                   {item.vitamin && <RecordTag1>비타민</RecordTag1>}
                   {item.lactobacillus && <RecordTag2>유산균</RecordTag2>}
-                  <RecordDetail rightClickModal={rightClickModal} className="detail" active={item.category === "sleep" && i === arr.length - 1 && !item.endDate}>
+                  <RecordDetail className="detail" active={item.category === "sleep" && i === arr.length - 1 && !item.endDate}>
                     {item.category === "milk" ? (
                       `${item.volume}ml`
                     ) : item.category === "sleep" ? (
@@ -146,14 +175,12 @@ const DayDetail = () => {
                       )
                     ) : undefined}
                   </RecordDetail>
-                  <RecordRightClickModal rightClickModal={rightClickModal} className="clickModal">
-                    <RecordRightClickModalItem
-                      onClick={() => (item.category === "milk" || "sleep" || "diaper" ? handleUpdate(item.id, item.category, item.date, item.endDate, item.volume) : undefined)}
-                    >
+                  <RecordClickModal className="clickModal">
+                    <RecordClickModalItem onClick={() => (item.category === "milk" || "sleep" || "diaper" ? handleUpdate(item.id, item.category, item.date, item.endDate, item.volume) : undefined)}>
                       수정
-                    </RecordRightClickModalItem>
-                    <RecordRightClickModalItem onClick={() => handleDelete(item.id, item.date)}>삭제</RecordRightClickModalItem>
-                  </RecordRightClickModal>
+                    </RecordClickModalItem>
+                    <RecordClickModalItem onClick={() => handleDelete(item.id, item.date)}>삭제</RecordClickModalItem>
+                  </RecordClickModal>
                 </Record>
               </>
             );
@@ -166,14 +193,17 @@ const DayDetail = () => {
 
 const Base = styled.div`
   padding: 1rem;
-  margin-bottom: 1rem;
-  /* overflow: hidden; */
+
+  ${({ dataLength }) =>
+    dataLength
+      ? css`
+          margin-bottom: env(safe-area-inset-bottom);
+        `
+      : css``}
   @media (max-width: 768px) {
     padding: 10px;
   }
   transition: all 0.3s;
-
-  padding-bottom: env(safe-area-inset-bottom, 0);
 `;
 
 const Title = styled.h1`
@@ -191,13 +221,7 @@ const Title = styled.h1`
   }
 `;
 
-const NewEvent = styled.div`
-  padding: 1rem 0;
-`;
-
-const Content = styled.div`
-  /* margin-top: 15px; */
-`;
+const Content = styled.div``;
 
 const Data = styled.div`
   transition: all 0.7s;
@@ -233,15 +257,9 @@ const Record = styled.div`
     opacity: 0;
     transition: all 0.3s;
     white-space: nowrap;
-    /* transform: translateX(1200%);
-    
-
-    @media (max-width: 768px) {
-      transform: translateX(400%);
-    } */
   }
 
-  &.active {
+  &.activeUtil {
     .detail {
       opacity: 0;
     }
@@ -264,14 +282,14 @@ const Record = styled.div`
   }
 `;
 
-const RecordRightClickModal = styled.div`
+const RecordClickModal = styled.div`
   display: flex;
   gap: 1rem;
   position: absolute;
   transition: all 0.3s;
 `;
 
-const RecordRightClickModalItem = styled.div`
+const RecordClickModalItem = styled.div`
   padding: 5px;
   border-radius: 5px;
   color: #fff;
@@ -357,6 +375,14 @@ const RecordDetail = styled.div`
           }
         `
       : css``}
+`;
+
+const RecordCalendarDetail = styled.div`
+  display: flex;
+  margin-left: auto;
+  font-size: 14px;
+  gap: 10px;
+  justify-content: center;
 `;
 
 export default DayDetail;

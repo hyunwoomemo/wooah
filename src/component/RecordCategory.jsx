@@ -17,14 +17,15 @@ import CalendarModal from "./Navigation/CalendarModal";
 import DiaperModal from "./Navigation/DiaperModal";
 import MilkModal from "./Navigation/MilkModal";
 import SleepModal from "./Navigation/SleepModal";
+import { isSameDay } from "./Calendar";
 
 const RecordCategory = () => {
   const { openCategory, volume } = useSelector((state) => state.RecordModalSlice);
-  const { selectData } = useSelector((state) => state.RecordSlice);
+  const { data } = useSelector((state) => state.RecordSlice);
+  const { selectValue } = useSelector((state) => state.DateSlice);
+  const selectData = data?.filter((v) => isSameDay(new Date(v.date), selectValue) && v.email === localStorage.getItem("email"));
 
   const dispatch = useDispatch();
-
-  const { setNow } = useContext(DateContext);
 
   const handleRecordMilk = () => {
     dispatch(
@@ -69,6 +70,10 @@ const RecordCategory = () => {
         })
       );
     }
+
+    setTimeout(() => {
+      dispatch(getList());
+    }, 100);
   };
   const handleRecordSleep = () => {
     dispatch(
@@ -113,6 +118,10 @@ const RecordCategory = () => {
         })
       );
     }
+
+    setTimeout(() => {
+      dispatch(getList());
+    }, 100);
   };
 
   const handleRecordDiaper = () => {
@@ -162,12 +171,19 @@ const RecordCategory = () => {
         })
       );
     }
+
+    setTimeout(() => {
+      dispatch(getList());
+    }, 100);
   };
 
   const handleRecordCalendar = () => {
     dispatch(open("calendar"));
-    dispatch(selectDate(dayjs(new Date()).set("hour", 9).set("minute", 0).set("second", 0)));
+    dispatch(selectDate(dayjs(new Date(selectValue)).set("hour", 9).set("minute", 0).set("second", 0)));
     dispatch(selectEndDate(dayjs(new Date()).set("hour", 10).set("minute", 0).set("second", 0)));
+    setTimeout(() => {
+      dispatch(getList());
+    }, 100);
   };
 
   return (

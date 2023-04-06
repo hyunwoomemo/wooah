@@ -17,7 +17,6 @@ const Layout = ({ children, main }) => {
     <MilkModalContext.Provider value={{}}>
       <DateContext.Provider value={{ now, setNow }}>
         <Base open={openCategory} update={updateCategory === "milk" || updateCategory === "sleep"}>
-          <Header></Header>
           {children}
         </Base>
       </DateContext.Provider>
@@ -28,7 +27,7 @@ const Layout = ({ children, main }) => {
 const Base = styled.div`
   position: relative;
   max-width: 1200px;
-  margin: 0 auto;
+  overflow-x: hidden;
   height: 100vh;
   transition: all 0.3s;
   overflow-y: scroll;
@@ -38,6 +37,9 @@ const Base = styled.div`
     open || update
       ? css`
           transform: scale(0.95);
+          position: fixed;
+          overflow: hidden;
+          width: 100%;
         `
       : css`
           transform: scale(1);

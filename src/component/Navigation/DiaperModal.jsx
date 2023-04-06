@@ -17,7 +17,9 @@ const DiaperModal = () => {
   const { volume, date, endDate, openCategory } = useSelector((state) => state.RecordModalSlice);
   const { selectValue } = useSelector((state) => state.DateSlice);
 
-  const { selectData } = useSelector((state) => state.RecordSlice);
+  const { data, selectData } = useSelector((state) => state.RecordSlice);
+  const filterData = data?.filter((v) => v.category !== "calendar");
+  console.log(filterData);
 
   const handleSmall = () => {
     dispatch(
@@ -41,16 +43,16 @@ const DiaperModal = () => {
     dispatch(open(""));
     dispatch(select(new Date()));
 
-    if (selectData[selectData?.length - 1]?.category === "sleep" && selectData[selectData?.length - 1]?.endDate === null) {
+    if (filterData[filterData?.length - 1]?.category === "sleep" && filterData[filterData?.length - 1]?.endDate === null) {
       dispatch(
         putItem({
-          id: selectData[selectData?.length - 1]?.id,
+          id: filterData[filterData?.length - 1]?.id,
           category: "sleep",
-          date: dayjs(new Date(selectData[selectData?.length - 1]?.date)).format("YYYY-MM-DD HH:mm:ss"),
+          date: dayjs(new Date(filterData[filterData?.length - 1]?.date)).format("YYYY-MM-DD HH:mm:ss"),
           recorder: localStorage.getItem("parents"),
           email: localStorage.getItem("email"),
           groupName: localStorage.getItem("group"),
-          endDate: dayjs(new Date(now)).format("YYYY-MM-DD HH:mm:ss"),
+          endDate: dayjs(new Date()).format("YYYY-MM-DD HH:mm:ss"),
           volume: null,
           big: null,
           calendarTitle: null,
@@ -62,6 +64,10 @@ const DiaperModal = () => {
         })
       );
     }
+
+    setTimeout(() => {
+      dispatch(getList());
+    }, 100);
   };
 
   const handleBig = () => {

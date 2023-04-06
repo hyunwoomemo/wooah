@@ -1,17 +1,14 @@
 import styled from "@emotion/styled";
-import { css, display } from "@mui/system";
-import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { BiChevronLeft, BiChevronRight } from "react-icons/bi";
 import { useDispatch, useSelector } from "react-redux";
-import { minusMonth, plusMonth, select } from "../slices/DateSlice";
+import { select } from "../slices/DateSlice";
 import dayjs from "dayjs";
-import { getList, lastItem } from "../slices/RecordSlice";
+import { getList } from "../slices/RecordSlice";
+import Header from "./Header";
 
 /* const DAYS = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"]; */ // 요일
 const DAYS = ["일", "월", "화", "수", "목", "금", "토"]; // 요일
-
-/* const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]; // 달 */
-const MONTHS = ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"]; // 달
 
 export const isSameDay = (a, b) => {
   return a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate();
@@ -38,7 +35,10 @@ const Calendar = () => {
     dispatch(select(date));
   };
 
-  const { data } = useSelector((state) => state.RecordSlice);
+  const { data } = useSelector(
+    (state) => state.RecordSlice,
+    (prev, next) => prev.data === next.data
+  );
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -52,7 +52,7 @@ const Calendar = () => {
       </TableData>
     )); // 해당 월의 첫째 날 전 pad
 
-  const comparisonDate = (a, b) => {
+  const comparisonDatePrev = (a, b) => {
     if (isSameDay(a, b)) {
       return dayjs(new Date(a)).diff(dayjs(new Date(b)), "minute");
     } else {
@@ -62,6 +62,13 @@ const Calendar = () => {
         .set("minute", 59)
         .set("second", 59)
         .diff(dayjs(new Date(b)), "minute");
+    }
+  };
+  const comparisonDateNext = (a, b) => {
+    if (isSameDay(a, b)) {
+      return dayjs(new Date(a)).diff(dayjs(new Date(b)), "minute");
+    } else {
+      return dayjs(new Date(a)).diff(dayjs(new Date(b)).subtract(-1, "day").set("hour", 0).set("minute", 0).set("second", 0), "minute");
     }
   };
 
@@ -74,9 +81,8 @@ const Calendar = () => {
       const otherDateContents = data?.filter((v) => isSameDay(new Date(v.endDate), thisDay) && v.email === localStorage.getItem("email") && !isSameDay(new Date(v.date), thisDay));
       const milkSum = contents?.reduce((acc, cur) => acc + Number(cur.volume), 0);
       const sleepSum =
-        contents?.filter((v) => v.endDate && v.date).reduce((acc, cur) => acc + comparisonDate(new Date(cur.endDate), new Date(cur.date)), 0) +
-        otherDateContents?.filter((v) => v.endDate && v.date).reduce((acc, cur) => acc + comparisonDate(new Date(cur.endDate), new Date(cur.date)), 0);
-      const otherSum = otherDateContents?.filter((v) => v.endDate && v.date).reduce((acc, cur) => acc + comparisonDate(new Date(cur.endDate), new Date(cur.date)), 0);
+        contents?.filter((v) => v.endDate && v.date).reduce((acc, cur) => acc + comparisonDatePrev(new Date(cur.endDate), new Date(cur.date)), 0) +
+        otherDateContents?.filter((v) => v.endDate && v.date).reduce((acc, cur) => acc + comparisonDateNext(new Date(cur.endDate), new Date(cur.date)), 0);
       const calendarItem = contents?.filter((v) => v.category === "calendar");
 
       return (
@@ -92,28 +98,12 @@ const Calendar = () => {
                 {sleepSum > 0 ? (
                   <SleepContents>{Math.floor(sleepSum / 60) > 0 ? `🌙 ${Math.floor(sleepSum / 60)}h ${sleepSum - Math.floor(sleepSum / 60) * 60}m` : `${sleepSum}분`}</SleepContents>
                 ) : undefined}
-                {/* <CalendarItem>일정</CalendarItem>
-                <CalendarItem>일정</CalendarItem> */}
               </Contents>
             </DisplayDate>
           </ContentsWrapper>
         </TableData>
       );
     });
-
-  const arrLength = [...pad(), ...range()].length;
-
-  const fillNum = Math.ceil(arrLength / 7) * 7 - arrLength;
-
-  const fill = () => {
-    [...Array(fillNum)]?.map((f, i) => {
-      return (
-        <TableData key={`fill${f}`}>
-          <FillData>{i + 1}</FillData>
-        </TableData>
-      );
-    });
-  };
 
   const render = () => {
     // table data 를 일주일 단위로 줄바꿈한다.
@@ -130,7 +120,7 @@ const Calendar = () => {
     const distanceX = Math.abs(touchPosition.x - e.changedTouches[0].pageX);
     const distanceY = Math.abs(touchPosition.y - e.changedTouches[0].pageY);
 
-    if (distanceY + distanceX > 30 && distanceX > distanceY) {
+    if (distanceY + distanceX > 100 && distanceX > distanceY) {
       if (touchPosition.x - e.changedTouches[0].pageX < 0) {
         previousMonth();
       } else if (touchPosition.x - e.changedTouches[0].pageX > 0) {
@@ -161,6 +151,7 @@ const Calendar = () => {
 
   return (
     <Container>
+      <Header></Header>
       <Base
         onTouchStart={(e) =>
           setTouchPosition({
@@ -202,15 +193,16 @@ const Container = styled.div`
 
 const Base = styled.div`
   width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   box-sizing: border-box;
   transition: all 0.3s;
-  padding: 1rem;
+  padding: 5px;
 
   @media (max-width: 768px) {
-    padding: 10px;
+    padding: 2px;
   }
 
   pointer-events: ${({ showAction }) => (showAction ? "none" : undefined)};
@@ -239,7 +231,6 @@ const ArrowButton = styled.button`
 const Table = styled.table`
   border-collapse: collapse;
   width: 100%;
-  height: 100%;
   table-layout: fixed;
   word-break: break-all;
   height: auto;
@@ -302,13 +293,6 @@ const PadData = styled.div`
   color: #8a8a8a;
 `;
 
-const FillData = styled.div`
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  color: #c1c1c1;
-`;
-
 const ContentsWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
@@ -330,7 +314,7 @@ const MilkContents = styled.div`
   align-items: center;
   gap: 3px;
 
-  &::before {
+  /* &::before {
     content: ".";
     text-indent: -99em;
     display: block;
@@ -343,7 +327,7 @@ const MilkContents = styled.div`
     @media (max-width: 768px) {
       width: 2px;
     }
-  }
+  } */
 `;
 
 const SleepContents = styled.div`
@@ -352,7 +336,7 @@ const SleepContents = styled.div`
   align-items: center;
   gap: 3px;
 
-  &::before {
+  /* &::before {
     content: ".";
     text-indent: -99em;
     display: block;
@@ -365,7 +349,7 @@ const SleepContents = styled.div`
     @media (max-width: 768px) {
       width: 2px;
     }
-  }
+  } */
 `;
 
 const CalendarContents = styled.div`
@@ -373,8 +357,12 @@ const CalendarContents = styled.div`
   display: flex;
   align-items: center;
   gap: 3px;
+  width: 10px;
+  @media (min-width: 769px) {
+    justify-content: center;
+  }
 
-  &::before {
+  /* &::before {
     content: ".";
     text-indent: -99em;
     display: block;
@@ -387,7 +375,7 @@ const CalendarContents = styled.div`
     @media (max-width: 768px) {
       width: 2px;
     }
-  }
+  } */
 `;
 
 const DisplayDate = styled.div`
@@ -410,16 +398,17 @@ const Contents = styled.div`
   display: flex;
   gap: 3px;
   flex-direction: column;
-  font-size: 14px;
+  font-size: 12px;
   margin-top: 10px;
-  padding: 0 5px;
+  padding: 0 1px;
   align-items: center;
   height: 50px;
   box-sizing: border-box;
   overflow-y: scroll;
 
   @media (max-width: 768px) {
-    font-size: 6px;
+    font-size: 8px;
+    white-space: nowrap;
     height: 40px;
   }
 

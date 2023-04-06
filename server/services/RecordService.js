@@ -63,31 +63,6 @@ class RecordService {
     return selectData;
   }
 
-  /** 마지막 데이터를 조회한다 */
-  async lastItem() {
-    let dbcon = null;
-    let data = null;
-
-    try {
-      dbcon = await DBPool.getConnection();
-
-      let sql = mybatisMapper.getStatement('RecordMapper', 'selectLastItem');
-      let [result] = await dbcon.query(sql);
-
-      if (result.length === 0) {
-        throw new RuntimeException('조회된 데이터가 없습니다.');
-      }
-
-      data = result[0];
-    } catch (err) {
-      throw err;
-    } finally {
-      if (dbcon) { dbcon.release(); }
-    }
-
-    return data;
-  }
-
   /** 데이터를 추가하고 추가된 결과를 조회하여 리턴한다. */
   async addItem(params) {
     let dbcon = null;

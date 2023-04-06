@@ -3,18 +3,19 @@ import styled from "@emotion/styled";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
-import React, { useEffect, useState } from "react";
-import { AiFillCheckCircle } from "react-icons/ai";
+import React, { useContext, useEffect, useState } from "react";
+import { AiFillCheckCircle, AiOutlineCheck } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { select } from "../../slices/DateSlice";
-import { open, selectDate, selectEndDate } from "../../slices/RecordModalSlice";
-import { postItem } from "../../slices/RecordSlice";
+import { open, selectDate, selectEndDate, update } from "../../slices/RecordModalSlice";
+import { getList, postItem, putItem } from "../../slices/RecordSlice";
 import Modal from "../common/Modal";
+import { DateContext } from "../../context/Context";
 
-const CalendarModal = ({ openAction, hideAction, showAction }) => {
+const UpdateCalendar = ({ id, time, ct, cl, cm }) => {
   const { date, endDate } = useSelector((state) => state.RecordModalSlice);
-
-  const { openCategory } = useSelector((state) => state.RecordModalSlice);
+  const { openCategory, updateCategory } = useSelector((state) => state.RecordModalSlice);
+  const { selectValue } = useSelector((state) => state.DateSlice);
   const dispatch = useDispatch();
 
   const handleStartTime = (e) => {
@@ -60,9 +61,10 @@ const CalendarModal = ({ openAction, hideAction, showAction }) => {
     setEnd(true);
   };
 
-  const handleSave = () => {
+  const handleCalendarUpdate = () => {
     dispatch(
-      postItem({
+      putItem({
+        id: id,
         category: "calendar",
         date: date,
         recorder: localStorage.getItem("parents"),
@@ -82,19 +84,15 @@ const CalendarModal = ({ openAction, hideAction, showAction }) => {
 
     dispatch(select(new Date(date)));
     dispatch(open(""));
-  };
-
-  const handleClose = () => {
-    dispatch(open(""));
-    setEnd(false);
+    dispatch(getList());
   };
 
   return (
-    <Modal isOpen={openCategory === "calendar"} onClose={handleClose}>
+    <Modal isOpen={updateCategory === "calendar"} onClose={() => dispatch(update(""))}>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <Base openAction={openAction} hideAction={hideAction} showAction={showAction}>
+        <Base>
           <InputWrapper>
-            <TitleInput placeholder="제목" autofocus onChange={handleTitle}></TitleInput>
+            <TitleInput placeholder="제목" autofocus onChange={handleTitle} defaultValue={ct ? ct : null}></TitleInput>
           </InputWrapper>
           <DateWrapper>
             <DateInput type="datetime-local" value={date} onChange={handleStartTime}></DateInput>
@@ -109,11 +107,12 @@ const CalendarModal = ({ openAction, hideAction, showAction }) => {
               <input type="checkbox" onChange={handleCheck} />
             </div>
           </DateWrapper>
-          <Location placeholder="위치" onChange={handleLocation}></Location>
+          <Location placeholder="위치" onChange={handleLocation} defaultValue={cl ? cl : null}></Location>
           <Url placeholder="url" onChange={handleUrlValue}></Url>
-          <Memo placeholder="메모" onChange={handleMemo}></Memo>
-          <SaveBtn title={title.length > 0} onClick={handleSave}>
-            <AiFillCheckCircle />
+          <Memo placeholder="메모" onChange={handleMemo} defaultValue={cm ? cm : null}></Memo>
+          <SaveBtn title={title.length > 0}>
+            수정
+            <AiOutlineCheck onClick={handleCalendarUpdate} />
           </SaveBtn>
         </Base>
       </LocalizationProvider>
@@ -185,7 +184,6 @@ const Memo = styled.textarea`
 `;
 
 const SaveBtn = styled.div`
-  font-size: 40px;
   display: flex;
   justify-content: center;
   transition: all 0.3s;
@@ -199,4 +197,4 @@ const SaveBtn = styled.div`
         `}
 `;
 
-export default CalendarModal;
+export default UpdateCalendar;
