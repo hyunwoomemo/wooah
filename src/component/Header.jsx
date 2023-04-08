@@ -27,6 +27,8 @@ const Header = () => {
 
   const filterData = data?.filter((v) => v.category !== "calendar" && v.email === localStorage.getItem("email"));
 
+  console.log(lastWork);
+
   const contents =
     filterData &&
     Object.entries(filterData)
@@ -37,6 +39,7 @@ const Header = () => {
     if (!loading && contents?.length > 0) {
       setLastWork(contents[0][1]?.category);
       setLastWorkTime(dayjs(new Date(contents[0][1]?.date)).$d);
+      setLastWorkEndTime(dayjs(new Date(contents[0][1]?.endDate)).$d);
     }
   }, [data]);
 
@@ -68,7 +71,7 @@ const Header = () => {
             Today
           </TodayBtn>
           <SubHeader>
-            <DisplayLatestWork>{lastWork === "milk" ? "🍼 분유" : lastWork === "sleep" && !lastWorkEndTime ? "💤 잠자는 중" : undefined}</DisplayLatestWork>
+            <DisplayLatestWork>{lastWork === "milk" ? "🍼 분유" : lastWork === "sleep" && !lastWorkEndTime ? "💤 잠자는 중" : null}</DisplayLatestWork>
             {lastWork === "milk" ? (
               <Moment fromNow>{lastWorkTime}</Moment>
             ) : lastWork === "sleep" && !lastWorkEndTime ? (
@@ -161,14 +164,14 @@ const IconsWrapper = styled.ul`
 
 const TodayBtn = styled.li`
   padding: 5px 10px;
-  box-shadow: 0 0 3px gray;
+  box-shadow: 0 0 2px gray;
   border-radius: 5px;
   transition: all 0.3s;
   cursor: pointer;
   list-style: none;
 
   @media (max-width: 768px) {
-    padding: 5px 10px;
+    padding: 4px 8px;
   }
 
   ${({ isToday }) =>

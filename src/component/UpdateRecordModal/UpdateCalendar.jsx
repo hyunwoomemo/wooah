@@ -10,7 +10,6 @@ import { select } from "../../slices/DateSlice";
 import { open, selectDate, selectEndDate, update } from "../../slices/RecordModalSlice";
 import { getList, postItem, putItem } from "../../slices/RecordSlice";
 import Modal from "../common/Modal";
-import { DateContext } from "../../context/Context";
 
 const UpdateCalendar = ({ id, time, ct, cl, cm }) => {
   const { date, endDate } = useSelector((state) => state.RecordModalSlice);

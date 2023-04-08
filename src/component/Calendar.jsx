@@ -313,47 +313,15 @@ const MilkContents = styled.div`
   display: flex;
   align-items: center;
   gap: 3px;
-
-  /* &::before {
-    content: ".";
-    text-indent: -99em;
-    display: block;
-    height: 100%;
-    width: 4px;
-    margin-right: 4px;
-    background-color: #bed790;
-    border-radius: 10px;
-
-    @media (max-width: 768px) {
-      width: 2px;
-    }
-  } */
 `;
 
 const SleepContents = styled.div`
-  /* white-space: nowrap; */
   display: flex;
   align-items: center;
   gap: 3px;
-
-  /* &::before {
-    content: ".";
-    text-indent: -99em;
-    display: block;
-    height: 100%;
-    width: 4px;
-    margin-right: 4px;
-    background-color: #d79790;
-    border-radius: 10px;
-
-    @media (max-width: 768px) {
-      width: 2px;
-    }
-  } */
 `;
 
 const CalendarContents = styled.div`
-  /* white-space: nowrap; */
   display: flex;
   align-items: center;
   gap: 3px;
@@ -361,21 +329,6 @@ const CalendarContents = styled.div`
   @media (min-width: 769px) {
     justify-content: center;
   }
-
-  /* &::before {
-    content: ".";
-    text-indent: -99em;
-    display: block;
-    height: 100%;
-    width: 4px;
-    margin-right: 4px;
-    background-color: #90cad7;
-    border-radius: 10px;
-
-    @media (max-width: 768px) {
-      width: 2px;
-    }
-  } */
 `;
 
 const DisplayDate = styled.div`
@@ -420,22 +373,6 @@ const Contents = styled.div`
 
     @media (max-width: 768px) {
       padding: 1px 0;
-    }
-  }
-`;
-
-const CalendarItem = styled.div`
-  &:before {
-    content: ".";
-    text-indent: -99em;
-    height: 100%;
-    width: 4px;
-    background-color: #d79090;
-    border-radius: 10px;
-    margin-right: 4px;
-
-    @media (max-width: 768px) {
-      width: 2px;
     }
   }
 `;

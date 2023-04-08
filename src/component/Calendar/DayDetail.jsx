@@ -7,15 +7,15 @@ import DateSlice, { select } from "../../slices/DateSlice";
 import { deleteItem, getItem, getList, lastItem } from "../../slices/RecordSlice";
 import Moment from "react-moment";
 import "moment/locale/ko";
-import SleepModal from "../Navigation/SleepModal";
+import SleepModal from "../RecordModal/SleepModal";
 import { open, selectDate, selectEndDate, update, updateVolume } from "../../slices/RecordModalSlice";
 import { DateContext } from "../../context/Context";
-import UpdateSleep from "../update/UpdateSleep";
-import UpdateMilk from "../update/UpdateMilk";
+import UpdateSleep from "../UpdateRecordModal/UpdateSleep";
+import UpdateMilk from "../UpdateRecordModal/UpdateMilk";
 import RecordCategory from "../RecordCategory";
-import UpdateDiaper from "../update/UpdateDiaper";
+import UpdateDiaper from "../UpdateRecordModal/UpdateDiaper";
 import { isSameDay } from "../Calendar";
-import UpdateCalendar from "../update/UpdateCalendar";
+import UpdateCalendar from "../UpdateRecordModal/UpdateCalendar";
 
 const day = ["일", "월", "화", "수", "목", "금", "토"];
 
@@ -26,7 +26,6 @@ const DayDetail = () => {
   const { data } = useSelector((state) => state.RecordSlice);
   const selectData = data?.filter((v) => isSameDay(new Date(v.date), selectValue) && v.email === localStorage.getItem("email") && v.category !== "calendar");
   const calendarData = data?.filter((v) => isSameDay(new Date(v.date), selectValue) && v.email === localStorage.getItem("email") && v.category === "calendar");
-  console.log(calendarData);
 
   useEffect(() => {
     dispatch(getList());

@@ -3,7 +3,6 @@ import styled from "@emotion/styled";
 import dayjs from "dayjs";
 import React, { useContext, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { DateContext, ModalContext } from "../context/Context";
 import { select } from "../slices/DateSlice";
 import { open, selectDate, selectEndDate, updateVolume } from "../slices/RecordModalSlice";
 import { getList, postItem, putItem } from "../slices/RecordSlice";
@@ -12,11 +11,11 @@ import CalendarIcon from "./categoryIcons/CalendarIcon";
 import DiaperIcon from "./categoryIcons/DiaperIcon";
 import MilkIcon from "./categoryIcons/MilkIcon";
 import SleepIcon from "./categoryIcons/SleepIcon";
-import BathModal from "./Navigation/BathModal";
-import CalendarModal from "./Navigation/CalendarModal";
-import DiaperModal from "./Navigation/DiaperModal";
-import MilkModal from "./Navigation/MilkModal";
-import SleepModal from "./Navigation/SleepModal";
+import BathModal from "./RecordModal/BathModal";
+import CalendarModal from "./RecordModal/CalendarModal";
+import DiaperModal from "./RecordModal/DiaperModal";
+import MilkModal from "./RecordModal/MilkModal";
+import SleepModal from "./RecordModal/SleepModal";
 import { isSameDay } from "./Calendar";
 
 const RecordCategory = () => {
@@ -73,6 +72,7 @@ const RecordCategory = () => {
 
     setTimeout(() => {
       dispatch(getList());
+      window.scrollTo({ top: 1000, behavior: "smooth" });
     }, 100);
   };
   const handleRecordSleep = () => {
@@ -262,10 +262,6 @@ const CategoryItem = styled.div`
   @media (max-width: 768px) {
     width: 50px;
     height: 50px;
-    /* > svg {
-      width: 50px;
-      height: 50px;
-    } */
     font-size: 10px;
   }
 `;

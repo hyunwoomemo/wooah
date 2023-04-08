@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { DateContext } from "../../context/Context";
 import { select } from "../../slices/DateSlice";
 import { selectDate, open, update, selectEndDate } from "../../slices/RecordModalSlice";
-import { postItem, putItem } from "../../slices/RecordSlice";
+import { getList, postItem, putItem } from "../../slices/RecordSlice";
 import Modal from "../common/Modal";
 import Portal from "../common/Portal";
 
@@ -18,8 +18,6 @@ const UpdateDiaper = ({ id }) => {
   const { date, endDate, updateCategory, selectDate } = useSelector((state) => state.RecordModalSlice);
 
   const dispatch = useDispatch();
-
-  useEffect(() => {}, []);
 
   const handleTimeChange = (e) => {
     setNow(e);
@@ -49,6 +47,7 @@ const UpdateDiaper = ({ id }) => {
     );
     dispatch(select(new Date(date)));
 
+    dispatch(getList());
     dispatch(update(""));
   };
 

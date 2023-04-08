@@ -16,7 +16,7 @@ const Loading = () => {
       </ImageWrapper>
       <Title
         getBeforeInit={(instance) => {
-          instance.type("우리 아가").pause(350).delete(4).pause(300).type(" 아");
+          instance.type(`우리 ${localStorage.getItem("baby") ? localStorage.getItem("baby").slice(1, 3) : "아가"}`);
           return instance;
         }}
       />

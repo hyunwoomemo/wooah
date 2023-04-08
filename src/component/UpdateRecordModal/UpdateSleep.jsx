@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { DateContext } from "../../context/Context";
 import { select } from "../../slices/DateSlice";
 import { selectDate, open, update, selectEndDate } from "../../slices/RecordModalSlice";
-import { postItem, putItem } from "../../slices/RecordSlice";
+import { getList, postItem, putItem } from "../../slices/RecordSlice";
 import Modal from "../common/Modal";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
@@ -64,8 +64,9 @@ const UpdateSleep = ({ id }) => {
       })
     );
     dispatch(select(new Date(now)));
-    dispatch(update(""));
     setEndState(false);
+    dispatch(getList());
+    dispatch(update(""));
   };
 
   const [updateDate, setUpdateDate] = useState(0);
@@ -145,7 +146,6 @@ const EndWrapper = styled.div`
     position: absolute;
     top: -25px;
     right: -20px;
-    background-color: #fff;
     &:hover {
       color: #c05454;
     }

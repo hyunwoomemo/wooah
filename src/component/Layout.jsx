@@ -3,24 +3,19 @@ import styled from "@emotion/styled";
 import dayjs from "dayjs";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { DateContext, MilkModalContext } from "../context/Context";
-import Header from "./Header";
+import { DateContext } from "../context/Context";
 
-const Layout = ({ children, main }) => {
-  const [isOpen, setIsOpen] = useState(false);
+const Layout = ({ children }) => {
   const [now, setNow] = useState(dayjs(new Date()));
-  const dispatch = useDispatch();
 
   const { openCategory, updateCategory } = useSelector((state) => state.RecordModalSlice);
 
   return (
-    <MilkModalContext.Provider value={{}}>
-      <DateContext.Provider value={{ now, setNow }}>
-        <Base open={openCategory} update={updateCategory === "milk" || updateCategory === "sleep"}>
-          {children}
-        </Base>
-      </DateContext.Provider>
-    </MilkModalContext.Provider>
+    <DateContext.Provider value={{ now, setNow }}>
+      <Base open={openCategory} update={updateCategory === "milk" || updateCategory === "sleep"}>
+        {children}
+      </Base>
+    </DateContext.Provider>
   );
 };
 

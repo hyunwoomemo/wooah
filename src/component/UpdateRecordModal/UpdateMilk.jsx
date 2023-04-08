@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { DateContext } from "../../context/Context";
 import { select } from "../../slices/DateSlice";
 import { selectDate, open, update, selectEndDate, minus, plus } from "../../slices/RecordModalSlice";
-import { postItem, putItem } from "../../slices/RecordSlice";
+import { getList, postItem, putItem } from "../../slices/RecordSlice";
 import Modal from "../common/Modal";
 
 const UpdateMilk = ({ id }) => {
@@ -46,6 +46,7 @@ const UpdateMilk = ({ id }) => {
     );
     dispatch(select(new Date(date)));
     dispatch(selectDate(new Date(date)));
+    dispatch(getList());
     dispatch(update(""));
   };
 

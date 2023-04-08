@@ -10,7 +10,6 @@ import Main from './pages/Main';
 import Memo from './pages/Memo';
 import User from './pages/User';
 import PullToRefresh from "react-simple-pull-to-refresh";
-import { ActionContext, ContextProvider, ModalContext } from './context/Context';
 import NotFound from './component/common/NotFound';
 import { useSelector } from 'react-redux';
 
