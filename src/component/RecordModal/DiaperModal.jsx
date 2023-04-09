@@ -113,6 +113,10 @@ const DiaperModal = () => {
           lactobacillus: null,
         })
       );
+
+      setTimeout(() => {
+        dispatch(getList());
+      }, 100);
     }
   };
 
@@ -159,6 +163,10 @@ const DiaperModal = () => {
           lactobacillus: null,
         })
       );
+
+      setTimeout(() => {
+        dispatch(getList());
+      }, 100);
     }
   };
 

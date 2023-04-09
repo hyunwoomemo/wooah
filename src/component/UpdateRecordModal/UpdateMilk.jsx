@@ -46,7 +46,9 @@ const UpdateMilk = ({ id }) => {
     );
     dispatch(select(new Date(date)));
     dispatch(selectDate(new Date(date)));
-    dispatch(getList());
+    setTimeout(() => {
+      dispatch(getList());
+    }, 100);
     dispatch(update(""));
   };
 

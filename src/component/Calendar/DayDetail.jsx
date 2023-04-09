@@ -28,7 +28,9 @@ const DayDetail = () => {
   const calendarData = data?.filter((v) => isSameDay(new Date(v.date), selectValue) && v.email === localStorage.getItem("email") && v.category === "calendar");
 
   useEffect(() => {
-    dispatch(getList());
+    setTimeout(() => {
+      dispatch(getList());
+    }, 100);
   }, [selectValue]);
 
   const [dataLength, setDataLength] = useState(0);
@@ -79,9 +81,11 @@ const DayDetail = () => {
         id: id,
       })
     );
-    dispatch(open(""));
     dispatch(select(new Date(date)));
-    dispatch(getList());
+    setTimeout(() => {
+      dispatch(getList());
+    }, 100);
+    dispatch(open(""));
   };
 
   return (

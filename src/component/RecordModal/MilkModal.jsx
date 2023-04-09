@@ -68,6 +68,10 @@ const MilkModal = () => {
       );
 
       dispatch(select(new Date(date)));
+
+      setTimeout(() => {
+        dispatch(getList());
+      }, 100);
     }
   };
 

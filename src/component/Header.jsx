@@ -27,7 +27,7 @@ const Header = () => {
 
   const filterData = data?.filter((v) => v.category !== "calendar" && v.email === localStorage.getItem("email"));
 
-  console.log(lastWork);
+  console.log(lastWork, lastWorkTime, lastWorkEndTime);
 
   const contents =
     filterData &&
@@ -39,7 +39,7 @@ const Header = () => {
     if (!loading && contents?.length > 0) {
       setLastWork(contents[0][1]?.category);
       setLastWorkTime(dayjs(new Date(contents[0][1]?.date)).$d);
-      setLastWorkEndTime(dayjs(new Date(contents[0][1]?.endDate)).$d);
+      setLastWorkEndTime(contents[0][1]?.endDate ? dayjs(new Date(contents[0][1]?.endDate)).$d : null);
     }
   }, [data]);
 

@@ -72,7 +72,6 @@ const RecordCategory = () => {
 
     setTimeout(() => {
       dispatch(getList());
-      window.scrollTo({ top: 1000, behavior: "smooth" });
     }, 100);
   };
   const handleRecordSleep = () => {
@@ -117,6 +116,10 @@ const RecordCategory = () => {
           lactobacillus: null,
         })
       );
+
+      setTimeout(() => {
+        dispatch(getList());
+      }, 100);
     }
 
     setTimeout(() => {
@@ -170,6 +173,10 @@ const RecordCategory = () => {
           lactobacillus: null,
         })
       );
+
+      setTimeout(() => {
+        dispatch(getList());
+      }, 100);
     }
 
     setTimeout(() => {
@@ -226,6 +233,7 @@ const Base = styled.div`
   justify-content: space-evenly;
 
   > div {
+    cursor: pointer;
     &:first-of-type {
       background-color: #c2d8b6;
     }

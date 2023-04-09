@@ -65,7 +65,9 @@ const UpdateSleep = ({ id }) => {
     );
     dispatch(select(new Date(now)));
     setEndState(false);
-    dispatch(getList());
+    setTimeout(() => {
+      dispatch(getList())
+    }, 100)
     dispatch(update(""));
   };
 

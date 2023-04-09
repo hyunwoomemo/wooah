@@ -42,7 +42,9 @@ const Calendar = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getList());
+    setTimeout(() => {
+      dispatch(getList());
+    }, 100);
   }, [selectValue]);
 
   const pad = () =>

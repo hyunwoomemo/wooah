@@ -47,7 +47,9 @@ const UpdateDiaper = ({ id }) => {
     );
     dispatch(select(new Date(date)));
 
-    dispatch(getList());
+    setTimeout(() => {
+      dispatch(getList());
+    }, 100);
     dispatch(update(""));
   };
 

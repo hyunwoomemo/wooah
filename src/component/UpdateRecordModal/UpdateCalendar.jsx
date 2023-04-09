@@ -83,7 +83,9 @@ const UpdateCalendar = ({ id, time, ct, cl, cm }) => {
 
     dispatch(select(new Date(date)));
     dispatch(open(""));
-    dispatch(getList());
+    setTimeout(() => {
+      dispatch(getList());
+    }, 100);
   };
 
   return (

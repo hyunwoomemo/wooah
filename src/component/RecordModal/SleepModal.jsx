@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { DateContext } from "../../context/Context";
 import { select } from "../../slices/DateSlice";
 import { selectDate, open, selectEndDate } from "../../slices/RecordModalSlice";
-import { postItem, putItem } from "../../slices/RecordSlice";
+import { getList, postItem, putItem } from "../../slices/RecordSlice";
 import Modal from "../common/Modal";
 
 const SleepModal = () => {
@@ -74,6 +74,10 @@ const SleepModal = () => {
             big: null,
           })
         );
+
+        setTimeout(() => {
+          dispatch(getList());
+        }, 100);
       }
     }
   };
