@@ -58,7 +58,7 @@ const DayDetail = () => {
     dispatch(update(category));
     dispatch(updateVolume(volume || 140));
     dispatch(selectDate(time));
-    dispatch(selectEndDate(endTime || dayjs(new Date(time))));
+    dispatch(selectEndDate(endTime || dayjs(new Date())));
     setCalendarTitle(ct);
     setCalendarLocation(cl);
     setCalendarMemo(cm);
