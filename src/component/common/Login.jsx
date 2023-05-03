@@ -55,10 +55,14 @@ const Login = () => {
   return (
     <Base>
       <LoginForm>
-        <label htmlFor="groupName">그룹 이름</label>
-        <input id="groupName" type="text" ref={groupRef} onChange={handleGroup} />
-        <label htmlFor="password">비밀번호</label>
-        <input id="password" type="password" ref={passwordRef} onChange={handlePassword} />
+        <InputGroup>
+          <label htmlFor="groupName">아이디</label>
+          <input placeholder="아이디" id="groupName" type="text" ref={groupRef} onChange={handleGroup} />
+        </InputGroup>
+        <InputGroup>
+          <label htmlFor="password">비밀번호</label>
+          <input placeholder="비밀번호" id="password" type="password" ref={passwordRef} onChange={handlePassword} />
+        </InputGroup>
         <ButtonWrapper>
           <button type="submit" onClick={handleLogin}>
             로그인
@@ -87,19 +91,63 @@ const LoginForm = styled.form`
   > label:not(:first-of-type) {
     margin-top: 1rem;
   }
+
+  input {
+    border: 0;
+  }
+`;
+
+const InputGroup = styled.div`
+  position: relative;
+
+  & + div {
+    margin-top: 40px;
+  }
+
+  &:focus-within label {
+    top: -30px;
+    opacity: 1;
+    visibility: visible;
+  }
+
+  &:focus-within input::placeholder {
+    opacity: 0;
+  }
+
+  > label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: #888;
+    line-height: 54px;
+    opacity: 0;
+    visibility: hidden;
+    transition: 0.3s ease-out;
+  }
+
+  > input {
+    width: 100%;
+    line-height: 54px;
+    border: none;
+    border-bottom: 2px solid #888;
+    outline: none;
+
+    &:focus {
+      border-color: #3498db;
+    }
+  }
 `;
 
 const ButtonWrapper = styled.div`
   display: flex;
-  gap: 1rem;
-  justify-content: center;
   align-items: center;
-
+  justify-content: space-between;
   > button,
   a {
+    border-radius: 10px;
     border: 0;
     background: none;
-    padding: 1rem;
+    padding: 10px;
     background-color: #80808022;
     text-decoration: none;
     color: #000;

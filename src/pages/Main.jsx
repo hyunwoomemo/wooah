@@ -1,10 +1,9 @@
 import React, { useState } from "react";
-import Calendar from "../component/Calendar";
+import Calendar from "../component/home/Calendar";
 import DayDetail from "../component/Calendar/DayDetail";
-import Layout from "../component/Layout";
+import Layout from "../component/common/Layout";
 import styled from "@emotion/styled";
-import { SectionsContainer, Section } from "react-fullpage";
-import Loading from "../component/Loading";
+import Loading from "../component/common/Loading";
 
 const Main = () => {
   const [isLoading, setIsLoading] = useState(true);

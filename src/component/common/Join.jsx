@@ -71,14 +71,22 @@ const Join = () => {
   return (
     <Base>
       <JoinForm>
-        <label htmlFor="userName">그룹 이름</label>
-        <input id="userName" type="text" ref={groupNameRef} onChange={handleGroupName} />
-        <label htmlFor="userEmail">이메일 주소</label>
-        <input id="userEmail" type="email" ref={emailRef} onChange={handleEmail} />
-        <label htmlFor="userBaby">아기 이름</label>
-        <input id="userBaby" type="text" ref={babyRef} onChange={handleBaby} />
-        <label htmlFor="babyBirthday">아기 생일</label>
-        <input id="babyBirthday" type="date" ref={birthdayRef} onChange={handleBirthday} />
+        <InputGroup>
+          <label htmlFor="userName">그룹 이름</label>
+          <input placeholder="그룹 이름" id="userName" type="text" ref={groupNameRef} onChange={handleGroupName} />
+        </InputGroup>
+        <InputGroup>
+          <label htmlFor="userEmail">이메일 주소</label>
+          <input placeholder="이메일 주소" id="userEmail" type="email" ref={emailRef} onChange={handleEmail} />
+        </InputGroup>
+        <InputGroup>
+          <label htmlFor="userBaby">아기 이름</label>
+          <input placeholder="아기 이름" id="userBaby" type="text" ref={babyRef} onChange={handleBaby} />
+        </InputGroup>
+        <InputGroup>
+          <label htmlFor="babyBirthday">아기 생일</label>
+          <input placeholder="아기 생일" id="babyBirthday" type="date" ref={birthdayRef} onChange={handleBirthday} />
+        </InputGroup>
         <fieldset>
           <legend>관계</legend>
           <label htmlFor="father">
@@ -90,10 +98,14 @@ const Join = () => {
             엄마
           </label>
         </fieldset>
-        <label htmlFor="password">비밀번호</label>
-        <input id="password" type="password" ref={passwordRef} onChange={handlePassword} />
-        <label htmlFor="passwordCheck">비밀번호 확인</label>
-        <input id="passwordCheck" type="password" ref={passwordCheckRef} onChange={handlePasswordCheck} />
+        <InputGroup>
+          <label htmlFor="password">비밀번호</label>
+          <input id="password" type="password" ref={passwordRef} onChange={handlePassword} />
+        </InputGroup>
+        <InputGroup>
+          <label htmlFor="passwordCheck">비밀번호 확인</label>
+          <input id="passwordCheck" type="password" ref={passwordCheckRef} onChange={handlePasswordCheck} />
+        </InputGroup>
         <ButtonWrapper>
           <button onClick={handleJoin}>회원가입</button>
         </ButtonWrapper>
@@ -121,10 +133,52 @@ const JoinForm = styled.form`
   }
 
   > fieldset {
-    margin-top: 1rem;
+    margin: 1rem 0;
 
     > legend {
       margin-bottom: 10px;
+    }
+  }
+`;
+
+const InputGroup = styled.div`
+  position: relative;
+  padding: 10px 0;
+
+  & + div {
+    margin-top: 20px;
+  }
+
+  &:focus-within label {
+    top: -20px;
+    opacity: 1;
+    visibility: visible;
+  }
+
+  &:focus-within input::placeholder {
+    opacity: 0;
+  }
+
+  > label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: #888;
+    line-height: 30px;
+    opacity: 0;
+    visibility: hidden;
+    transition: 0.3s ease-out;
+  }
+
+  > input {
+    width: 100%;
+    line-height: 30px;
+    border: none;
+    border-bottom: 2px solid #888;
+    outline: none;
+
+    &:focus {
+      border-color: #3498db;
     }
   }
 `;

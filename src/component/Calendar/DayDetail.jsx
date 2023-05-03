@@ -3,19 +3,18 @@ import styled from "@emotion/styled";
 import dayjs from "dayjs";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import DateSlice, { select } from "../../slices/DateSlice";
+import { select } from "../../slices/DateSlice";
 import { deleteItem, getItem, getList, lastItem } from "../../slices/RecordSlice";
 import Moment from "react-moment";
 import "moment/locale/ko";
-import SleepModal from "../RecordModal/SleepModal";
 import { open, selectDate, selectEndDate, update, updateVolume } from "../../slices/RecordModalSlice";
 import { DateContext } from "../../context/Context";
 import UpdateSleep from "../UpdateRecordModal/UpdateSleep";
 import UpdateMilk from "../UpdateRecordModal/UpdateMilk";
-import RecordCategory from "../RecordCategory";
+import RecordCategory from "./RecordCategory";
 import UpdateDiaper from "../UpdateRecordModal/UpdateDiaper";
-import { isSameDay } from "../Calendar";
 import UpdateCalendar from "../UpdateRecordModal/UpdateCalendar";
+import { isSameDay } from "../home/Calendar";
 
 const day = ["일", "월", "화", "수", "목", "금", "토"];
 
@@ -88,6 +87,8 @@ const DayDetail = () => {
     dispatch(open(""));
   };
 
+  console.log(selectData);
+
   return (
     <Base dataLength={dataLength}>
       <RecordCategory />
@@ -126,68 +127,70 @@ const DayDetail = () => {
               </>
             );
           })}
-          {selectData?.map((item, i, arr) => {
-            return (
-              <>
-                <Record key={item.date} className="record">
-                  {item.endDate ? (
-                    <RecordDateEndDate>
-                      <div>{dayjs(new Date(item.date)).format("HH:mm")}</div>
-                      <div>{dayjs(new Date(item.endDate)).format("HH:mm")}</div>
-                    </RecordDateEndDate>
-                  ) : (
-                    <RecordDate>{dayjs(new Date(item.date)).format("HH:mm")}</RecordDate>
-                  )}
-                  <RecordCategoryItem>
-                    {item.category === "milk" ? "분유" : item.category === "sleep" ? "잠" : item.category === "diaper" ? "기저귀" : item.category === "bath" ? "목욕" : item.category}
-                  </RecordCategoryItem>
-                  {item.vitamin && <RecordTag1>비타민</RecordTag1>}
-                  {item.lactobacillus && <RecordTag2>유산균</RecordTag2>}
-                  <RecordDetail className="detail" active={item.category === "sleep" && i === arr.length - 1 && !item.endDate}>
-                    {item.category === "milk" ? (
-                      `${item.volume}ml`
-                    ) : item.category === "sleep" ? (
-                      i === arr.length - 1 ? (
-                        item.endDate ? (
-                          `${dayjs(new Date(item.endDate)).diff(dayjs(new Date(item.date)), "minute")}` >= 60 ? (
-                            `${Math.floor(dayjs(new Date(item.endDate)).diff(dayjs(new Date(item.date)), "minute") / 60)}시간 ${
-                              Math.floor(dayjs(new Date(item.endDate)).diff(dayjs(new Date(item.date)), "minute")) -
-                              Math.floor(dayjs(new Date(item.endDate)).diff(dayjs(new Date(item.date)), "minute") / 60) * 60
-                            }분 잤어요!`
-                          ) : `${dayjs(new Date(item.endDate)).diff(dayjs(new Date(item.date)), "minute")}` > 0 ? (
-                            `${dayjs(new Date(item.endDate)).diff(dayjs(new Date(item.date)), "minute")}분 잤어요!`
-                          ) : undefined
+          {selectData
+            ?.sort((a, b) => new Date(a.date) - new Date(b.date))
+            .map((item, i, arr) => {
+              return (
+                <>
+                  <Record key={item.date} className="record">
+                    {item.endDate ? (
+                      <RecordDateEndDate>
+                        <div>{dayjs(new Date(item.date)).format("HH:mm")}</div>
+                        <div>{dayjs(new Date(item.endDate)).format("HH:mm")}</div>
+                      </RecordDateEndDate>
+                    ) : (
+                      <RecordDate>{dayjs(new Date(item.date)).format("HH:mm")}</RecordDate>
+                    )}
+                    <RecordCategoryItem>
+                      {item.category === "milk" ? "분유" : item.category === "sleep" ? "잠" : item.category === "diaper" ? "기저귀" : item.category === "bath" ? "목욕" : item.category}
+                    </RecordCategoryItem>
+                    {item.vitamin && <RecordTag1>비타민</RecordTag1>}
+                    {item.lactobacillus && <RecordTag2>유산균</RecordTag2>}
+                    <RecordDetail className="detail" active={item.category === "sleep" && i === arr.length - 1 && !item.endDate}>
+                      {item.category === "milk" ? (
+                        `${item.volume}ml`
+                      ) : item.category === "sleep" ? (
+                        i === arr.length - 1 ? (
+                          item.endDate ? (
+                            `${dayjs(new Date(item.endDate)).diff(dayjs(new Date(item.date)), "minute")}` >= 60 ? (
+                              `${Math.floor(dayjs(new Date(item.endDate)).diff(dayjs(new Date(item.date)), "minute") / 60)}시간 ${
+                                Math.floor(dayjs(new Date(item.endDate)).diff(dayjs(new Date(item.date)), "minute")) -
+                                Math.floor(dayjs(new Date(item.endDate)).diff(dayjs(new Date(item.date)), "minute") / 60) * 60
+                              }분 잤어요!`
+                            ) : `${dayjs(new Date(item.endDate)).diff(dayjs(new Date(item.date)), "minute")}` > 0 ? (
+                              `${dayjs(new Date(item.endDate)).diff(dayjs(new Date(item.date)), "minute")}분 잤어요!`
+                            ) : undefined
+                          ) : (
+                            <Moment interval={1000} date={item.date} durationFromNow></Moment>
+                          )
+                        ) : `${dayjs(new Date(item.endDate)).diff(dayjs(new Date(item.date)), "minute")}` >= 60 ? (
+                          `${Math.floor(dayjs(new Date(item.endDate)).diff(dayjs(new Date(item.date)), "minute") / 60)}시간 ${
+                            Math.floor(dayjs(new Date(item.endDate)).diff(dayjs(new Date(item.date)), "minute")) -
+                            Math.floor(dayjs(new Date(item.endDate)).diff(dayjs(new Date(item.date)), "minute") / 60) * 60
+                          }분 잤어요!`
+                        ) : `${dayjs(new Date(item.endDate)).diff(dayjs(new Date(item.date)), "minute")}` > 0 ? (
+                          `${dayjs(new Date(item.endDate)).diff(dayjs(new Date(item.date)), "minute")}분 잤어요!`
+                        ) : undefined
+                      ) : item.category === "diaper" ? (
+                        item.big === "2" ? (
+                          "대변/소변"
+                        ) : item.big === "1" ? (
+                          "대변"
                         ) : (
-                          <Moment interval={1000} date={item.date} durationFromNow></Moment>
+                          "소변"
                         )
-                      ) : `${dayjs(new Date(item.endDate)).diff(dayjs(new Date(item.date)), "minute")}` >= 60 ? (
-                        `${Math.floor(dayjs(new Date(item.endDate)).diff(dayjs(new Date(item.date)), "minute") / 60)}시간 ${
-                          Math.floor(dayjs(new Date(item.endDate)).diff(dayjs(new Date(item.date)), "minute")) -
-                          Math.floor(dayjs(new Date(item.endDate)).diff(dayjs(new Date(item.date)), "minute") / 60) * 60
-                        }분 잤어요!`
-                      ) : `${dayjs(new Date(item.endDate)).diff(dayjs(new Date(item.date)), "minute")}` > 0 ? (
-                        `${dayjs(new Date(item.endDate)).diff(dayjs(new Date(item.date)), "minute")}분 잤어요!`
-                      ) : undefined
-                    ) : item.category === "diaper" ? (
-                      item.big === "2" ? (
-                        "대변/소변"
-                      ) : item.big === "1" ? (
-                        "대변"
-                      ) : (
-                        "소변"
-                      )
-                    ) : undefined}
-                  </RecordDetail>
-                  <RecordClickModal className="clickModal">
-                    <RecordClickModalItem onClick={() => (item.category === "milk" || "sleep" || "diaper" ? handleUpdate(item.id, item.category, item.date, item.endDate, item.volume) : undefined)}>
-                      수정
-                    </RecordClickModalItem>
-                    <RecordClickModalItem onClick={() => handleDelete(item.id, item.date)}>삭제</RecordClickModalItem>
-                  </RecordClickModal>
-                </Record>
-              </>
-            );
-          })}
+                      ) : undefined}
+                    </RecordDetail>
+                    <RecordClickModal className="clickModal">
+                      <RecordClickModalItem onClick={() => (item.category === "milk" || "sleep" || "diaper" ? handleUpdate(item.id, item.category, item.date, item.endDate, item.volume) : undefined)}>
+                        수정
+                      </RecordClickModalItem>
+                      <RecordClickModalItem onClick={() => handleDelete(item.id, item.date)}>삭제</RecordClickModalItem>
+                    </RecordClickModal>
+                  </Record>
+                </>
+              );
+            })}
         </Data>
       </Content>
     </Base>

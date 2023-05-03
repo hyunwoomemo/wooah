@@ -3,7 +3,7 @@ import styled from "@emotion/styled";
 import dayjs from "dayjs";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { DateContext } from "../context/Context";
+import { DateContext } from "../../context/Context";
 
 const Layout = ({ children }) => {
   const [now, setNow] = useState(dayjs(new Date()));

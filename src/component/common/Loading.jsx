@@ -1,8 +1,8 @@
 import styled from "@emotion/styled";
 import React from "react";
-import imgLogo from "../img/logo1.png";
-import imgLogo2 from "../img/logo2.png";
-import imgLogo3 from "../img/logo3.png";
+import imgLogo from "../../img/logo1.png";
+import imgLogo2 from "../../img/logo2.png";
+import imgLogo3 from "../../img/logo3.png";
 import TypeIt from "typeit-react";
 import { css, keyframes } from "@emotion/react";
 

@@ -5,7 +5,7 @@ import { css } from "@emotion/react";
 
 import dayjs from "dayjs";
 import { useDispatch, useSelector } from "react-redux";
-import { select } from "../slices/DateSlice";
+import { select } from "../../slices/DateSlice";
 
 import Moment from "react-moment";
 import "moment/locale/ko";

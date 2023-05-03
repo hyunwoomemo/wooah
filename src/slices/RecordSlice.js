@@ -167,12 +167,20 @@ const RecordSlice = createSlice({
       }
     },
     [postItem.rejected]: (state, { payload }) => {
-      Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
-        text: 'Something went wrong!',
-        footer: '<a href="">Why do I have this issue?</a>'
-      });
+      if (window.localStorage.getItem('baby')) {
+
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Something went wrong!',
+        });
+      } else {
+        Swal.fire({
+          icon: 'warning',
+          title: '로그인이 필요합니다!',
+          footer: '<a href="/login">로그인 하러가기</a>'
+        });
+      }
       const err = new Error();
 
       if (typeof payload.data === "string") {

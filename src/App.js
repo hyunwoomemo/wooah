@@ -1,17 +1,11 @@
 import styled from '@emotion/styled';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Routes, Route } from 'react-router-dom'
 import GlobalStyle from './component/common/GlobalStyle';
-import Join from './component/Join';
-import Loading from './component/Loading';
-import Login from './component/Login';
-import Chart from './pages/Chart';
+import Join from './component/common/Join';
+import Login from './component/common//Login';
 import Main from './pages/Main';
-import Memo from './pages/Memo';
-import User from './pages/User';
-import PullToRefresh from "react-simple-pull-to-refresh";
 import NotFound from './component/common/NotFound';
-import { useSelector } from 'react-redux';
 
 function App() {
 
@@ -35,9 +29,6 @@ function App() {
       <GlobalStyle />
       <Routes>
         <Route path='/' element={<Main />}></Route>
-        <Route path='/memo' element={<Memo />}></Route>
-        <Route path='/chart' element={<Chart />}></Route>
-        <Route path='/user' element={<User />}></Route>
         <Route path='/login' element={<Login />}></Route>
         <Route path='/join' element={<Join />}></Route>
         <Route path='/*' element={<NotFound />}></Route>

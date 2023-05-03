@@ -2,10 +2,10 @@ import styled from "@emotion/styled";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { BiChevronLeft, BiChevronRight } from "react-icons/bi";
 import { useDispatch, useSelector } from "react-redux";
-import { select } from "../slices/DateSlice";
 import dayjs from "dayjs";
-import { getList } from "../slices/RecordSlice";
-import Header from "./Header";
+import { getList } from "../../slices/RecordSlice";
+import Header from "../common/Header";
+import { select } from "../../slices/DateSlice";
 
 /* const DAYS = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"]; */ // 요일
 const DAYS = ["일", "월", "화", "수", "목", "금", "토"]; // 요일
