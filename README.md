@@ -5,6 +5,7 @@
 ### 사용한 기술스택
 
 <div style="display:flex">
+<img src="https://img.shields.io/badge/pwa-5A0FC8?style=flat-squre&logo=PWA&logoColor=white">
 <img src="https://img.shields.io/badge/javascript-F7DF1E?style=flat-squre&logo=JavaScript&logoColor=black">
 <img src="https://img.shields.io/badge/react-61DAFB?style=flat-squre&logo=React&logoColor=black">
 <img src="https://img.shields.io/badge/redux-764ABC?style=flat-squre&logo=Redux&logoColor=black">
