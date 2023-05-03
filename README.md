@@ -9,3 +9,11 @@
 - 기저귀 시간 기록
 - 목욕 여부 및 시간 기록
 - 아이의 주요한 일정 기록 (병원, 100일 잔치 등)
+
+## 서비스 화면
+
+### 메인화면 상단 - 캘린더
+![image](https://user-images.githubusercontent.com/105469077/235883185-5ebafa60-eca8-409a-80d7-765e72e08be4.png)
+
+### 메인화면 하단 - 캘린더 디테일
+![image](https://user-images.githubusercontent.com/105469077/235883495-0c12d5ac-61c6-4e6c-adc0-0ba7d1437ca2.png)
