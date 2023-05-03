@@ -38,5 +38,4 @@
 <img src="https://user-images.githubusercontent.com/105469077/235883495-0c12d5ac-61c6-4e6c-adc0-0ba7d1437ca2.png" width="50%"/>
 
 ### 서비스 페이지
-
-<a href="https://wooah.site/" target="_blank"><img src="https://img.shields.io/badge/Wooah-0A0A0A?style=flat-squre&logo=dev.to&logoColor=white"></a>
+<a href="https://wooah.site/" target="_blank"><img src="https://img.shields.io/badge/Wooah-0A0A0A?style=for-the-badge&logo=dev.to&logoColor=white"></a>
